@@ -1,0 +1,5 @@
+# Coverity Agent Dependencies
+# Add your Python package dependencies here
+# Example:
+# requests>=2.25.0
+# pyyaml>=5.4.0 
