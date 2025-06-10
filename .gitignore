@@ -1,2 +1,3 @@
 venv/*
-src/issue_parser/__pycache__/*
+.specstory/*
+*.pyc

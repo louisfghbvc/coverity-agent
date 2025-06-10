@@ -1,0 +1,6504 @@
+{
+  "issues": [
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_0.cpp",
+      "mainEventLineNumber": 1,
+      "functionDisplayName": "function_0()",
+      "subcategory": "Test issue 0",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 0"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_1.cpp",
+      "mainEventLineNumber": 2,
+      "functionDisplayName": "function_1()",
+      "subcategory": "Test issue 1",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 1"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_2.cpp",
+      "mainEventLineNumber": 3,
+      "functionDisplayName": "function_2()",
+      "subcategory": "Test issue 2",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 2"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_3.cpp",
+      "mainEventLineNumber": 4,
+      "functionDisplayName": "function_3()",
+      "subcategory": "Test issue 3",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 3"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_4.cpp",
+      "mainEventLineNumber": 5,
+      "functionDisplayName": "function_4()",
+      "subcategory": "Test issue 4",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 4"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_5.cpp",
+      "mainEventLineNumber": 6,
+      "functionDisplayName": "function_5()",
+      "subcategory": "Test issue 5",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 5"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_6.cpp",
+      "mainEventLineNumber": 7,
+      "functionDisplayName": "function_6()",
+      "subcategory": "Test issue 6",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 6"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_7.cpp",
+      "mainEventLineNumber": 8,
+      "functionDisplayName": "function_7()",
+      "subcategory": "Test issue 7",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 7"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_8.cpp",
+      "mainEventLineNumber": 9,
+      "functionDisplayName": "function_8()",
+      "subcategory": "Test issue 8",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 8"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_9.cpp",
+      "mainEventLineNumber": 10,
+      "functionDisplayName": "function_9()",
+      "subcategory": "Test issue 9",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 9"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_10.cpp",
+      "mainEventLineNumber": 11,
+      "functionDisplayName": "function_10()",
+      "subcategory": "Test issue 10",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 10"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_11.cpp",
+      "mainEventLineNumber": 12,
+      "functionDisplayName": "function_11()",
+      "subcategory": "Test issue 11",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 11"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_12.cpp",
+      "mainEventLineNumber": 13,
+      "functionDisplayName": "function_12()",
+      "subcategory": "Test issue 12",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 12"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_13.cpp",
+      "mainEventLineNumber": 14,
+      "functionDisplayName": "function_13()",
+      "subcategory": "Test issue 13",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 13"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_14.cpp",
+      "mainEventLineNumber": 15,
+      "functionDisplayName": "function_14()",
+      "subcategory": "Test issue 14",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 14"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_15.cpp",
+      "mainEventLineNumber": 16,
+      "functionDisplayName": "function_15()",
+      "subcategory": "Test issue 15",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 15"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_16.cpp",
+      "mainEventLineNumber": 17,
+      "functionDisplayName": "function_16()",
+      "subcategory": "Test issue 16",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 16"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_17.cpp",
+      "mainEventLineNumber": 18,
+      "functionDisplayName": "function_17()",
+      "subcategory": "Test issue 17",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 17"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_18.cpp",
+      "mainEventLineNumber": 19,
+      "functionDisplayName": "function_18()",
+      "subcategory": "Test issue 18",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 18"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_19.cpp",
+      "mainEventLineNumber": 20,
+      "functionDisplayName": "function_19()",
+      "subcategory": "Test issue 19",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 19"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_20.cpp",
+      "mainEventLineNumber": 21,
+      "functionDisplayName": "function_20()",
+      "subcategory": "Test issue 20",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 20"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_21.cpp",
+      "mainEventLineNumber": 22,
+      "functionDisplayName": "function_21()",
+      "subcategory": "Test issue 21",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 21"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_22.cpp",
+      "mainEventLineNumber": 23,
+      "functionDisplayName": "function_22()",
+      "subcategory": "Test issue 22",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 22"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_23.cpp",
+      "mainEventLineNumber": 24,
+      "functionDisplayName": "function_23()",
+      "subcategory": "Test issue 23",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 23"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_24.cpp",
+      "mainEventLineNumber": 25,
+      "functionDisplayName": "function_24()",
+      "subcategory": "Test issue 24",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 24"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_25.cpp",
+      "mainEventLineNumber": 26,
+      "functionDisplayName": "function_25()",
+      "subcategory": "Test issue 25",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 25"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_26.cpp",
+      "mainEventLineNumber": 27,
+      "functionDisplayName": "function_26()",
+      "subcategory": "Test issue 26",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 26"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_27.cpp",
+      "mainEventLineNumber": 28,
+      "functionDisplayName": "function_27()",
+      "subcategory": "Test issue 27",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 27"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_28.cpp",
+      "mainEventLineNumber": 29,
+      "functionDisplayName": "function_28()",
+      "subcategory": "Test issue 28",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 28"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_29.cpp",
+      "mainEventLineNumber": 30,
+      "functionDisplayName": "function_29()",
+      "subcategory": "Test issue 29",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 29"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_30.cpp",
+      "mainEventLineNumber": 31,
+      "functionDisplayName": "function_30()",
+      "subcategory": "Test issue 30",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 30"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_31.cpp",
+      "mainEventLineNumber": 32,
+      "functionDisplayName": "function_31()",
+      "subcategory": "Test issue 31",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 31"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_32.cpp",
+      "mainEventLineNumber": 33,
+      "functionDisplayName": "function_32()",
+      "subcategory": "Test issue 32",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 32"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_33.cpp",
+      "mainEventLineNumber": 34,
+      "functionDisplayName": "function_33()",
+      "subcategory": "Test issue 33",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 33"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_34.cpp",
+      "mainEventLineNumber": 35,
+      "functionDisplayName": "function_34()",
+      "subcategory": "Test issue 34",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 34"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_35.cpp",
+      "mainEventLineNumber": 36,
+      "functionDisplayName": "function_35()",
+      "subcategory": "Test issue 35",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 35"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_36.cpp",
+      "mainEventLineNumber": 37,
+      "functionDisplayName": "function_36()",
+      "subcategory": "Test issue 36",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 36"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_37.cpp",
+      "mainEventLineNumber": 38,
+      "functionDisplayName": "function_37()",
+      "subcategory": "Test issue 37",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 37"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_38.cpp",
+      "mainEventLineNumber": 39,
+      "functionDisplayName": "function_38()",
+      "subcategory": "Test issue 38",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 38"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_39.cpp",
+      "mainEventLineNumber": 40,
+      "functionDisplayName": "function_39()",
+      "subcategory": "Test issue 39",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 39"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_40.cpp",
+      "mainEventLineNumber": 41,
+      "functionDisplayName": "function_40()",
+      "subcategory": "Test issue 40",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 40"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_41.cpp",
+      "mainEventLineNumber": 42,
+      "functionDisplayName": "function_41()",
+      "subcategory": "Test issue 41",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 41"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_42.cpp",
+      "mainEventLineNumber": 43,
+      "functionDisplayName": "function_42()",
+      "subcategory": "Test issue 42",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 42"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_43.cpp",
+      "mainEventLineNumber": 44,
+      "functionDisplayName": "function_43()",
+      "subcategory": "Test issue 43",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 43"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_44.cpp",
+      "mainEventLineNumber": 45,
+      "functionDisplayName": "function_44()",
+      "subcategory": "Test issue 44",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 44"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_45.cpp",
+      "mainEventLineNumber": 46,
+      "functionDisplayName": "function_45()",
+      "subcategory": "Test issue 45",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 45"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_46.cpp",
+      "mainEventLineNumber": 47,
+      "functionDisplayName": "function_46()",
+      "subcategory": "Test issue 46",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 46"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_47.cpp",
+      "mainEventLineNumber": 48,
+      "functionDisplayName": "function_47()",
+      "subcategory": "Test issue 47",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 47"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_48.cpp",
+      "mainEventLineNumber": 49,
+      "functionDisplayName": "function_48()",
+      "subcategory": "Test issue 48",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 48"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_49.cpp",
+      "mainEventLineNumber": 50,
+      "functionDisplayName": "function_49()",
+      "subcategory": "Test issue 49",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 49"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_50.cpp",
+      "mainEventLineNumber": 51,
+      "functionDisplayName": "function_50()",
+      "subcategory": "Test issue 50",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 50"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_51.cpp",
+      "mainEventLineNumber": 52,
+      "functionDisplayName": "function_51()",
+      "subcategory": "Test issue 51",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 51"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_52.cpp",
+      "mainEventLineNumber": 53,
+      "functionDisplayName": "function_52()",
+      "subcategory": "Test issue 52",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 52"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_53.cpp",
+      "mainEventLineNumber": 54,
+      "functionDisplayName": "function_53()",
+      "subcategory": "Test issue 53",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 53"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_54.cpp",
+      "mainEventLineNumber": 55,
+      "functionDisplayName": "function_54()",
+      "subcategory": "Test issue 54",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 54"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_55.cpp",
+      "mainEventLineNumber": 56,
+      "functionDisplayName": "function_55()",
+      "subcategory": "Test issue 55",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 55"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_56.cpp",
+      "mainEventLineNumber": 57,
+      "functionDisplayName": "function_56()",
+      "subcategory": "Test issue 56",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 56"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_57.cpp",
+      "mainEventLineNumber": 58,
+      "functionDisplayName": "function_57()",
+      "subcategory": "Test issue 57",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 57"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_58.cpp",
+      "mainEventLineNumber": 59,
+      "functionDisplayName": "function_58()",
+      "subcategory": "Test issue 58",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 58"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_59.cpp",
+      "mainEventLineNumber": 60,
+      "functionDisplayName": "function_59()",
+      "subcategory": "Test issue 59",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 59"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_60.cpp",
+      "mainEventLineNumber": 61,
+      "functionDisplayName": "function_60()",
+      "subcategory": "Test issue 60",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 60"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_61.cpp",
+      "mainEventLineNumber": 62,
+      "functionDisplayName": "function_61()",
+      "subcategory": "Test issue 61",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 61"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_62.cpp",
+      "mainEventLineNumber": 63,
+      "functionDisplayName": "function_62()",
+      "subcategory": "Test issue 62",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 62"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_63.cpp",
+      "mainEventLineNumber": 64,
+      "functionDisplayName": "function_63()",
+      "subcategory": "Test issue 63",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 63"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_64.cpp",
+      "mainEventLineNumber": 65,
+      "functionDisplayName": "function_64()",
+      "subcategory": "Test issue 64",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 64"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_65.cpp",
+      "mainEventLineNumber": 66,
+      "functionDisplayName": "function_65()",
+      "subcategory": "Test issue 65",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 65"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_66.cpp",
+      "mainEventLineNumber": 67,
+      "functionDisplayName": "function_66()",
+      "subcategory": "Test issue 66",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 66"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_67.cpp",
+      "mainEventLineNumber": 68,
+      "functionDisplayName": "function_67()",
+      "subcategory": "Test issue 67",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 67"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_68.cpp",
+      "mainEventLineNumber": 69,
+      "functionDisplayName": "function_68()",
+      "subcategory": "Test issue 68",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 68"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_69.cpp",
+      "mainEventLineNumber": 70,
+      "functionDisplayName": "function_69()",
+      "subcategory": "Test issue 69",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 69"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_70.cpp",
+      "mainEventLineNumber": 71,
+      "functionDisplayName": "function_70()",
+      "subcategory": "Test issue 70",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 70"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_71.cpp",
+      "mainEventLineNumber": 72,
+      "functionDisplayName": "function_71()",
+      "subcategory": "Test issue 71",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 71"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_72.cpp",
+      "mainEventLineNumber": 73,
+      "functionDisplayName": "function_72()",
+      "subcategory": "Test issue 72",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 72"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_73.cpp",
+      "mainEventLineNumber": 74,
+      "functionDisplayName": "function_73()",
+      "subcategory": "Test issue 73",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 73"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_74.cpp",
+      "mainEventLineNumber": 75,
+      "functionDisplayName": "function_74()",
+      "subcategory": "Test issue 74",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 74"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_75.cpp",
+      "mainEventLineNumber": 76,
+      "functionDisplayName": "function_75()",
+      "subcategory": "Test issue 75",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 75"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_76.cpp",
+      "mainEventLineNumber": 77,
+      "functionDisplayName": "function_76()",
+      "subcategory": "Test issue 76",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 76"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_77.cpp",
+      "mainEventLineNumber": 78,
+      "functionDisplayName": "function_77()",
+      "subcategory": "Test issue 77",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 77"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_78.cpp",
+      "mainEventLineNumber": 79,
+      "functionDisplayName": "function_78()",
+      "subcategory": "Test issue 78",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 78"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_79.cpp",
+      "mainEventLineNumber": 80,
+      "functionDisplayName": "function_79()",
+      "subcategory": "Test issue 79",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 79"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_80.cpp",
+      "mainEventLineNumber": 81,
+      "functionDisplayName": "function_80()",
+      "subcategory": "Test issue 80",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 80"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_81.cpp",
+      "mainEventLineNumber": 82,
+      "functionDisplayName": "function_81()",
+      "subcategory": "Test issue 81",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 81"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_82.cpp",
+      "mainEventLineNumber": 83,
+      "functionDisplayName": "function_82()",
+      "subcategory": "Test issue 82",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 82"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_83.cpp",
+      "mainEventLineNumber": 84,
+      "functionDisplayName": "function_83()",
+      "subcategory": "Test issue 83",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 83"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_84.cpp",
+      "mainEventLineNumber": 85,
+      "functionDisplayName": "function_84()",
+      "subcategory": "Test issue 84",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 84"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_85.cpp",
+      "mainEventLineNumber": 86,
+      "functionDisplayName": "function_85()",
+      "subcategory": "Test issue 85",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 85"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_86.cpp",
+      "mainEventLineNumber": 87,
+      "functionDisplayName": "function_86()",
+      "subcategory": "Test issue 86",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 86"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_87.cpp",
+      "mainEventLineNumber": 88,
+      "functionDisplayName": "function_87()",
+      "subcategory": "Test issue 87",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 87"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_88.cpp",
+      "mainEventLineNumber": 89,
+      "functionDisplayName": "function_88()",
+      "subcategory": "Test issue 88",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 88"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_89.cpp",
+      "mainEventLineNumber": 90,
+      "functionDisplayName": "function_89()",
+      "subcategory": "Test issue 89",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 89"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_90.cpp",
+      "mainEventLineNumber": 91,
+      "functionDisplayName": "function_90()",
+      "subcategory": "Test issue 90",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 90"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_91.cpp",
+      "mainEventLineNumber": 92,
+      "functionDisplayName": "function_91()",
+      "subcategory": "Test issue 91",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 91"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_92.cpp",
+      "mainEventLineNumber": 93,
+      "functionDisplayName": "function_92()",
+      "subcategory": "Test issue 92",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 92"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_93.cpp",
+      "mainEventLineNumber": 94,
+      "functionDisplayName": "function_93()",
+      "subcategory": "Test issue 93",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 93"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_94.cpp",
+      "mainEventLineNumber": 95,
+      "functionDisplayName": "function_94()",
+      "subcategory": "Test issue 94",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 94"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_95.cpp",
+      "mainEventLineNumber": 96,
+      "functionDisplayName": "function_95()",
+      "subcategory": "Test issue 95",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 95"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_96.cpp",
+      "mainEventLineNumber": 97,
+      "functionDisplayName": "function_96()",
+      "subcategory": "Test issue 96",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 96"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_97.cpp",
+      "mainEventLineNumber": 98,
+      "functionDisplayName": "function_97()",
+      "subcategory": "Test issue 97",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 97"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_98.cpp",
+      "mainEventLineNumber": 99,
+      "functionDisplayName": "function_98()",
+      "subcategory": "Test issue 98",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 98"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_99.cpp",
+      "mainEventLineNumber": 100,
+      "functionDisplayName": "function_99()",
+      "subcategory": "Test issue 99",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 99"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_100.cpp",
+      "mainEventLineNumber": 101,
+      "functionDisplayName": "function_100()",
+      "subcategory": "Test issue 100",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 100"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_101.cpp",
+      "mainEventLineNumber": 102,
+      "functionDisplayName": "function_101()",
+      "subcategory": "Test issue 101",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 101"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_102.cpp",
+      "mainEventLineNumber": 103,
+      "functionDisplayName": "function_102()",
+      "subcategory": "Test issue 102",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 102"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_103.cpp",
+      "mainEventLineNumber": 104,
+      "functionDisplayName": "function_103()",
+      "subcategory": "Test issue 103",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 103"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_104.cpp",
+      "mainEventLineNumber": 105,
+      "functionDisplayName": "function_104()",
+      "subcategory": "Test issue 104",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 104"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_105.cpp",
+      "mainEventLineNumber": 106,
+      "functionDisplayName": "function_105()",
+      "subcategory": "Test issue 105",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 105"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_106.cpp",
+      "mainEventLineNumber": 107,
+      "functionDisplayName": "function_106()",
+      "subcategory": "Test issue 106",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 106"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_107.cpp",
+      "mainEventLineNumber": 108,
+      "functionDisplayName": "function_107()",
+      "subcategory": "Test issue 107",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 107"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_108.cpp",
+      "mainEventLineNumber": 109,
+      "functionDisplayName": "function_108()",
+      "subcategory": "Test issue 108",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 108"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_109.cpp",
+      "mainEventLineNumber": 110,
+      "functionDisplayName": "function_109()",
+      "subcategory": "Test issue 109",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 109"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_110.cpp",
+      "mainEventLineNumber": 111,
+      "functionDisplayName": "function_110()",
+      "subcategory": "Test issue 110",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 110"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_111.cpp",
+      "mainEventLineNumber": 112,
+      "functionDisplayName": "function_111()",
+      "subcategory": "Test issue 111",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 111"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_112.cpp",
+      "mainEventLineNumber": 113,
+      "functionDisplayName": "function_112()",
+      "subcategory": "Test issue 112",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 112"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_113.cpp",
+      "mainEventLineNumber": 114,
+      "functionDisplayName": "function_113()",
+      "subcategory": "Test issue 113",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 113"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_114.cpp",
+      "mainEventLineNumber": 115,
+      "functionDisplayName": "function_114()",
+      "subcategory": "Test issue 114",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 114"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_115.cpp",
+      "mainEventLineNumber": 116,
+      "functionDisplayName": "function_115()",
+      "subcategory": "Test issue 115",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 115"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_116.cpp",
+      "mainEventLineNumber": 117,
+      "functionDisplayName": "function_116()",
+      "subcategory": "Test issue 116",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 116"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_117.cpp",
+      "mainEventLineNumber": 118,
+      "functionDisplayName": "function_117()",
+      "subcategory": "Test issue 117",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 117"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_118.cpp",
+      "mainEventLineNumber": 119,
+      "functionDisplayName": "function_118()",
+      "subcategory": "Test issue 118",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 118"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_119.cpp",
+      "mainEventLineNumber": 120,
+      "functionDisplayName": "function_119()",
+      "subcategory": "Test issue 119",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 119"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_120.cpp",
+      "mainEventLineNumber": 121,
+      "functionDisplayName": "function_120()",
+      "subcategory": "Test issue 120",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 120"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_121.cpp",
+      "mainEventLineNumber": 122,
+      "functionDisplayName": "function_121()",
+      "subcategory": "Test issue 121",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 121"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_122.cpp",
+      "mainEventLineNumber": 123,
+      "functionDisplayName": "function_122()",
+      "subcategory": "Test issue 122",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 122"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_123.cpp",
+      "mainEventLineNumber": 124,
+      "functionDisplayName": "function_123()",
+      "subcategory": "Test issue 123",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 123"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_124.cpp",
+      "mainEventLineNumber": 125,
+      "functionDisplayName": "function_124()",
+      "subcategory": "Test issue 124",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 124"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_125.cpp",
+      "mainEventLineNumber": 126,
+      "functionDisplayName": "function_125()",
+      "subcategory": "Test issue 125",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 125"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_126.cpp",
+      "mainEventLineNumber": 127,
+      "functionDisplayName": "function_126()",
+      "subcategory": "Test issue 126",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 126"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_127.cpp",
+      "mainEventLineNumber": 128,
+      "functionDisplayName": "function_127()",
+      "subcategory": "Test issue 127",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 127"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_128.cpp",
+      "mainEventLineNumber": 129,
+      "functionDisplayName": "function_128()",
+      "subcategory": "Test issue 128",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 128"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_129.cpp",
+      "mainEventLineNumber": 130,
+      "functionDisplayName": "function_129()",
+      "subcategory": "Test issue 129",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 129"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_130.cpp",
+      "mainEventLineNumber": 131,
+      "functionDisplayName": "function_130()",
+      "subcategory": "Test issue 130",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 130"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_131.cpp",
+      "mainEventLineNumber": 132,
+      "functionDisplayName": "function_131()",
+      "subcategory": "Test issue 131",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 131"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_132.cpp",
+      "mainEventLineNumber": 133,
+      "functionDisplayName": "function_132()",
+      "subcategory": "Test issue 132",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 132"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_133.cpp",
+      "mainEventLineNumber": 134,
+      "functionDisplayName": "function_133()",
+      "subcategory": "Test issue 133",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 133"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_134.cpp",
+      "mainEventLineNumber": 135,
+      "functionDisplayName": "function_134()",
+      "subcategory": "Test issue 134",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 134"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_135.cpp",
+      "mainEventLineNumber": 136,
+      "functionDisplayName": "function_135()",
+      "subcategory": "Test issue 135",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 135"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_136.cpp",
+      "mainEventLineNumber": 137,
+      "functionDisplayName": "function_136()",
+      "subcategory": "Test issue 136",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 136"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_137.cpp",
+      "mainEventLineNumber": 138,
+      "functionDisplayName": "function_137()",
+      "subcategory": "Test issue 137",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 137"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_138.cpp",
+      "mainEventLineNumber": 139,
+      "functionDisplayName": "function_138()",
+      "subcategory": "Test issue 138",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 138"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_139.cpp",
+      "mainEventLineNumber": 140,
+      "functionDisplayName": "function_139()",
+      "subcategory": "Test issue 139",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 139"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_140.cpp",
+      "mainEventLineNumber": 141,
+      "functionDisplayName": "function_140()",
+      "subcategory": "Test issue 140",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 140"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_141.cpp",
+      "mainEventLineNumber": 142,
+      "functionDisplayName": "function_141()",
+      "subcategory": "Test issue 141",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 141"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_142.cpp",
+      "mainEventLineNumber": 143,
+      "functionDisplayName": "function_142()",
+      "subcategory": "Test issue 142",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 142"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_143.cpp",
+      "mainEventLineNumber": 144,
+      "functionDisplayName": "function_143()",
+      "subcategory": "Test issue 143",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 143"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_144.cpp",
+      "mainEventLineNumber": 145,
+      "functionDisplayName": "function_144()",
+      "subcategory": "Test issue 144",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 144"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_145.cpp",
+      "mainEventLineNumber": 146,
+      "functionDisplayName": "function_145()",
+      "subcategory": "Test issue 145",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 145"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_146.cpp",
+      "mainEventLineNumber": 147,
+      "functionDisplayName": "function_146()",
+      "subcategory": "Test issue 146",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 146"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_147.cpp",
+      "mainEventLineNumber": 148,
+      "functionDisplayName": "function_147()",
+      "subcategory": "Test issue 147",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 147"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_148.cpp",
+      "mainEventLineNumber": 149,
+      "functionDisplayName": "function_148()",
+      "subcategory": "Test issue 148",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 148"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_149.cpp",
+      "mainEventLineNumber": 150,
+      "functionDisplayName": "function_149()",
+      "subcategory": "Test issue 149",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 149"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_150.cpp",
+      "mainEventLineNumber": 151,
+      "functionDisplayName": "function_150()",
+      "subcategory": "Test issue 150",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 150"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_151.cpp",
+      "mainEventLineNumber": 152,
+      "functionDisplayName": "function_151()",
+      "subcategory": "Test issue 151",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 151"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_152.cpp",
+      "mainEventLineNumber": 153,
+      "functionDisplayName": "function_152()",
+      "subcategory": "Test issue 152",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 152"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_153.cpp",
+      "mainEventLineNumber": 154,
+      "functionDisplayName": "function_153()",
+      "subcategory": "Test issue 153",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 153"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_154.cpp",
+      "mainEventLineNumber": 155,
+      "functionDisplayName": "function_154()",
+      "subcategory": "Test issue 154",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 154"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_155.cpp",
+      "mainEventLineNumber": 156,
+      "functionDisplayName": "function_155()",
+      "subcategory": "Test issue 155",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 155"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_156.cpp",
+      "mainEventLineNumber": 157,
+      "functionDisplayName": "function_156()",
+      "subcategory": "Test issue 156",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 156"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_157.cpp",
+      "mainEventLineNumber": 158,
+      "functionDisplayName": "function_157()",
+      "subcategory": "Test issue 157",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 157"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_158.cpp",
+      "mainEventLineNumber": 159,
+      "functionDisplayName": "function_158()",
+      "subcategory": "Test issue 158",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 158"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_159.cpp",
+      "mainEventLineNumber": 160,
+      "functionDisplayName": "function_159()",
+      "subcategory": "Test issue 159",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 159"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_160.cpp",
+      "mainEventLineNumber": 161,
+      "functionDisplayName": "function_160()",
+      "subcategory": "Test issue 160",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 160"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_161.cpp",
+      "mainEventLineNumber": 162,
+      "functionDisplayName": "function_161()",
+      "subcategory": "Test issue 161",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 161"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_162.cpp",
+      "mainEventLineNumber": 163,
+      "functionDisplayName": "function_162()",
+      "subcategory": "Test issue 162",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 162"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_163.cpp",
+      "mainEventLineNumber": 164,
+      "functionDisplayName": "function_163()",
+      "subcategory": "Test issue 163",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 163"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_164.cpp",
+      "mainEventLineNumber": 165,
+      "functionDisplayName": "function_164()",
+      "subcategory": "Test issue 164",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 164"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_165.cpp",
+      "mainEventLineNumber": 166,
+      "functionDisplayName": "function_165()",
+      "subcategory": "Test issue 165",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 165"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_166.cpp",
+      "mainEventLineNumber": 167,
+      "functionDisplayName": "function_166()",
+      "subcategory": "Test issue 166",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 166"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_167.cpp",
+      "mainEventLineNumber": 168,
+      "functionDisplayName": "function_167()",
+      "subcategory": "Test issue 167",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 167"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_168.cpp",
+      "mainEventLineNumber": 169,
+      "functionDisplayName": "function_168()",
+      "subcategory": "Test issue 168",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 168"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_169.cpp",
+      "mainEventLineNumber": 170,
+      "functionDisplayName": "function_169()",
+      "subcategory": "Test issue 169",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 169"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_170.cpp",
+      "mainEventLineNumber": 171,
+      "functionDisplayName": "function_170()",
+      "subcategory": "Test issue 170",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 170"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_171.cpp",
+      "mainEventLineNumber": 172,
+      "functionDisplayName": "function_171()",
+      "subcategory": "Test issue 171",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 171"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_172.cpp",
+      "mainEventLineNumber": 173,
+      "functionDisplayName": "function_172()",
+      "subcategory": "Test issue 172",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 172"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_173.cpp",
+      "mainEventLineNumber": 174,
+      "functionDisplayName": "function_173()",
+      "subcategory": "Test issue 173",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 173"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_174.cpp",
+      "mainEventLineNumber": 175,
+      "functionDisplayName": "function_174()",
+      "subcategory": "Test issue 174",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 174"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_175.cpp",
+      "mainEventLineNumber": 176,
+      "functionDisplayName": "function_175()",
+      "subcategory": "Test issue 175",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 175"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_176.cpp",
+      "mainEventLineNumber": 177,
+      "functionDisplayName": "function_176()",
+      "subcategory": "Test issue 176",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 176"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_177.cpp",
+      "mainEventLineNumber": 178,
+      "functionDisplayName": "function_177()",
+      "subcategory": "Test issue 177",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 177"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_178.cpp",
+      "mainEventLineNumber": 179,
+      "functionDisplayName": "function_178()",
+      "subcategory": "Test issue 178",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 178"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_179.cpp",
+      "mainEventLineNumber": 180,
+      "functionDisplayName": "function_179()",
+      "subcategory": "Test issue 179",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 179"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_180.cpp",
+      "mainEventLineNumber": 181,
+      "functionDisplayName": "function_180()",
+      "subcategory": "Test issue 180",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 180"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_181.cpp",
+      "mainEventLineNumber": 182,
+      "functionDisplayName": "function_181()",
+      "subcategory": "Test issue 181",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 181"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_182.cpp",
+      "mainEventLineNumber": 183,
+      "functionDisplayName": "function_182()",
+      "subcategory": "Test issue 182",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 182"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_183.cpp",
+      "mainEventLineNumber": 184,
+      "functionDisplayName": "function_183()",
+      "subcategory": "Test issue 183",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 183"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_184.cpp",
+      "mainEventLineNumber": 185,
+      "functionDisplayName": "function_184()",
+      "subcategory": "Test issue 184",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 184"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_185.cpp",
+      "mainEventLineNumber": 186,
+      "functionDisplayName": "function_185()",
+      "subcategory": "Test issue 185",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 185"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_186.cpp",
+      "mainEventLineNumber": 187,
+      "functionDisplayName": "function_186()",
+      "subcategory": "Test issue 186",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 186"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_187.cpp",
+      "mainEventLineNumber": 188,
+      "functionDisplayName": "function_187()",
+      "subcategory": "Test issue 187",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 187"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_188.cpp",
+      "mainEventLineNumber": 189,
+      "functionDisplayName": "function_188()",
+      "subcategory": "Test issue 188",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 188"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_189.cpp",
+      "mainEventLineNumber": 190,
+      "functionDisplayName": "function_189()",
+      "subcategory": "Test issue 189",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 189"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_190.cpp",
+      "mainEventLineNumber": 191,
+      "functionDisplayName": "function_190()",
+      "subcategory": "Test issue 190",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 190"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_191.cpp",
+      "mainEventLineNumber": 192,
+      "functionDisplayName": "function_191()",
+      "subcategory": "Test issue 191",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 191"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_192.cpp",
+      "mainEventLineNumber": 193,
+      "functionDisplayName": "function_192()",
+      "subcategory": "Test issue 192",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 192"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_193.cpp",
+      "mainEventLineNumber": 194,
+      "functionDisplayName": "function_193()",
+      "subcategory": "Test issue 193",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 193"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_194.cpp",
+      "mainEventLineNumber": 195,
+      "functionDisplayName": "function_194()",
+      "subcategory": "Test issue 194",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 194"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_195.cpp",
+      "mainEventLineNumber": 196,
+      "functionDisplayName": "function_195()",
+      "subcategory": "Test issue 195",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 195"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_196.cpp",
+      "mainEventLineNumber": 197,
+      "functionDisplayName": "function_196()",
+      "subcategory": "Test issue 196",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 196"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_197.cpp",
+      "mainEventLineNumber": 198,
+      "functionDisplayName": "function_197()",
+      "subcategory": "Test issue 197",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 197"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_198.cpp",
+      "mainEventLineNumber": 199,
+      "functionDisplayName": "function_198()",
+      "subcategory": "Test issue 198",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 198"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_199.cpp",
+      "mainEventLineNumber": 200,
+      "functionDisplayName": "function_199()",
+      "subcategory": "Test issue 199",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 199"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_200.cpp",
+      "mainEventLineNumber": 201,
+      "functionDisplayName": "function_200()",
+      "subcategory": "Test issue 200",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 200"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_201.cpp",
+      "mainEventLineNumber": 202,
+      "functionDisplayName": "function_201()",
+      "subcategory": "Test issue 201",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 201"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_202.cpp",
+      "mainEventLineNumber": 203,
+      "functionDisplayName": "function_202()",
+      "subcategory": "Test issue 202",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 202"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_203.cpp",
+      "mainEventLineNumber": 204,
+      "functionDisplayName": "function_203()",
+      "subcategory": "Test issue 203",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 203"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_204.cpp",
+      "mainEventLineNumber": 205,
+      "functionDisplayName": "function_204()",
+      "subcategory": "Test issue 204",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 204"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_205.cpp",
+      "mainEventLineNumber": 206,
+      "functionDisplayName": "function_205()",
+      "subcategory": "Test issue 205",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 205"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_206.cpp",
+      "mainEventLineNumber": 207,
+      "functionDisplayName": "function_206()",
+      "subcategory": "Test issue 206",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 206"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_207.cpp",
+      "mainEventLineNumber": 208,
+      "functionDisplayName": "function_207()",
+      "subcategory": "Test issue 207",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 207"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_208.cpp",
+      "mainEventLineNumber": 209,
+      "functionDisplayName": "function_208()",
+      "subcategory": "Test issue 208",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 208"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_209.cpp",
+      "mainEventLineNumber": 210,
+      "functionDisplayName": "function_209()",
+      "subcategory": "Test issue 209",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 209"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_210.cpp",
+      "mainEventLineNumber": 211,
+      "functionDisplayName": "function_210()",
+      "subcategory": "Test issue 210",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 210"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_211.cpp",
+      "mainEventLineNumber": 212,
+      "functionDisplayName": "function_211()",
+      "subcategory": "Test issue 211",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 211"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_212.cpp",
+      "mainEventLineNumber": 213,
+      "functionDisplayName": "function_212()",
+      "subcategory": "Test issue 212",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 212"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_213.cpp",
+      "mainEventLineNumber": 214,
+      "functionDisplayName": "function_213()",
+      "subcategory": "Test issue 213",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 213"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_214.cpp",
+      "mainEventLineNumber": 215,
+      "functionDisplayName": "function_214()",
+      "subcategory": "Test issue 214",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 214"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_215.cpp",
+      "mainEventLineNumber": 216,
+      "functionDisplayName": "function_215()",
+      "subcategory": "Test issue 215",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 215"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_216.cpp",
+      "mainEventLineNumber": 217,
+      "functionDisplayName": "function_216()",
+      "subcategory": "Test issue 216",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 216"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_217.cpp",
+      "mainEventLineNumber": 218,
+      "functionDisplayName": "function_217()",
+      "subcategory": "Test issue 217",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 217"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_218.cpp",
+      "mainEventLineNumber": 219,
+      "functionDisplayName": "function_218()",
+      "subcategory": "Test issue 218",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 218"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_219.cpp",
+      "mainEventLineNumber": 220,
+      "functionDisplayName": "function_219()",
+      "subcategory": "Test issue 219",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 219"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_220.cpp",
+      "mainEventLineNumber": 221,
+      "functionDisplayName": "function_220()",
+      "subcategory": "Test issue 220",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 220"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_221.cpp",
+      "mainEventLineNumber": 222,
+      "functionDisplayName": "function_221()",
+      "subcategory": "Test issue 221",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 221"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_222.cpp",
+      "mainEventLineNumber": 223,
+      "functionDisplayName": "function_222()",
+      "subcategory": "Test issue 222",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 222"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_223.cpp",
+      "mainEventLineNumber": 224,
+      "functionDisplayName": "function_223()",
+      "subcategory": "Test issue 223",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 223"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_224.cpp",
+      "mainEventLineNumber": 225,
+      "functionDisplayName": "function_224()",
+      "subcategory": "Test issue 224",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 224"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_225.cpp",
+      "mainEventLineNumber": 226,
+      "functionDisplayName": "function_225()",
+      "subcategory": "Test issue 225",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 225"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_226.cpp",
+      "mainEventLineNumber": 227,
+      "functionDisplayName": "function_226()",
+      "subcategory": "Test issue 226",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 226"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_227.cpp",
+      "mainEventLineNumber": 228,
+      "functionDisplayName": "function_227()",
+      "subcategory": "Test issue 227",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 227"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_228.cpp",
+      "mainEventLineNumber": 229,
+      "functionDisplayName": "function_228()",
+      "subcategory": "Test issue 228",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 228"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_229.cpp",
+      "mainEventLineNumber": 230,
+      "functionDisplayName": "function_229()",
+      "subcategory": "Test issue 229",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 229"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_230.cpp",
+      "mainEventLineNumber": 231,
+      "functionDisplayName": "function_230()",
+      "subcategory": "Test issue 230",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 230"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_231.cpp",
+      "mainEventLineNumber": 232,
+      "functionDisplayName": "function_231()",
+      "subcategory": "Test issue 231",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 231"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_232.cpp",
+      "mainEventLineNumber": 233,
+      "functionDisplayName": "function_232()",
+      "subcategory": "Test issue 232",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 232"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_233.cpp",
+      "mainEventLineNumber": 234,
+      "functionDisplayName": "function_233()",
+      "subcategory": "Test issue 233",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 233"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_234.cpp",
+      "mainEventLineNumber": 235,
+      "functionDisplayName": "function_234()",
+      "subcategory": "Test issue 234",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 234"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_235.cpp",
+      "mainEventLineNumber": 236,
+      "functionDisplayName": "function_235()",
+      "subcategory": "Test issue 235",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 235"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_236.cpp",
+      "mainEventLineNumber": 237,
+      "functionDisplayName": "function_236()",
+      "subcategory": "Test issue 236",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 236"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_237.cpp",
+      "mainEventLineNumber": 238,
+      "functionDisplayName": "function_237()",
+      "subcategory": "Test issue 237",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 237"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_238.cpp",
+      "mainEventLineNumber": 239,
+      "functionDisplayName": "function_238()",
+      "subcategory": "Test issue 238",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 238"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_239.cpp",
+      "mainEventLineNumber": 240,
+      "functionDisplayName": "function_239()",
+      "subcategory": "Test issue 239",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 239"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_240.cpp",
+      "mainEventLineNumber": 241,
+      "functionDisplayName": "function_240()",
+      "subcategory": "Test issue 240",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 240"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_241.cpp",
+      "mainEventLineNumber": 242,
+      "functionDisplayName": "function_241()",
+      "subcategory": "Test issue 241",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 241"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_242.cpp",
+      "mainEventLineNumber": 243,
+      "functionDisplayName": "function_242()",
+      "subcategory": "Test issue 242",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 242"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_243.cpp",
+      "mainEventLineNumber": 244,
+      "functionDisplayName": "function_243()",
+      "subcategory": "Test issue 243",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 243"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_244.cpp",
+      "mainEventLineNumber": 245,
+      "functionDisplayName": "function_244()",
+      "subcategory": "Test issue 244",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 244"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_245.cpp",
+      "mainEventLineNumber": 246,
+      "functionDisplayName": "function_245()",
+      "subcategory": "Test issue 245",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 245"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_246.cpp",
+      "mainEventLineNumber": 247,
+      "functionDisplayName": "function_246()",
+      "subcategory": "Test issue 246",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 246"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_247.cpp",
+      "mainEventLineNumber": 248,
+      "functionDisplayName": "function_247()",
+      "subcategory": "Test issue 247",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 247"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_248.cpp",
+      "mainEventLineNumber": 249,
+      "functionDisplayName": "function_248()",
+      "subcategory": "Test issue 248",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 248"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_249.cpp",
+      "mainEventLineNumber": 250,
+      "functionDisplayName": "function_249()",
+      "subcategory": "Test issue 249",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 249"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_250.cpp",
+      "mainEventLineNumber": 251,
+      "functionDisplayName": "function_250()",
+      "subcategory": "Test issue 250",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 250"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_251.cpp",
+      "mainEventLineNumber": 252,
+      "functionDisplayName": "function_251()",
+      "subcategory": "Test issue 251",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 251"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_252.cpp",
+      "mainEventLineNumber": 253,
+      "functionDisplayName": "function_252()",
+      "subcategory": "Test issue 252",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 252"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_253.cpp",
+      "mainEventLineNumber": 254,
+      "functionDisplayName": "function_253()",
+      "subcategory": "Test issue 253",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 253"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_254.cpp",
+      "mainEventLineNumber": 255,
+      "functionDisplayName": "function_254()",
+      "subcategory": "Test issue 254",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 254"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_255.cpp",
+      "mainEventLineNumber": 256,
+      "functionDisplayName": "function_255()",
+      "subcategory": "Test issue 255",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 255"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_256.cpp",
+      "mainEventLineNumber": 257,
+      "functionDisplayName": "function_256()",
+      "subcategory": "Test issue 256",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 256"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_257.cpp",
+      "mainEventLineNumber": 258,
+      "functionDisplayName": "function_257()",
+      "subcategory": "Test issue 257",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 257"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_258.cpp",
+      "mainEventLineNumber": 259,
+      "functionDisplayName": "function_258()",
+      "subcategory": "Test issue 258",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 258"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_259.cpp",
+      "mainEventLineNumber": 260,
+      "functionDisplayName": "function_259()",
+      "subcategory": "Test issue 259",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 259"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_260.cpp",
+      "mainEventLineNumber": 261,
+      "functionDisplayName": "function_260()",
+      "subcategory": "Test issue 260",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 260"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_261.cpp",
+      "mainEventLineNumber": 262,
+      "functionDisplayName": "function_261()",
+      "subcategory": "Test issue 261",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 261"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_262.cpp",
+      "mainEventLineNumber": 263,
+      "functionDisplayName": "function_262()",
+      "subcategory": "Test issue 262",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 262"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_263.cpp",
+      "mainEventLineNumber": 264,
+      "functionDisplayName": "function_263()",
+      "subcategory": "Test issue 263",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 263"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_264.cpp",
+      "mainEventLineNumber": 265,
+      "functionDisplayName": "function_264()",
+      "subcategory": "Test issue 264",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 264"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_265.cpp",
+      "mainEventLineNumber": 266,
+      "functionDisplayName": "function_265()",
+      "subcategory": "Test issue 265",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 265"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_266.cpp",
+      "mainEventLineNumber": 267,
+      "functionDisplayName": "function_266()",
+      "subcategory": "Test issue 266",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 266"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_267.cpp",
+      "mainEventLineNumber": 268,
+      "functionDisplayName": "function_267()",
+      "subcategory": "Test issue 267",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 267"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_268.cpp",
+      "mainEventLineNumber": 269,
+      "functionDisplayName": "function_268()",
+      "subcategory": "Test issue 268",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 268"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_269.cpp",
+      "mainEventLineNumber": 270,
+      "functionDisplayName": "function_269()",
+      "subcategory": "Test issue 269",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 269"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_270.cpp",
+      "mainEventLineNumber": 271,
+      "functionDisplayName": "function_270()",
+      "subcategory": "Test issue 270",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 270"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_271.cpp",
+      "mainEventLineNumber": 272,
+      "functionDisplayName": "function_271()",
+      "subcategory": "Test issue 271",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 271"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_272.cpp",
+      "mainEventLineNumber": 273,
+      "functionDisplayName": "function_272()",
+      "subcategory": "Test issue 272",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 272"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_273.cpp",
+      "mainEventLineNumber": 274,
+      "functionDisplayName": "function_273()",
+      "subcategory": "Test issue 273",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 273"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_274.cpp",
+      "mainEventLineNumber": 275,
+      "functionDisplayName": "function_274()",
+      "subcategory": "Test issue 274",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 274"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_275.cpp",
+      "mainEventLineNumber": 276,
+      "functionDisplayName": "function_275()",
+      "subcategory": "Test issue 275",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 275"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_276.cpp",
+      "mainEventLineNumber": 277,
+      "functionDisplayName": "function_276()",
+      "subcategory": "Test issue 276",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 276"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_277.cpp",
+      "mainEventLineNumber": 278,
+      "functionDisplayName": "function_277()",
+      "subcategory": "Test issue 277",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 277"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_278.cpp",
+      "mainEventLineNumber": 279,
+      "functionDisplayName": "function_278()",
+      "subcategory": "Test issue 278",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 278"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_279.cpp",
+      "mainEventLineNumber": 280,
+      "functionDisplayName": "function_279()",
+      "subcategory": "Test issue 279",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 279"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_280.cpp",
+      "mainEventLineNumber": 281,
+      "functionDisplayName": "function_280()",
+      "subcategory": "Test issue 280",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 280"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_281.cpp",
+      "mainEventLineNumber": 282,
+      "functionDisplayName": "function_281()",
+      "subcategory": "Test issue 281",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 281"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_282.cpp",
+      "mainEventLineNumber": 283,
+      "functionDisplayName": "function_282()",
+      "subcategory": "Test issue 282",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 282"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_283.cpp",
+      "mainEventLineNumber": 284,
+      "functionDisplayName": "function_283()",
+      "subcategory": "Test issue 283",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 283"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_284.cpp",
+      "mainEventLineNumber": 285,
+      "functionDisplayName": "function_284()",
+      "subcategory": "Test issue 284",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 284"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_285.cpp",
+      "mainEventLineNumber": 286,
+      "functionDisplayName": "function_285()",
+      "subcategory": "Test issue 285",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 285"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_286.cpp",
+      "mainEventLineNumber": 287,
+      "functionDisplayName": "function_286()",
+      "subcategory": "Test issue 286",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 286"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_287.cpp",
+      "mainEventLineNumber": 288,
+      "functionDisplayName": "function_287()",
+      "subcategory": "Test issue 287",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 287"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_288.cpp",
+      "mainEventLineNumber": 289,
+      "functionDisplayName": "function_288()",
+      "subcategory": "Test issue 288",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 288"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_289.cpp",
+      "mainEventLineNumber": 290,
+      "functionDisplayName": "function_289()",
+      "subcategory": "Test issue 289",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 289"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_290.cpp",
+      "mainEventLineNumber": 291,
+      "functionDisplayName": "function_290()",
+      "subcategory": "Test issue 290",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 290"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_291.cpp",
+      "mainEventLineNumber": 292,
+      "functionDisplayName": "function_291()",
+      "subcategory": "Test issue 291",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 291"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_292.cpp",
+      "mainEventLineNumber": 293,
+      "functionDisplayName": "function_292()",
+      "subcategory": "Test issue 292",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 292"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_293.cpp",
+      "mainEventLineNumber": 294,
+      "functionDisplayName": "function_293()",
+      "subcategory": "Test issue 293",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 293"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_294.cpp",
+      "mainEventLineNumber": 295,
+      "functionDisplayName": "function_294()",
+      "subcategory": "Test issue 294",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 294"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_295.cpp",
+      "mainEventLineNumber": 296,
+      "functionDisplayName": "function_295()",
+      "subcategory": "Test issue 295",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 295"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_296.cpp",
+      "mainEventLineNumber": 297,
+      "functionDisplayName": "function_296()",
+      "subcategory": "Test issue 296",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 296"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_297.cpp",
+      "mainEventLineNumber": 298,
+      "functionDisplayName": "function_297()",
+      "subcategory": "Test issue 297",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 297"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_298.cpp",
+      "mainEventLineNumber": 299,
+      "functionDisplayName": "function_298()",
+      "subcategory": "Test issue 298",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 298"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_299.cpp",
+      "mainEventLineNumber": 300,
+      "functionDisplayName": "function_299()",
+      "subcategory": "Test issue 299",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 299"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_300.cpp",
+      "mainEventLineNumber": 301,
+      "functionDisplayName": "function_300()",
+      "subcategory": "Test issue 300",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 300"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_301.cpp",
+      "mainEventLineNumber": 302,
+      "functionDisplayName": "function_301()",
+      "subcategory": "Test issue 301",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 301"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_302.cpp",
+      "mainEventLineNumber": 303,
+      "functionDisplayName": "function_302()",
+      "subcategory": "Test issue 302",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 302"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_303.cpp",
+      "mainEventLineNumber": 304,
+      "functionDisplayName": "function_303()",
+      "subcategory": "Test issue 303",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 303"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_304.cpp",
+      "mainEventLineNumber": 305,
+      "functionDisplayName": "function_304()",
+      "subcategory": "Test issue 304",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 304"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_305.cpp",
+      "mainEventLineNumber": 306,
+      "functionDisplayName": "function_305()",
+      "subcategory": "Test issue 305",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 305"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_306.cpp",
+      "mainEventLineNumber": 307,
+      "functionDisplayName": "function_306()",
+      "subcategory": "Test issue 306",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 306"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_307.cpp",
+      "mainEventLineNumber": 308,
+      "functionDisplayName": "function_307()",
+      "subcategory": "Test issue 307",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 307"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_308.cpp",
+      "mainEventLineNumber": 309,
+      "functionDisplayName": "function_308()",
+      "subcategory": "Test issue 308",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 308"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_309.cpp",
+      "mainEventLineNumber": 310,
+      "functionDisplayName": "function_309()",
+      "subcategory": "Test issue 309",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 309"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_310.cpp",
+      "mainEventLineNumber": 311,
+      "functionDisplayName": "function_310()",
+      "subcategory": "Test issue 310",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 310"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_311.cpp",
+      "mainEventLineNumber": 312,
+      "functionDisplayName": "function_311()",
+      "subcategory": "Test issue 311",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 311"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_312.cpp",
+      "mainEventLineNumber": 313,
+      "functionDisplayName": "function_312()",
+      "subcategory": "Test issue 312",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 312"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_313.cpp",
+      "mainEventLineNumber": 314,
+      "functionDisplayName": "function_313()",
+      "subcategory": "Test issue 313",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 313"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_314.cpp",
+      "mainEventLineNumber": 315,
+      "functionDisplayName": "function_314()",
+      "subcategory": "Test issue 314",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 314"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_315.cpp",
+      "mainEventLineNumber": 316,
+      "functionDisplayName": "function_315()",
+      "subcategory": "Test issue 315",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 315"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_316.cpp",
+      "mainEventLineNumber": 317,
+      "functionDisplayName": "function_316()",
+      "subcategory": "Test issue 316",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 316"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_317.cpp",
+      "mainEventLineNumber": 318,
+      "functionDisplayName": "function_317()",
+      "subcategory": "Test issue 317",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 317"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_318.cpp",
+      "mainEventLineNumber": 319,
+      "functionDisplayName": "function_318()",
+      "subcategory": "Test issue 318",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 318"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_319.cpp",
+      "mainEventLineNumber": 320,
+      "functionDisplayName": "function_319()",
+      "subcategory": "Test issue 319",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 319"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_320.cpp",
+      "mainEventLineNumber": 321,
+      "functionDisplayName": "function_320()",
+      "subcategory": "Test issue 320",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 320"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_321.cpp",
+      "mainEventLineNumber": 322,
+      "functionDisplayName": "function_321()",
+      "subcategory": "Test issue 321",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 321"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_322.cpp",
+      "mainEventLineNumber": 323,
+      "functionDisplayName": "function_322()",
+      "subcategory": "Test issue 322",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 322"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_323.cpp",
+      "mainEventLineNumber": 324,
+      "functionDisplayName": "function_323()",
+      "subcategory": "Test issue 323",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 323"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_324.cpp",
+      "mainEventLineNumber": 325,
+      "functionDisplayName": "function_324()",
+      "subcategory": "Test issue 324",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 324"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_325.cpp",
+      "mainEventLineNumber": 326,
+      "functionDisplayName": "function_325()",
+      "subcategory": "Test issue 325",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 325"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_326.cpp",
+      "mainEventLineNumber": 327,
+      "functionDisplayName": "function_326()",
+      "subcategory": "Test issue 326",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 326"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_327.cpp",
+      "mainEventLineNumber": 328,
+      "functionDisplayName": "function_327()",
+      "subcategory": "Test issue 327",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 327"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_328.cpp",
+      "mainEventLineNumber": 329,
+      "functionDisplayName": "function_328()",
+      "subcategory": "Test issue 328",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 328"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_329.cpp",
+      "mainEventLineNumber": 330,
+      "functionDisplayName": "function_329()",
+      "subcategory": "Test issue 329",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 329"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_330.cpp",
+      "mainEventLineNumber": 331,
+      "functionDisplayName": "function_330()",
+      "subcategory": "Test issue 330",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 330"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_331.cpp",
+      "mainEventLineNumber": 332,
+      "functionDisplayName": "function_331()",
+      "subcategory": "Test issue 331",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 331"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_332.cpp",
+      "mainEventLineNumber": 333,
+      "functionDisplayName": "function_332()",
+      "subcategory": "Test issue 332",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 332"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_333.cpp",
+      "mainEventLineNumber": 334,
+      "functionDisplayName": "function_333()",
+      "subcategory": "Test issue 333",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 333"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_334.cpp",
+      "mainEventLineNumber": 335,
+      "functionDisplayName": "function_334()",
+      "subcategory": "Test issue 334",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 334"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_335.cpp",
+      "mainEventLineNumber": 336,
+      "functionDisplayName": "function_335()",
+      "subcategory": "Test issue 335",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 335"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_336.cpp",
+      "mainEventLineNumber": 337,
+      "functionDisplayName": "function_336()",
+      "subcategory": "Test issue 336",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 336"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_337.cpp",
+      "mainEventLineNumber": 338,
+      "functionDisplayName": "function_337()",
+      "subcategory": "Test issue 337",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 337"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_338.cpp",
+      "mainEventLineNumber": 339,
+      "functionDisplayName": "function_338()",
+      "subcategory": "Test issue 338",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 338"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_339.cpp",
+      "mainEventLineNumber": 340,
+      "functionDisplayName": "function_339()",
+      "subcategory": "Test issue 339",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 339"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_340.cpp",
+      "mainEventLineNumber": 341,
+      "functionDisplayName": "function_340()",
+      "subcategory": "Test issue 340",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 340"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_341.cpp",
+      "mainEventLineNumber": 342,
+      "functionDisplayName": "function_341()",
+      "subcategory": "Test issue 341",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 341"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_342.cpp",
+      "mainEventLineNumber": 343,
+      "functionDisplayName": "function_342()",
+      "subcategory": "Test issue 342",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 342"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_343.cpp",
+      "mainEventLineNumber": 344,
+      "functionDisplayName": "function_343()",
+      "subcategory": "Test issue 343",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 343"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_344.cpp",
+      "mainEventLineNumber": 345,
+      "functionDisplayName": "function_344()",
+      "subcategory": "Test issue 344",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 344"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_345.cpp",
+      "mainEventLineNumber": 346,
+      "functionDisplayName": "function_345()",
+      "subcategory": "Test issue 345",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 345"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_346.cpp",
+      "mainEventLineNumber": 347,
+      "functionDisplayName": "function_346()",
+      "subcategory": "Test issue 346",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 346"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_347.cpp",
+      "mainEventLineNumber": 348,
+      "functionDisplayName": "function_347()",
+      "subcategory": "Test issue 347",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 347"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_348.cpp",
+      "mainEventLineNumber": 349,
+      "functionDisplayName": "function_348()",
+      "subcategory": "Test issue 348",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 348"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_349.cpp",
+      "mainEventLineNumber": 350,
+      "functionDisplayName": "function_349()",
+      "subcategory": "Test issue 349",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 349"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_350.cpp",
+      "mainEventLineNumber": 351,
+      "functionDisplayName": "function_350()",
+      "subcategory": "Test issue 350",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 350"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_351.cpp",
+      "mainEventLineNumber": 352,
+      "functionDisplayName": "function_351()",
+      "subcategory": "Test issue 351",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 351"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_352.cpp",
+      "mainEventLineNumber": 353,
+      "functionDisplayName": "function_352()",
+      "subcategory": "Test issue 352",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 352"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_353.cpp",
+      "mainEventLineNumber": 354,
+      "functionDisplayName": "function_353()",
+      "subcategory": "Test issue 353",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 353"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_354.cpp",
+      "mainEventLineNumber": 355,
+      "functionDisplayName": "function_354()",
+      "subcategory": "Test issue 354",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 354"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_355.cpp",
+      "mainEventLineNumber": 356,
+      "functionDisplayName": "function_355()",
+      "subcategory": "Test issue 355",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 355"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_356.cpp",
+      "mainEventLineNumber": 357,
+      "functionDisplayName": "function_356()",
+      "subcategory": "Test issue 356",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 356"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_357.cpp",
+      "mainEventLineNumber": 358,
+      "functionDisplayName": "function_357()",
+      "subcategory": "Test issue 357",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 357"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_358.cpp",
+      "mainEventLineNumber": 359,
+      "functionDisplayName": "function_358()",
+      "subcategory": "Test issue 358",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 358"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_359.cpp",
+      "mainEventLineNumber": 360,
+      "functionDisplayName": "function_359()",
+      "subcategory": "Test issue 359",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 359"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_360.cpp",
+      "mainEventLineNumber": 361,
+      "functionDisplayName": "function_360()",
+      "subcategory": "Test issue 360",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 360"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_361.cpp",
+      "mainEventLineNumber": 362,
+      "functionDisplayName": "function_361()",
+      "subcategory": "Test issue 361",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 361"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_362.cpp",
+      "mainEventLineNumber": 363,
+      "functionDisplayName": "function_362()",
+      "subcategory": "Test issue 362",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 362"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_363.cpp",
+      "mainEventLineNumber": 364,
+      "functionDisplayName": "function_363()",
+      "subcategory": "Test issue 363",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 363"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_364.cpp",
+      "mainEventLineNumber": 365,
+      "functionDisplayName": "function_364()",
+      "subcategory": "Test issue 364",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 364"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_365.cpp",
+      "mainEventLineNumber": 366,
+      "functionDisplayName": "function_365()",
+      "subcategory": "Test issue 365",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 365"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_366.cpp",
+      "mainEventLineNumber": 367,
+      "functionDisplayName": "function_366()",
+      "subcategory": "Test issue 366",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 366"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_367.cpp",
+      "mainEventLineNumber": 368,
+      "functionDisplayName": "function_367()",
+      "subcategory": "Test issue 367",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 367"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_368.cpp",
+      "mainEventLineNumber": 369,
+      "functionDisplayName": "function_368()",
+      "subcategory": "Test issue 368",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 368"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_369.cpp",
+      "mainEventLineNumber": 370,
+      "functionDisplayName": "function_369()",
+      "subcategory": "Test issue 369",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 369"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_370.cpp",
+      "mainEventLineNumber": 371,
+      "functionDisplayName": "function_370()",
+      "subcategory": "Test issue 370",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 370"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_371.cpp",
+      "mainEventLineNumber": 372,
+      "functionDisplayName": "function_371()",
+      "subcategory": "Test issue 371",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 371"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_372.cpp",
+      "mainEventLineNumber": 373,
+      "functionDisplayName": "function_372()",
+      "subcategory": "Test issue 372",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 372"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_373.cpp",
+      "mainEventLineNumber": 374,
+      "functionDisplayName": "function_373()",
+      "subcategory": "Test issue 373",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 373"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_374.cpp",
+      "mainEventLineNumber": 375,
+      "functionDisplayName": "function_374()",
+      "subcategory": "Test issue 374",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 374"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_375.cpp",
+      "mainEventLineNumber": 376,
+      "functionDisplayName": "function_375()",
+      "subcategory": "Test issue 375",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 375"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_376.cpp",
+      "mainEventLineNumber": 377,
+      "functionDisplayName": "function_376()",
+      "subcategory": "Test issue 376",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 376"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_377.cpp",
+      "mainEventLineNumber": 378,
+      "functionDisplayName": "function_377()",
+      "subcategory": "Test issue 377",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 377"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_378.cpp",
+      "mainEventLineNumber": 379,
+      "functionDisplayName": "function_378()",
+      "subcategory": "Test issue 378",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 378"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_379.cpp",
+      "mainEventLineNumber": 380,
+      "functionDisplayName": "function_379()",
+      "subcategory": "Test issue 379",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 379"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_380.cpp",
+      "mainEventLineNumber": 381,
+      "functionDisplayName": "function_380()",
+      "subcategory": "Test issue 380",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 380"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_381.cpp",
+      "mainEventLineNumber": 382,
+      "functionDisplayName": "function_381()",
+      "subcategory": "Test issue 381",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 381"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_382.cpp",
+      "mainEventLineNumber": 383,
+      "functionDisplayName": "function_382()",
+      "subcategory": "Test issue 382",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 382"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_383.cpp",
+      "mainEventLineNumber": 384,
+      "functionDisplayName": "function_383()",
+      "subcategory": "Test issue 383",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 383"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_384.cpp",
+      "mainEventLineNumber": 385,
+      "functionDisplayName": "function_384()",
+      "subcategory": "Test issue 384",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 384"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_385.cpp",
+      "mainEventLineNumber": 386,
+      "functionDisplayName": "function_385()",
+      "subcategory": "Test issue 385",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 385"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_386.cpp",
+      "mainEventLineNumber": 387,
+      "functionDisplayName": "function_386()",
+      "subcategory": "Test issue 386",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 386"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_387.cpp",
+      "mainEventLineNumber": 388,
+      "functionDisplayName": "function_387()",
+      "subcategory": "Test issue 387",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 387"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_388.cpp",
+      "mainEventLineNumber": 389,
+      "functionDisplayName": "function_388()",
+      "subcategory": "Test issue 388",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 388"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_389.cpp",
+      "mainEventLineNumber": 390,
+      "functionDisplayName": "function_389()",
+      "subcategory": "Test issue 389",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 389"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_390.cpp",
+      "mainEventLineNumber": 391,
+      "functionDisplayName": "function_390()",
+      "subcategory": "Test issue 390",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 390"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_391.cpp",
+      "mainEventLineNumber": 392,
+      "functionDisplayName": "function_391()",
+      "subcategory": "Test issue 391",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 391"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_392.cpp",
+      "mainEventLineNumber": 393,
+      "functionDisplayName": "function_392()",
+      "subcategory": "Test issue 392",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 392"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_393.cpp",
+      "mainEventLineNumber": 394,
+      "functionDisplayName": "function_393()",
+      "subcategory": "Test issue 393",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 393"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_394.cpp",
+      "mainEventLineNumber": 395,
+      "functionDisplayName": "function_394()",
+      "subcategory": "Test issue 394",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 394"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_395.cpp",
+      "mainEventLineNumber": 396,
+      "functionDisplayName": "function_395()",
+      "subcategory": "Test issue 395",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 395"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_396.cpp",
+      "mainEventLineNumber": 397,
+      "functionDisplayName": "function_396()",
+      "subcategory": "Test issue 396",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 396"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_397.cpp",
+      "mainEventLineNumber": 398,
+      "functionDisplayName": "function_397()",
+      "subcategory": "Test issue 397",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 397"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_398.cpp",
+      "mainEventLineNumber": 399,
+      "functionDisplayName": "function_398()",
+      "subcategory": "Test issue 398",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 398"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_399.cpp",
+      "mainEventLineNumber": 400,
+      "functionDisplayName": "function_399()",
+      "subcategory": "Test issue 399",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 399"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_400.cpp",
+      "mainEventLineNumber": 401,
+      "functionDisplayName": "function_400()",
+      "subcategory": "Test issue 400",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 400"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_401.cpp",
+      "mainEventLineNumber": 402,
+      "functionDisplayName": "function_401()",
+      "subcategory": "Test issue 401",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 401"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_402.cpp",
+      "mainEventLineNumber": 403,
+      "functionDisplayName": "function_402()",
+      "subcategory": "Test issue 402",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 402"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_403.cpp",
+      "mainEventLineNumber": 404,
+      "functionDisplayName": "function_403()",
+      "subcategory": "Test issue 403",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 403"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_404.cpp",
+      "mainEventLineNumber": 405,
+      "functionDisplayName": "function_404()",
+      "subcategory": "Test issue 404",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 404"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_405.cpp",
+      "mainEventLineNumber": 406,
+      "functionDisplayName": "function_405()",
+      "subcategory": "Test issue 405",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 405"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_406.cpp",
+      "mainEventLineNumber": 407,
+      "functionDisplayName": "function_406()",
+      "subcategory": "Test issue 406",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 406"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_407.cpp",
+      "mainEventLineNumber": 408,
+      "functionDisplayName": "function_407()",
+      "subcategory": "Test issue 407",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 407"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_408.cpp",
+      "mainEventLineNumber": 409,
+      "functionDisplayName": "function_408()",
+      "subcategory": "Test issue 408",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 408"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_409.cpp",
+      "mainEventLineNumber": 410,
+      "functionDisplayName": "function_409()",
+      "subcategory": "Test issue 409",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 409"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_410.cpp",
+      "mainEventLineNumber": 411,
+      "functionDisplayName": "function_410()",
+      "subcategory": "Test issue 410",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 410"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_411.cpp",
+      "mainEventLineNumber": 412,
+      "functionDisplayName": "function_411()",
+      "subcategory": "Test issue 411",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 411"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_412.cpp",
+      "mainEventLineNumber": 413,
+      "functionDisplayName": "function_412()",
+      "subcategory": "Test issue 412",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 412"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_413.cpp",
+      "mainEventLineNumber": 414,
+      "functionDisplayName": "function_413()",
+      "subcategory": "Test issue 413",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 413"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_414.cpp",
+      "mainEventLineNumber": 415,
+      "functionDisplayName": "function_414()",
+      "subcategory": "Test issue 414",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 414"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_415.cpp",
+      "mainEventLineNumber": 416,
+      "functionDisplayName": "function_415()",
+      "subcategory": "Test issue 415",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 415"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_416.cpp",
+      "mainEventLineNumber": 417,
+      "functionDisplayName": "function_416()",
+      "subcategory": "Test issue 416",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 416"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_417.cpp",
+      "mainEventLineNumber": 418,
+      "functionDisplayName": "function_417()",
+      "subcategory": "Test issue 417",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 417"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_418.cpp",
+      "mainEventLineNumber": 419,
+      "functionDisplayName": "function_418()",
+      "subcategory": "Test issue 418",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 418"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_419.cpp",
+      "mainEventLineNumber": 420,
+      "functionDisplayName": "function_419()",
+      "subcategory": "Test issue 419",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 419"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_420.cpp",
+      "mainEventLineNumber": 421,
+      "functionDisplayName": "function_420()",
+      "subcategory": "Test issue 420",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 420"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_421.cpp",
+      "mainEventLineNumber": 422,
+      "functionDisplayName": "function_421()",
+      "subcategory": "Test issue 421",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 421"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_422.cpp",
+      "mainEventLineNumber": 423,
+      "functionDisplayName": "function_422()",
+      "subcategory": "Test issue 422",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 422"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_423.cpp",
+      "mainEventLineNumber": 424,
+      "functionDisplayName": "function_423()",
+      "subcategory": "Test issue 423",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 423"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_424.cpp",
+      "mainEventLineNumber": 425,
+      "functionDisplayName": "function_424()",
+      "subcategory": "Test issue 424",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 424"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_425.cpp",
+      "mainEventLineNumber": 426,
+      "functionDisplayName": "function_425()",
+      "subcategory": "Test issue 425",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 425"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_426.cpp",
+      "mainEventLineNumber": 427,
+      "functionDisplayName": "function_426()",
+      "subcategory": "Test issue 426",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 426"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_427.cpp",
+      "mainEventLineNumber": 428,
+      "functionDisplayName": "function_427()",
+      "subcategory": "Test issue 427",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 427"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_428.cpp",
+      "mainEventLineNumber": 429,
+      "functionDisplayName": "function_428()",
+      "subcategory": "Test issue 428",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 428"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_429.cpp",
+      "mainEventLineNumber": 430,
+      "functionDisplayName": "function_429()",
+      "subcategory": "Test issue 429",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 429"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_430.cpp",
+      "mainEventLineNumber": 431,
+      "functionDisplayName": "function_430()",
+      "subcategory": "Test issue 430",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 430"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_431.cpp",
+      "mainEventLineNumber": 432,
+      "functionDisplayName": "function_431()",
+      "subcategory": "Test issue 431",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 431"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_432.cpp",
+      "mainEventLineNumber": 433,
+      "functionDisplayName": "function_432()",
+      "subcategory": "Test issue 432",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 432"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_433.cpp",
+      "mainEventLineNumber": 434,
+      "functionDisplayName": "function_433()",
+      "subcategory": "Test issue 433",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 433"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_434.cpp",
+      "mainEventLineNumber": 435,
+      "functionDisplayName": "function_434()",
+      "subcategory": "Test issue 434",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 434"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_435.cpp",
+      "mainEventLineNumber": 436,
+      "functionDisplayName": "function_435()",
+      "subcategory": "Test issue 435",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 435"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_436.cpp",
+      "mainEventLineNumber": 437,
+      "functionDisplayName": "function_436()",
+      "subcategory": "Test issue 436",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 436"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_437.cpp",
+      "mainEventLineNumber": 438,
+      "functionDisplayName": "function_437()",
+      "subcategory": "Test issue 437",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 437"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_438.cpp",
+      "mainEventLineNumber": 439,
+      "functionDisplayName": "function_438()",
+      "subcategory": "Test issue 438",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 438"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_439.cpp",
+      "mainEventLineNumber": 440,
+      "functionDisplayName": "function_439()",
+      "subcategory": "Test issue 439",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 439"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_440.cpp",
+      "mainEventLineNumber": 441,
+      "functionDisplayName": "function_440()",
+      "subcategory": "Test issue 440",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 440"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_441.cpp",
+      "mainEventLineNumber": 442,
+      "functionDisplayName": "function_441()",
+      "subcategory": "Test issue 441",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 441"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_442.cpp",
+      "mainEventLineNumber": 443,
+      "functionDisplayName": "function_442()",
+      "subcategory": "Test issue 442",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 442"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_443.cpp",
+      "mainEventLineNumber": 444,
+      "functionDisplayName": "function_443()",
+      "subcategory": "Test issue 443",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 443"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_444.cpp",
+      "mainEventLineNumber": 445,
+      "functionDisplayName": "function_444()",
+      "subcategory": "Test issue 444",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 444"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_445.cpp",
+      "mainEventLineNumber": 446,
+      "functionDisplayName": "function_445()",
+      "subcategory": "Test issue 445",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 445"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_446.cpp",
+      "mainEventLineNumber": 447,
+      "functionDisplayName": "function_446()",
+      "subcategory": "Test issue 446",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 446"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_447.cpp",
+      "mainEventLineNumber": 448,
+      "functionDisplayName": "function_447()",
+      "subcategory": "Test issue 447",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 447"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_448.cpp",
+      "mainEventLineNumber": 449,
+      "functionDisplayName": "function_448()",
+      "subcategory": "Test issue 448",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 448"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_449.cpp",
+      "mainEventLineNumber": 450,
+      "functionDisplayName": "function_449()",
+      "subcategory": "Test issue 449",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 449"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_450.cpp",
+      "mainEventLineNumber": 451,
+      "functionDisplayName": "function_450()",
+      "subcategory": "Test issue 450",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 450"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_451.cpp",
+      "mainEventLineNumber": 452,
+      "functionDisplayName": "function_451()",
+      "subcategory": "Test issue 451",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 451"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_452.cpp",
+      "mainEventLineNumber": 453,
+      "functionDisplayName": "function_452()",
+      "subcategory": "Test issue 452",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 452"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_453.cpp",
+      "mainEventLineNumber": 454,
+      "functionDisplayName": "function_453()",
+      "subcategory": "Test issue 453",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 453"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_454.cpp",
+      "mainEventLineNumber": 455,
+      "functionDisplayName": "function_454()",
+      "subcategory": "Test issue 454",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 454"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_455.cpp",
+      "mainEventLineNumber": 456,
+      "functionDisplayName": "function_455()",
+      "subcategory": "Test issue 455",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 455"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_456.cpp",
+      "mainEventLineNumber": 457,
+      "functionDisplayName": "function_456()",
+      "subcategory": "Test issue 456",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 456"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_457.cpp",
+      "mainEventLineNumber": 458,
+      "functionDisplayName": "function_457()",
+      "subcategory": "Test issue 457",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 457"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_458.cpp",
+      "mainEventLineNumber": 459,
+      "functionDisplayName": "function_458()",
+      "subcategory": "Test issue 458",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 458"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_459.cpp",
+      "mainEventLineNumber": 460,
+      "functionDisplayName": "function_459()",
+      "subcategory": "Test issue 459",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 459"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_460.cpp",
+      "mainEventLineNumber": 461,
+      "functionDisplayName": "function_460()",
+      "subcategory": "Test issue 460",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 460"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_461.cpp",
+      "mainEventLineNumber": 462,
+      "functionDisplayName": "function_461()",
+      "subcategory": "Test issue 461",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 461"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_462.cpp",
+      "mainEventLineNumber": 463,
+      "functionDisplayName": "function_462()",
+      "subcategory": "Test issue 462",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 462"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_463.cpp",
+      "mainEventLineNumber": 464,
+      "functionDisplayName": "function_463()",
+      "subcategory": "Test issue 463",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 463"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_464.cpp",
+      "mainEventLineNumber": 465,
+      "functionDisplayName": "function_464()",
+      "subcategory": "Test issue 464",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 464"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_465.cpp",
+      "mainEventLineNumber": 466,
+      "functionDisplayName": "function_465()",
+      "subcategory": "Test issue 465",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 465"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_466.cpp",
+      "mainEventLineNumber": 467,
+      "functionDisplayName": "function_466()",
+      "subcategory": "Test issue 466",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 466"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_467.cpp",
+      "mainEventLineNumber": 468,
+      "functionDisplayName": "function_467()",
+      "subcategory": "Test issue 467",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 467"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_468.cpp",
+      "mainEventLineNumber": 469,
+      "functionDisplayName": "function_468()",
+      "subcategory": "Test issue 468",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 468"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_469.cpp",
+      "mainEventLineNumber": 470,
+      "functionDisplayName": "function_469()",
+      "subcategory": "Test issue 469",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 469"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_470.cpp",
+      "mainEventLineNumber": 471,
+      "functionDisplayName": "function_470()",
+      "subcategory": "Test issue 470",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 470"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_471.cpp",
+      "mainEventLineNumber": 472,
+      "functionDisplayName": "function_471()",
+      "subcategory": "Test issue 471",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 471"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_472.cpp",
+      "mainEventLineNumber": 473,
+      "functionDisplayName": "function_472()",
+      "subcategory": "Test issue 472",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 472"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_473.cpp",
+      "mainEventLineNumber": 474,
+      "functionDisplayName": "function_473()",
+      "subcategory": "Test issue 473",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 473"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_474.cpp",
+      "mainEventLineNumber": 475,
+      "functionDisplayName": "function_474()",
+      "subcategory": "Test issue 474",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 474"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_475.cpp",
+      "mainEventLineNumber": 476,
+      "functionDisplayName": "function_475()",
+      "subcategory": "Test issue 475",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 475"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_476.cpp",
+      "mainEventLineNumber": 477,
+      "functionDisplayName": "function_476()",
+      "subcategory": "Test issue 476",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 476"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_477.cpp",
+      "mainEventLineNumber": 478,
+      "functionDisplayName": "function_477()",
+      "subcategory": "Test issue 477",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 477"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_478.cpp",
+      "mainEventLineNumber": 479,
+      "functionDisplayName": "function_478()",
+      "subcategory": "Test issue 478",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 478"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_479.cpp",
+      "mainEventLineNumber": 480,
+      "functionDisplayName": "function_479()",
+      "subcategory": "Test issue 479",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 479"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_480.cpp",
+      "mainEventLineNumber": 481,
+      "functionDisplayName": "function_480()",
+      "subcategory": "Test issue 480",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 480"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_481.cpp",
+      "mainEventLineNumber": 482,
+      "functionDisplayName": "function_481()",
+      "subcategory": "Test issue 481",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 481"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_482.cpp",
+      "mainEventLineNumber": 483,
+      "functionDisplayName": "function_482()",
+      "subcategory": "Test issue 482",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 482"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_483.cpp",
+      "mainEventLineNumber": 484,
+      "functionDisplayName": "function_483()",
+      "subcategory": "Test issue 483",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 483"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_484.cpp",
+      "mainEventLineNumber": 485,
+      "functionDisplayName": "function_484()",
+      "subcategory": "Test issue 484",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 484"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_485.cpp",
+      "mainEventLineNumber": 486,
+      "functionDisplayName": "function_485()",
+      "subcategory": "Test issue 485",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 485"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_486.cpp",
+      "mainEventLineNumber": 487,
+      "functionDisplayName": "function_486()",
+      "subcategory": "Test issue 486",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 486"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_487.cpp",
+      "mainEventLineNumber": 488,
+      "functionDisplayName": "function_487()",
+      "subcategory": "Test issue 487",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 487"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_488.cpp",
+      "mainEventLineNumber": 489,
+      "functionDisplayName": "function_488()",
+      "subcategory": "Test issue 488",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 488"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_489.cpp",
+      "mainEventLineNumber": 490,
+      "functionDisplayName": "function_489()",
+      "subcategory": "Test issue 489",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 489"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_0",
+      "mainEventFilePathname": "/path/to/file_490.cpp",
+      "mainEventLineNumber": 491,
+      "functionDisplayName": "function_490()",
+      "subcategory": "Test issue 490",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 490"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_1",
+      "mainEventFilePathname": "/path/to/file_491.cpp",
+      "mainEventLineNumber": 492,
+      "functionDisplayName": "function_491()",
+      "subcategory": "Test issue 491",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 491"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_2",
+      "mainEventFilePathname": "/path/to/file_492.cpp",
+      "mainEventLineNumber": 493,
+      "functionDisplayName": "function_492()",
+      "subcategory": "Test issue 492",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 492"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_3",
+      "mainEventFilePathname": "/path/to/file_493.cpp",
+      "mainEventLineNumber": 494,
+      "functionDisplayName": "function_493()",
+      "subcategory": "Test issue 493",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 493"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_4",
+      "mainEventFilePathname": "/path/to/file_494.cpp",
+      "mainEventLineNumber": 495,
+      "functionDisplayName": "function_494()",
+      "subcategory": "Test issue 494",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 494"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_5",
+      "mainEventFilePathname": "/path/to/file_495.cpp",
+      "mainEventLineNumber": 496,
+      "functionDisplayName": "function_495()",
+      "subcategory": "Test issue 495",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 495"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_6",
+      "mainEventFilePathname": "/path/to/file_496.cpp",
+      "mainEventLineNumber": 497,
+      "functionDisplayName": "function_496()",
+      "subcategory": "Test issue 496",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 496"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_7",
+      "mainEventFilePathname": "/path/to/file_497.cpp",
+      "mainEventLineNumber": 498,
+      "functionDisplayName": "function_497()",
+      "subcategory": "Test issue 497",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 497"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_8",
+      "mainEventFilePathname": "/path/to/file_498.cpp",
+      "mainEventLineNumber": 499,
+      "functionDisplayName": "function_498()",
+      "subcategory": "Test issue 498",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 498"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "TEST_CHECKER_9",
+      "mainEventFilePathname": "/path/to/file_499.cpp",
+      "mainEventLineNumber": 500,
+      "functionDisplayName": "function_499()",
+      "subcategory": "Test issue 499",
+      "events": [
+        {
+          "eventDescription": "Event description for issue 499"
+        }
+      ],
+      "fixed": false
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "issues": [
+    {
+      "checkerName": "TEST_CHECKER",
+      "mainEventFilePathname": "/path/to/file.cpp",
+      "mainEventLineNumber": "not_a_number",
+      "functionDisplayName": "testFunction()",
+      "subcategory": "Test issue",
+      "events": [
+        {
+          "eventDescription": "Test event"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "",
+      "mainEventLineNumber": 45,
+      "subcategory": "Missing required fields",
+      "events": "not_an_array",
+      "fixed": false
+    }
+  ]
+} 

@@ -1,0 +1,98 @@
+# Coverity Issue Parser Configuration
+# This file contains configuration settings for the Coverity pipeline adapter
+
+issue_parser:
+  # Default paths to exclude from all queries (glob-style patterns)
+  exclude_paths:
+    - "DebugUtils/*"
+    - "test/*"
+    - "tests/*"
+    - "*_test.cpp"
+    - "*_test.h"
+  
+  # Processing batch size for large report files
+  batch_size: 1000
+  
+  # Enable caching of parsing results (future enhancement)
+  enable_caching: true
+  
+  # Enable parallel processing (future enhancement) 
+  parallel_processing: false
+  
+  # Validation settings
+  validation:
+    # Required fields that must be present in each Coverity issue
+    required_fields:
+      - "checkerName"
+      - "mainEventFilePathname" 
+      - "mainEventLineNumber"
+    
+    # Validate overall JSON structure
+    validate_json_structure: true
+    
+    # Verify 'issues' array exists and is valid
+    check_issues_array: true
+  
+  # Output format configuration  
+  output:
+    # Format specification (pipeline_standard for ParsedDefect format)
+    format: "pipeline_standard"
+    
+    # Include original raw data in ParsedDefect objects
+    include_raw_data: true
+    
+    # Generate unique defect IDs for each parsed issue
+    generate_defect_ids: true
+    
+    # Normalize file paths (false = keep absolute paths)
+    normalize_paths: false
+  
+  # Path exclusion configuration
+  exclusion:
+    # Enable default exclusion patterns (DebugUtils/*, etc.)
+    enable_default_exclusions: true
+    
+    # Additional custom exclusion patterns
+    custom_patterns: []
+    
+    # Case-sensitive pattern matching
+    case_sensitive: false
+  
+  # Logging configuration
+  logging:
+    # Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    level: "INFO"
+    
+    # Include parsing time in statistics
+    include_parsing_time: true
+    
+    # Log details about excluded issues
+    log_excluded_issues: false
+  
+  # Performance limits
+  performance:
+    # Maximum memory usage in MB
+    max_memory_mb: 1024
+    
+    # Processing timeout in seconds
+    timeout_seconds: 300
+    
+    # Maximum issues to process per batch
+    max_issues_per_batch: 10000
+
+# Example: Override specific settings for different environments
+# development:
+#   issue_parser:
+#     logging:
+#       level: "DEBUG"
+#       log_excluded_issues: true
+#     performance:
+#       timeout_seconds: 600
+
+# production:
+#   issue_parser:
+#     logging:
+#       level: "WARNING"
+#     performance:
+#       max_memory_mb: 2048
+#       timeout_seconds: 180 

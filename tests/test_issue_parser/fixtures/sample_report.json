@@ -1,0 +1,78 @@
+{
+  "issues": [
+    {
+      "checkerName": "AUTO_CAUSES_COPY",
+      "mainEventFilePathname": "/path/to/source.h",
+      "mainEventLineNumber": 230,
+      "functionDisplayName": "auto testFunction()",
+      "subcategory": "Using the auto keyword without an & causes a copy.",
+      "events": [
+        {
+          "eventDescription": "This lambda has an unspecified return type"
+        },
+        {
+          "eventDescription": "This return statement creates a copy"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "NULL_RETURNS",
+      "mainEventFilePathname": "/path/to/DebugUtils/debug.cpp",
+      "mainEventLineNumber": 45,
+      "functionDisplayName": "getValue()",
+      "subcategory": "Function may return null",
+      "events": [
+        {
+          "eventDescription": "Returning null pointer"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "MEMORY_LEAK",
+      "mainEventFilePathname": "/path/to/main.cpp",
+      "mainEventLineNumber": 123,
+      "functionDisplayName": "allocateMemory()",
+      "subcategory": "Memory allocated but not freed",
+      "events": [
+        {
+          "eventDescription": "Memory allocated here"
+        },
+        {
+          "eventDescription": "Path without free() call"
+        }
+      ],
+      "fixed": true
+    },
+    {
+      "checkerName": "AUTO_CAUSES_COPY",
+      "mainEventFilePathname": "/path/to/another.cpp",
+      "mainEventLineNumber": 67,
+      "functionDisplayName": "processData()",
+      "subcategory": "Auto without reference",
+      "events": [
+        {
+          "eventDescription": "Auto variable causes unnecessary copy"
+        }
+      ],
+      "fixed": false
+    },
+    {
+      "checkerName": "RESOURCE_LEAK",
+      "mainEventFilePathname": "/path/to/file_handler.cpp",
+      "mainEventLineNumber": 89,
+      "functionDisplayName": "openFile()",
+      "subcategory": "Resource not properly closed",
+      "events": [
+        {
+          "eventDescription": "File opened here"
+        },
+        {
+          "eventDescription": "File not closed on this path"
+        }
+      ],
+      "fixed": false
+    }
+  ]
+} 
