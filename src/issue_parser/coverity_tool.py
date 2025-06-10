@@ -59,10 +59,10 @@ class CoverityReportTool:
             ReportNotFoundError: If the report file is not found
             InvalidReportError: If the report file is invalid
         """
-        try:
-            if not os.path.exists(self.report_path):
-                raise ReportNotFoundError(f"Report file not found: {self.report_path}")
+        if not os.path.exists(self.report_path):
+            raise ReportNotFoundError(f"Report file not found: {self.report_path}")
             
+        try:
             with open(self.report_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 
@@ -76,7 +76,7 @@ class CoverityReportTool:
             return data
         except json.JSONDecodeError:
             raise InvalidReportError("Report file is not valid JSON")
-        except Exception as e:
+        except (OSError, IOError) as e:
             raise InvalidReportError(f"Error reading report file: {e}")
     
     def get_data(self) -> Dict[str, Any]:
@@ -103,17 +103,16 @@ class CoverityReportTool:
         Returns:
             True if the path matches the pattern, False otherwise
         """
-        # Convert glob-style pattern to regex pattern
-        # Escape special regex characters except * and ?
-        regex_pattern = re.escape(pattern).replace('\\*', '.*').replace('\\?', '.')
-        
         # Handle directory wildcards (e.g., "DebugUtils/*")
         if pattern.endswith('/*'):
-            # Match anything that starts with the directory
-            regex_pattern = f"^{regex_pattern[:-3]}.*"
-        else:
-            # For exact matches, anchor the pattern
-            regex_pattern = f"^{regex_pattern}$"
+            # For directory patterns, check if the path contains the directory
+            dir_name = pattern[:-2]  # Remove /*
+            return f"/{dir_name}/" in path or path.startswith(f"{dir_name}/") or f"/{dir_name}" in path
+        
+        # Convert glob-style pattern to regex pattern for other cases
+        # Escape special regex characters except * and ?
+        regex_pattern = re.escape(pattern).replace('\\*', '.*').replace('\\?', '.')
+        regex_pattern = f"^{regex_pattern}$"
         
         # Compile and match
         try:
