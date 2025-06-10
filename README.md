@@ -1,2 +1,2 @@
-# langgraph-coverity-agent
+# coverity-agent
 An agent that fix coverity. 
