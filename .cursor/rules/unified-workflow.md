@@ -105,6 +105,48 @@ flowchart TD
 
 ## Phase 2: Operation Modes
 
+### 2.0 Mode Detection and Enforcement
+
+**MANDATORY MODE CHECK**: Before processing ANY user request, determine the appropriate mode:
+
+```mermaid
+flowchart TD
+    Request[User Request] --> Analyze[Analyze Request Keywords]
+    Analyze --> PlanKeywords{Contains Plan Keywords?}
+    Analyze --> ActKeywords{Contains Act Keywords?}
+    
+    PlanKeywords -->|Yes| ForcePlan[FORCE PLAN MODE]
+    ActKeywords -->|Yes| ForceAct[FORCE ACT MODE]
+    
+    PlanKeywords -->|No| ActKeywords
+    ActKeywords -->|No| AskUser[Ask User to Clarify Mode]
+    
+    ForcePlan --> PlanRestrictions[Apply Plan Mode Restrictions]
+    ForceAct --> ActPermissions[Apply Act Mode Permissions]
+    AskUser --> UserChoice[Wait for User Clarification]
+    
+    UserChoice --> ForcePlan
+    UserChoice --> ForceAct
+```
+
+**Detection Keywords:**
+
+**PLAN MODE Triggers** (Prevents code generation):
+- plan, planning, strategy, design, architecture
+- requirements, specification, analyze, breakdown
+- structure, PRD, document, outline, roadmap
+- "what should we build", "how should this work"
+- "create a plan", "design the system"
+
+**ACT MODE Triggers** (Allows code generation):
+- implement, code, build, create files, develop
+- write code, program, execute, run, install
+- fix bugs, debug, patch, deploy, setup
+- "start coding", "create the files", "implement this"
+
+**Ambiguous Requests**: If unclear, ASK THE USER:
+> "Would you like me to create a plan/design (Plan Mode) or start implementing code (Act Mode)?"
+
 ### 2.1 Plan Mode Workflow
 
 ```mermaid
@@ -124,6 +166,49 @@ flowchart TD
     Revise --> Strategy
     Approval -->|Yes| ActMode[Switch to Act Mode]
 ```
+
+**CRITICAL PLAN MODE RESTRICTIONS:**
+
+🚫 **PLAN MODE MUST NEVER:**
+- Generate ANY code files (.py, .js, .ts, .html, .css, etc.)
+- Create implementation files
+- Write actual source code
+- Execute code-related commands
+- Install dependencies or packages
+- Run build/compile commands
+
+✅ **PLAN MODE ONLY CREATES:**
+- Planning documents (.md files in .cursor/ai/plans/)
+- Architecture diagrams (Mermaid)
+- PRD documents (Product Requirements Documents)
+- Technical specification documents
+- Task breakdown structures
+- Design documentation
+- Analysis reports
+
+**Plan Mode Detection Rules:**
+```
+PLAN MODE is triggered when user requests contain:
+- "plan", "planning", "strategy", "design"
+- "architecture", "requirements", "specification"
+- "analyze", "breakdown", "structure"
+- "PRD", "document", "outline"
+- ANY request for planning without explicit "implement" or "code"
+
+ACT MODE is triggered when user requests contain:
+- "implement", "code", "build", "create files"
+- "write code", "develop", "program"
+- "execute", "run", "install"
+- "fix bugs", "debug", "patch"
+- Explicit request to create .py/.js/.ts files
+```
+
+**Plan Mode Output Rules:**
+1. **Documentation Only**: Create comprehensive planning documents
+2. **No Code Generation**: Absolutely no source code file creation
+3. **Strategy Focus**: Focus on high-level architecture and approach
+4. **Task Preparation**: Prepare detailed task breakdown for Act Mode
+5. **Context Building**: Ensure all necessary context is documented
 
 ### 2.2 Act Mode Workflow
 
@@ -151,6 +236,38 @@ flowchart TD
     
     Document --> Learn[Learn from Experience]
 ```
+
+**CRITICAL ACT MODE PERMISSIONS:**
+
+✅ **ACT MODE CAN:**
+- Generate and create source code files (.py, .js, .ts, etc.)
+- Implement actual functionality
+- Install dependencies and packages
+- Run build/compile/test commands
+- Execute code and scripts
+- Create project structure and directories
+- Apply patches and fixes
+- Integrate with external APIs
+- Set up development environment
+
+🚫 **ACT MODE SHOULD NOT:**
+- Create new planning documents without explicit request
+- Modify global project strategy without user confirmation
+- Make architectural decisions without referring to plans
+- Skip task dependency checks
+- Ignore established patterns from Memory Bank
+
+**Act Mode Requirements:**
+1. **Plan Reference**: Always refer to existing plans before implementation
+2. **Task-Based**: Execute specific tasks from .cursor/ai/TASKS.md
+3. **Memory Bank Sync**: Update progress and context after significant changes
+4. **Quality Assurance**: Ensure code quality and testing
+5. **Documentation**: Update technical documentation as needed
+
+**Mode Transition Rules:**
+- **Plan → Act**: Only after user approves the plan and requests implementation
+- **Act → Plan**: When encountering undefined requirements or architectural questions
+- **Auto-detection**: Based on user request keywords (see Plan Mode Detection Rules above)
 
 ## Phase 3: Task Magic Operations
 
@@ -420,24 +537,48 @@ flowchart TD
 
 ## Key Operational Principles
 
-### 1. Memory-First Approach
+### 1. Mode-First Approach
+- **ALWAYS determine Plan vs Act mode FIRST** before any action
+- **Strictly enforce mode restrictions** - no exceptions
+- **Plan Mode = Documentation Only, Act Mode = Implementation Only**
+
+### 2. Memory-First Approach
 - **Always read Memory Bank files first** at session start
 - **Memory Bank drives all operations** with Task Magic providing support
 - **Context preservation** is critical for effective AI operation
 
-### 2. Unified Command Processing
+### 3. Unified Command Processing
 - **Single entry point** through Memory Bank system
 - **Automatic synchronization** between systems
 - **Consistent state** maintained across all operations
 
-### 3. Continuous Learning
+### 4. Continuous Learning
 - **Pattern recognition** and documentation in .cursor/rules
 - **Project intelligence** accumulation over time
 - **Adaptive behavior** based on learned patterns
 
-### 4. Quality Assurance
+### 5. Quality Assurance
 - **Mandatory file reviews** for critical operations
 - **Consistency checks** between systems
 - **Error recovery** mechanisms built-in
+
+## CRITICAL MODE ENFORCEMENT SUMMARY
+
+🚨 **NEVER VIOLATE THESE RULES:**
+
+**PLAN MODE** = Documentation & Design Only:
+- ✅ Create .md files in .cursor/ai/plans/
+- ✅ Generate diagrams and specifications  
+- ✅ Write PRDs and technical documentation
+- 🚫 **NEVER create .py/.js/.ts or any code files**
+- 🚫 **NEVER run code or install packages**
+
+**ACT MODE** = Implementation & Execution:
+- ✅ Create source code files
+- ✅ Run commands and install dependencies
+- ✅ Implement functionality and fix bugs
+- 🚫 Should not create new plans without explicit request
+
+**When in doubt: ASK THE USER which mode they want!**
 
 This unified workflow ensures reliable, consistent, and intelligent AI agent operation with persistent memory and continuous improvement capabilities. 

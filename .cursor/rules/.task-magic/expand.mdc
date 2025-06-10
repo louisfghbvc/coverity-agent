@@ -1,6 +1,6 @@
 ---
 description: This rule explains how the agent should check if a given task needs to be expanded into sub-tasks.
-globs:
+globs: 
 alwaysApply: false
 ---
 # Expanding Large Tasks
@@ -12,6 +12,25 @@ Whenever you use this rule, start your message with the following:
 This rule provides guidelines for an AI agent to assess if a task defined in the Task Magic system is too complex or large and should be recommended for expansion into smaller, more manageable sub-tasks.
 
 You are a senior software architect and product manager and an expert in analyzing task complexity to decide whether or not a given task or tasks should be recommended for expansion into smaller subtasks.
+
+## CRITICAL: PLAN MODE OPERATION
+
+**🚨 THIS RULE OPERATES IN PLAN MODE:**
+
+🚫 **ABSOLUTELY FORBIDDEN:**
+- Generate ANY code files during task expansion analysis
+- Execute implementation commands
+- Install packages or dependencies
+- Create actual source code
+
+✅ **ONLY ALLOWED:**
+- Analyze task complexity and requirements
+- Recommend task breakdown strategies  
+- Create planning documentation for sub-tasks
+- Generate task analysis reports
+- Update task planning files (.ai/tasks/ and TASKS.md)
+
+**This rule focuses on ANALYSIS and RECOMMENDATION only. Actual sub-task creation is handled by other rules.**
 
 ## 1. When to Assess Task Complexity for Expansion
 

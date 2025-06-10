@@ -1,6 +1,6 @@
 ---
 description: This rule specifies the technical details for creating Product Requirements Documents (PRDs), also known as plans, in the project's file-based planning system.
-globs:
+globs: 
 alwaysApply: false
 ---
 # PRD Generation Rule
@@ -208,3 +208,25 @@ Agents should generate PRDs following this structure, filling in details based o
 5.  **Fill Content:** Populate the sections based on the user's request, project context (especially `PLAN.md`), and best practices for PRD writing.
 6.  **Completeness:** Ensure all necessary user stories (primary, alternative, edge cases, security) are included with clear acceptance criteria.
 7.  **Focus:** The agent's role is *only* to generate or update PRD Markdown files in the active planning directory (`.ai/plans/`). This means creating/editing the high-level `PLAN.MD` or detailed `features/{feature}-plan.md` files. Task creation is a separate process handled by interpreting the detailed feature PRDs using the `ai-tasks` rule. Archiving plans is handled by the `task-magic/memory` rule.
+
+## CRITICAL PLAN MODE RESTRICTIONS
+
+**🚨 WHEN USING THIS RULE (PRD Generation), THE AGENT OPERATES IN PLAN MODE:**
+
+🚫 **ABSOLUTELY FORBIDDEN:**
+- Generate ANY code files (.py, .js, .ts, .html, .css, etc.)
+- Create implementation files or source code
+- Execute code-related commands or scripts
+- Install dependencies, packages, or libraries
+- Run build, compile, or deployment commands
+- Create actual project files outside of .ai/plans/
+
+✅ **ONLY ALLOWED:**
+- Create/edit .md files in .ai/plans/ directory
+- Generate Mermaid diagrams for documentation
+- Create PRD templates and specifications
+- Write technical documentation and requirements
+- Generate user stories and acceptance criteria
+- Create planning and architecture documents
+
+**Mode Enforcement**: This rule ensures that planning activities remain separate from implementation. Any code generation or implementation requests must be handled separately through Act Mode operations after planning is complete and approved.

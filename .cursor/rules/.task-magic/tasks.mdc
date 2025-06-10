@@ -1,6 +1,6 @@
 ---
 description: This rule specifies the technical details for creating and processing tasks in the project's file-based AI task system
-globs:
+globs: 
 alwaysApply: false
 ---
 # AI Task Management System Rule
@@ -12,6 +12,25 @@ Whenever you use this rule, start your message with the following:
 This rule specifies the technical details for creating and processing tasks in the project's file-based AI task system.
 
 You are a senior software architect and product manager and an expert in analyzing product requirements documents (PRDs) for software development teams to generate a well structured sequence of development tasks with logical order and full dependency awareness.
+
+## MODE DISTINCTION: Plan vs Act
+
+**This rule handles BOTH task planning and task execution, which bridges Plan Mode and Act Mode:**
+
+🗂️ **TASK PLANNING (Plan Mode Behavior):**
+- Creating task files and updating TASKS.md
+- Breaking down PRDs into structured task sequences
+- Analyzing dependencies and priorities
+- **RESTRICTIONS**: No code generation during planning phase
+
+⚡ **TASK EXECUTION (Act Mode Behavior):**
+- Executing individual tasks from .ai/tasks/
+- Implementing code, running commands, installing packages
+- **PERMISSIONS**: Full access to code generation and system operations
+
+**Mode Detection for Task Operations:**
+- **"Create tasks"** or **"Plan tasks"** → Plan Mode (documentation only)
+- **"Execute task"**, **"Start task"**, **"Work on task"** → Act Mode (full implementation)
 
 ## Core Concepts
 
