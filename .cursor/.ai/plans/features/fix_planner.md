@@ -1,4 +1,20 @@
-# Fix Planner - Feature Plan
+# Fix Planner - Feature Plan [DEPRECATED - MVP ARCHITECTURE]
+
+## 🚫 DEPRECATED NOTICE
+**This component has been removed from the MVP architecture and its functionality integrated into the LLM Fix Generator.**
+
+In the MVP approach, fix planning and strategy selection is handled directly by the LLM Fix Generator through sophisticated prompting, eliminating the need for a separate planning component. This provides:
+
+- **Intelligent Planning**: LLM can create adaptive fix strategies based on full context
+- **Dynamic Approach**: Not limited to predefined fix templates
+- **Contextual Awareness**: Plans consider both defect type and surrounding code
+- **Integrated Workflow**: Planning and generation happen in single step
+
+**Migration Path**: The fix strategies, templates, and planning logic defined below can be converted into LLM prompt engineering patterns within the Fix Generator component.
+
+---
+
+# [ORIGINAL PLAN - FOR REFERENCE ONLY]
 
 ## Overview
 Develop comprehensive fix strategies based on defect classifications and code context, providing structured plans and templates that guide the LLM-based fix generation process.

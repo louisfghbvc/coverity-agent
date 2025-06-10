@@ -1,4 +1,20 @@
-# Issue Classifier - Feature Plan
+# Issue Classifier - Feature Plan [DEPRECATED - MVP ARCHITECTURE]
+
+## 🚫 DEPRECATED NOTICE
+**This component has been removed from the MVP architecture and its functionality integrated into the LLM Fix Generator.**
+
+In the MVP approach, defect classification is handled directly by the LLM Fix Generator through intelligent prompting, eliminating the need for a separate classification component. This provides:
+
+- **Simplified Architecture**: Fewer components to maintain
+- **Better Context**: LLM sees full defect and code context together
+- **Adaptive Classification**: Can handle edge cases without rigid rules
+- **Cost Efficiency**: Single API call for classification and fix generation
+
+**Migration Path**: The classification logic and patterns defined below can be converted into LLM prompt templates within the Fix Generator component.
+
+---
+
+# [ORIGINAL PLAN - FOR REFERENCE ONLY]
 
 ## Overview
 Categorize parsed defects into specific problem types to enable targeted fix strategy selection and improve fix success rates.

@@ -4,14 +4,12 @@
 
 The Coverity Agent is an intelligent automated system designed to analyze Coverity static analysis output, identify code defects, and automatically generate and verify fixes. This system creates a complete pipeline from defect detection to verified code patches.
 
-## System Architecture
+## System Architecture (MVP Version)
 
-This is a complex multi-component system requiring careful integration and data flow management:
+This is a streamlined system focusing on core functionality with direct LLM integration:
 
 ```
-Coverity Output → Issue Parser → Issue Classifier → Code Retriever
-                                        ↓
-Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
+Coverity Output → Issue Parser → Code Retriever → LLM Fix Generator → Patch Applier → Verification
 ```
 
 ## Core Components
@@ -19,23 +17,14 @@ Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
 ### 1. Issue Parser
 **Purpose**: Parse and extract structured information from Coverity defect reports
 **Input**: Coverity JSON/XML output files
-**Output**: Structured defect data objects
+**Output**: Structured defect data objects with basic classification hints
 **Key Features**:
 - Support multiple Coverity output formats
 - Extract defect location, type, severity, and context
 - Handle batch processing of multiple reports
+- Include lightweight defect type tagging for LLM context
 
-### 2. Issue Classifier  
-**Purpose**: Categorize defects into specific problem types for targeted fixing
-**Input**: Structured defect data from Issue Parser
-**Output**: Classified defect objects with fix strategy hints
-**Key Features**:
-- Classify null pointer dereference issues
-- Identify uninitialized value problems
-- Categorize memory leaks and resource management issues
-- Support extensible classification rules
-
-### 3. Code Retriever
+### 2. Code Retriever
 **Purpose**: Locate and extract relevant source code context for each defect
 **Input**: Defect location information
 **Output**: Source code snippets with context
@@ -45,27 +34,18 @@ Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
 - Handle multiple file scenarios
 - Provide syntax-highlighted code context
 
-### 4. Fix Planner
-**Purpose**: Develop fix strategies based on defect classification
-**Input**: Classified defects with code context
-**Output**: Structured fix plans and templates
-**Key Features**:
-- Pattern-based fix strategy selection
-- Template generation for common fix patterns
-- Risk assessment for proposed fixes
-- Integration with coding standards
-
-### 5. Fix Generator (LLM)
-**Purpose**: Generate actual code patches using Large Language Models
-**Input**: Fix plans and code context
-**Output**: Concrete code patches
+### 3. LLM Fix Generator
+**Purpose**: Analyze defects and generate code patches using Large Language Models
+**Input**: Defect data with code context
+**Output**: Concrete code patches with explanations
 **Key Features**:
 - GPT/Claude integration for intelligent code generation
-- Context-aware patch generation
+- Context-aware patch generation with defect type understanding
 - Multiple fix candidate generation
 - Code style consistency maintenance
+- Built-in defect classification and fix strategy selection
 
-### 6. Patch Applier + Git Hook
+### 4. Patch Applier + Git Integration
 **Purpose**: Apply generated patches and create version control integration
 **Input**: Generated patches and target repository
 **Output**: Applied changes with Git integration
@@ -75,7 +55,7 @@ Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
 - Diff generation and review preparation
 - Conflict detection and resolution
 
-### 7. Verification System
+### 5. Verification System
 **Purpose**: Validate that applied fixes actually resolve the original issues
 **Input**: Modified code and original defect information
 **Output**: Verification results and success metrics
@@ -95,9 +75,10 @@ Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
 
 ### LLM Integration
 - Secure API integration with GPT/Claude services
-- Prompt engineering for optimal fix generation
+- Advanced prompt engineering for defect classification and fix generation
 - Cost optimization and rate limiting
 - Fallback strategies for LLM failures
+- Context-rich prompts including defect type hints
 
 ### Git Integration
 - Repository analysis and branch management
@@ -107,31 +88,31 @@ Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
 
 ### Configuration Management
 - Per-project customization capabilities
-- Rule-based fix strategy configuration
+- LLM prompt template configuration
 - Output format customization
 - Integration with existing development workflows
 
 ## Development Phases
 
-### Phase 1: Core Pipeline (Weeks 1-4)
-- Issue Parser implementation
-- Issue Classifier foundation
-- Basic Code Retriever
+### Phase 1: Core Pipeline (Weeks 1-3)
+- Issue Parser implementation with basic classification
+- Code Retriever foundation
 - Data flow architecture establishment
+- Basic LLM integration
 
-### Phase 2: Intelligence Layer (Weeks 5-8)  
-- Fix Planner implementation
-- LLM integration for Fix Generator
-- Advanced classification rules
-- Context enhancement for Code Retriever
+### Phase 2: Intelligence Layer (Weeks 4-6)  
+- Advanced LLM Fix Generator with sophisticated prompting
+- Enhanced Code Retriever with better context extraction
+- Prompt engineering optimization
+- Multiple LLM provider support
 
-### Phase 3: Integration & Verification (Weeks 9-12)
+### Phase 3: Integration & Verification (Weeks 7-9)
 - Patch Applier with Git integration
 - Comprehensive Verification system
 - End-to-end pipeline testing
 - Performance optimization
 
-### Phase 4: Production Readiness (Weeks 13-16)
+### Phase 4: Production Readiness (Weeks 10-12)
 - Error handling and edge cases
 - Documentation and user guides
 - Configuration management
@@ -159,16 +140,24 @@ Verification ← Patch Applier ← Fix Generator (LLM) ← Fix Planner
 
 ### Technical Risks
 - LLM API reliability and cost management
-- Complex code context understanding
+- Complex code context understanding without pre-classification
 - Git merge conflicts and repository corruption
 - False positive fix generation
 
 ### Mitigation Strategies
 - Multiple LLM provider support
 - Comprehensive testing and rollback mechanisms
+- Rich context provision to LLM for better understanding
 - Staged deployment with manual review options
 - Extensive logging and audit capabilities
 
+## MVP Benefits
+
+**Simplified Architecture**: Fewer components mean faster development and easier maintenance
+**LLM-Centric**: Leverages modern LLM capabilities for intelligent defect analysis
+**Flexible**: Can handle edge cases and complex scenarios without rigid classification rules
+**Cost-Effective**: Optimized prompting reduces unnecessary API calls
+
 ---
 
-This project requires careful architecture planning and component integration. Each component should be developed with clear interfaces and comprehensive testing to ensure reliable operation in production environments.
+This streamlined approach focuses on core functionality while maintaining the ability to expand with additional components (like Issue Classifier) if needed based on real-world usage patterns and performance requirements.

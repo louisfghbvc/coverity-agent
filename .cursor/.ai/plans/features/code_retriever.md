@@ -1,7 +1,7 @@
-# Code Retriever - Feature Plan
+# Code Retriever - Feature Plan (MVP Architecture)
 
 ## Overview
-Locate and extract relevant source code context around defects to provide comprehensive information for fix generation, including function definitions, dependencies, and related code patterns.
+Locate and extract relevant source code context around defects to provide comprehensive information for LLM fix generation, including function definitions, dependencies, and related code patterns. **MVP Enhancement**: Leverages classification hints from Issue Parser for intelligent context extraction.
 
 ## Requirements
 
@@ -14,12 +14,14 @@ Locate and extract relevant source code context around defects to provide compre
 - **FR6**: Support multiple programming languages (C, C++, Java, Python)
 - **FR7**: Provide syntax-highlighted code snippets
 - **FR8**: Generate code context summaries
+- **FR9**: Use classification hints for intelligent context sizing (MVP Addition)
 
 ### Non-Functional Requirements
 - **NFR1**: Retrieve context for 100+ defects per minute
 - **NFR2**: Support large codebases (>1M lines of code)
 - **NFR3**: Memory efficient processing
 - **NFR4**: Robust handling of malformed or incomplete source files
+- **NFR5**: Adaptive context extraction based on defect hints (<50ms overhead)
 
 ## Technical Design
 
@@ -130,7 +132,7 @@ class LanguageParser:
         pass
 ```
 
-#### 3. Context Analyzer
+#### 3. Context Analyzer (Updated for MVP)
 ```python
 class ContextAnalyzer:
     def __init__(self, project_root: str):
@@ -141,13 +143,23 @@ class ContextAnalyzer:
         """Build index of symbols across project"""
         pass
     
-    def get_optimal_context_size(self, defect: ParsedDefect, 
-                               classification: ClassificationResult) -> int:
-        """Determine optimal context lines based on defect type"""
-        if classification.primary_category == DefectCategory.NULL_POINTER:
+    def get_optimal_context_size(self, defect: ParsedDefect) -> int:
+        """Determine optimal context lines based on classification hints"""
+        hints = defect.classification_hints or {}
+        
+        # Use classification hints instead of separate classification component
+        likely_categories = hints.get('likely_categories', [])
+        complexity_hints = hints.get('complexity_hints', [])
+        
+        if 'null_pointer' in likely_categories:
             return 20  # Need less context for null checks
-        elif classification.primary_category == DefectCategory.MEMORY_LEAK:
+        elif 'memory_management' in likely_categories:
             return 50  # Need more context for memory management
+        elif 'multi_step' in complexity_hints:
+            return 40  # More context for complex issues
+        elif 'function_level' in complexity_hints:
+            return 35  # Moderate context for function-level issues
+        
         return 30  # Default context size
     
     def find_related_functions(self, function_name: str, 
@@ -156,16 +168,27 @@ class ContextAnalyzer:
         pass
 ```
 
-#### 4. Pattern Detector
+#### 4. Pattern Detector (Updated for MVP)
 ```python
 class PatternDetector:
     def __init__(self):
         self.pattern_rules = self._load_pattern_rules()
     
     def detect_patterns(self, source_code: str, 
-                       defect_category: DefectCategory) -> List[CodePattern]:
-        """Detect relevant code patterns for defect category"""
-        pass
+                       classification_hints: Dict[str, Any]) -> List[CodePattern]:
+        """Detect relevant code patterns based on classification hints"""
+        patterns = []
+        likely_categories = classification_hints.get('likely_categories', [])
+        
+        for category in likely_categories:
+            if category == 'null_pointer':
+                patterns.extend(self._detect_null_check_patterns(source_code))
+            elif category == 'memory_management':
+                patterns.extend(self._detect_memory_patterns(source_code))
+            elif category == 'buffer_overflow':
+                patterns.extend(self._detect_buffer_patterns(source_code))
+                
+        return patterns
     
     def _detect_null_check_patterns(self, source_code: str) -> List[CodePattern]:
         """Detect null checking patterns"""
@@ -175,6 +198,10 @@ class PatternDetector:
     
     def _detect_memory_patterns(self, source_code: str) -> List[CodePattern]:
         """Detect memory management patterns"""
+        pass
+    
+    def _detect_buffer_patterns(self, source_code: str) -> List[CodePattern]:
+        """Detect buffer-related patterns"""
         pass
 ```
 
@@ -199,17 +226,22 @@ class SyntaxHighlighter:
 
 ## Context Extraction Strategies
 
-### Strategy Selection by Defect Type
+### Strategy Selection by Defect Hints (Updated for MVP)
 ```python
 class ContextStrategy:
-    def get_context_for_category(self, defect: ParsedDefect, 
-                                classification: ClassificationResult) -> CodeContext:
-        if classification.primary_category == DefectCategory.NULL_POINTER:
+    def get_context_for_defect(self, defect: ParsedDefect) -> CodeContext:
+        """Select context strategy based on classification hints"""
+        hints = defect.classification_hints or {}
+        likely_categories = hints.get('likely_categories', [])
+        
+        if 'null_pointer' in likely_categories:
             return self._null_pointer_context(defect)
-        elif classification.primary_category == DefectCategory.MEMORY_LEAK:
+        elif 'memory_management' in likely_categories:
             return self._memory_leak_context(defect)
-        elif classification.primary_category == DefectCategory.UNINITIALIZED_VALUE:
+        elif 'uninitialized' in likely_categories:
             return self._uninitialized_context(defect)
+        elif 'buffer_overflow' in likely_categories:
+            return self._buffer_context(defect)
         else:
             return self._default_context(defect)
     
@@ -221,6 +253,11 @@ class ContextStrategy:
     def _memory_leak_context(self, defect: ParsedDefect) -> CodeContext:
         """Extract context optimized for memory management issues"""
         # Focus on: allocation/deallocation pairs, error paths, cleanup
+        pass
+    
+    def _buffer_context(self, defect: ParsedDefect) -> CodeContext:
+        """Extract context optimized for buffer overflow issues"""
+        # Focus on: array bounds, buffer allocations, loop conditions
         pass
 ```
 
@@ -250,23 +287,24 @@ class CrossFileAnalyzer:
 - Basic context extraction (function-level)
 - Language detection and parsing foundation
 - File encoding handling
+- Integration with Issue Parser classification hints
 
 ### Phase 2: Language Parsing (Week 2)
 - C/C++ parsing with Tree-sitter or libclang
 - Variable and function analysis
 - Cross-file dependency tracking
-- Pattern detection framework
+- Pattern detection framework with hint-based optimization
 
 ### Phase 3: Advanced Context (Week 3)
-- Optimal context size determination
+- Adaptive context size determination using hints
 - Cross-file analysis implementation
-- Code pattern detection
+- Code pattern detection with category-specific rules
 - Syntax highlighting integration
 
 ### Phase 4: Optimization & Integration (Week 4)
 - Performance optimization and caching
 - Memory usage optimization
-- Integration testing with classifier
+- Integration testing with LLM Fix Generator
 - Error handling and edge cases
 
 ## Configuration
@@ -336,14 +374,14 @@ code_retriever:
 ## Integration Points
 
 ### Upstream Dependencies
-- Issue Parser (defect location information)
-- Issue Classifier (category-specific context hints)
+- Issue Parser (defect location information with classification hints)
 - Project file system access
+- Configuration system
 
 ### Downstream Consumers
-- Fix Planner (code context for strategy planning)
-- Fix Generator (source code for patch generation)
+- LLM Fix Generator (source code context for integrated analysis and patch generation)
 - Verification system (code context for validation)
+- Reporting system (context statistics and metrics)
 
 ## Success Metrics
 
@@ -351,6 +389,7 @@ code_retriever:
 - **Coverage**: Extract meaningful context for >95% of defects
 - **Performance**: <500ms average context extraction time
 - **Completeness**: Include all relevant dependencies for >90% of cases
+- **Adaptive Efficiency**: >15% improvement in context relevance using classification hints
 
 ## Language Support
 
