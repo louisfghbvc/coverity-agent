@@ -7,4 +7,5 @@ requests>=2.28.0  # For NVIDIA NIM API integration
 
 # Development and testing dependencies
 pytest>=7.0.0
-pytest-cov>=4.0.0 
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0  # For mocking NIM API calls 

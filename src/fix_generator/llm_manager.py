@@ -12,8 +12,8 @@ import requests
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
 
-from ..issue_parser.data_structures import ParsedDefect
-from ..code_retriever.data_structures import CodeContext
+from issue_parser.data_structures import ParsedDefect
+from code_retriever.data_structures import CodeContext
 from .data_structures import (
     DefectAnalysisResult, FixCandidate, NIMMetadata, 
     FixComplexity, DefectSeverity, GenerationStatistics

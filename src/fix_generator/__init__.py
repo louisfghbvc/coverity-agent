@@ -5,6 +5,14 @@ This module provides the central AI-powered component for analyzing Coverity def
 and generating code fixes using NVIDIA Inference Microservices.
 """
 
+import sys
+import os
+
+# Add src directory to Python path for proper imports
+src_path = os.path.join(os.path.dirname(os.path.dirname(__file__)))
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
+
 from .llm_manager import UnifiedLLMManager, NIMAPIException
 from .data_structures import (
     DefectAnalysisResult, FixCandidate, NIMMetadata, GenerationStatistics,

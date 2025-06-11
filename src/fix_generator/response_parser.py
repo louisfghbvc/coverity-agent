@@ -16,7 +16,7 @@ from .data_structures import (
     DefectAnalysisResult, FixCandidate, FixComplexity, 
     DefectSeverity, NIMMetadata
 )
-from ..issue_parser.data_structures import ParsedDefect
+from issue_parser.data_structures import ParsedDefect
 
 
 logger = logging.getLogger(__name__)

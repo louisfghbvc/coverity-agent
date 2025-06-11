@@ -11,7 +11,7 @@ from typing import Dict, List, Any, Optional, Tuple
 from dataclasses import dataclass
 from collections import Counter
 
-from ..code_retriever.data_structures import CodeContext
+from code_retriever.data_structures import CodeContext
 from .data_structures import FixCandidate
 
 

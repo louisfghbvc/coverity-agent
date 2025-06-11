@@ -10,9 +10,21 @@ from typing import Dict, List, Any, Optional
 from dataclasses import dataclass
 from abc import ABC, abstractmethod
 
-from ..issue_parser.data_structures import ParsedDefect
-from ..code_retriever.data_structures import CodeContext
+from issue_parser.data_structures import ParsedDefect
+from code_retriever.data_structures import CodeContext
 from .config import AnalysisConfig
+
+
+def get_code_text(code_context: CodeContext) -> str:
+    """Helper function to extract source code text from CodeContext."""
+    return '\n'.join(code_context.primary_context.source_lines)
+
+
+def get_function_signature(code_context: CodeContext) -> str:
+    """Helper function to extract function signature from CodeContext."""
+    if code_context.function_context:
+        return code_context.function_context.signature or "Not available"
+    return "Not available"
 
 
 @dataclass
@@ -46,6 +58,10 @@ class PromptTemplate(ABC):
     
     def matches_defect(self, defect_type: str) -> bool:
         """Check if this template matches the given defect type."""
+        # Handle wildcard for generic template
+        if "*" in self.defect_types:
+            return True
+        
         defect_lower = defect_type.lower()
         return any(dt.lower() in defect_lower for dt in self.defect_types)
 
@@ -115,11 +131,11 @@ DEFECT TRACE:
 
 CODE CONTEXT:
 ```c
-{code_context.context_code}
+{get_code_text(code_context)}
 ```
 
 FUNCTION SIGNATURE:
-{code_context.function_signature or "Not available"}
+{get_function_signature(code_context)}
 
 ANALYSIS REQUIREMENTS:
 1. Identify the exact line where null dereference occurs
@@ -172,7 +188,7 @@ DEFECT TRACE:
 
 CODE CONTEXT:
 ```c
-{code_context.context_code}
+{get_code_text(code_context)}
 ```
 
 ANALYSIS REQUIREMENTS:
@@ -225,7 +241,7 @@ DEFECT TRACE:
 
 CODE CONTEXT:
 ```c
-{code_context.context_code}
+{get_code_text(code_context)}
 ```
 
 ANALYSIS REQUIREMENTS:
@@ -278,7 +294,7 @@ DEFECT TRACE:
 
 CODE CONTEXT:
 ```c
-{code_context.context_code}
+{get_code_text(code_context)}
 ```
 
 ANALYSIS REQUIREMENTS:
@@ -356,11 +372,11 @@ DEFECT TRACE:
 
 CODE CONTEXT:
 ```c
-{code_context.context_code}
+{get_code_text(code_context)}
 ```
 
 FUNCTION SIGNATURE:
-{code_context.function_signature or "Not available"}
+{get_function_signature(code_context)}
 
 ANALYSIS REQUIREMENTS:
 1. Understand the specific defect type and its characteristics
