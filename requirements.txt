@@ -3,6 +3,7 @@
 # Core dependencies
 pyyaml>=5.4.0
 chardet>=5.0.0  # For file encoding detection in Code Retriever
+requests>=2.28.0  # For NVIDIA NIM API integration
 
 # Development and testing dependencies
 pytest>=7.0.0

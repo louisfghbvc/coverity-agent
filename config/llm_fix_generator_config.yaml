@@ -1,0 +1,105 @@
+# LLM Fix Generator Configuration with NVIDIA NIM Integration
+# Sample configuration file - customize for your environment
+
+llm_fix_generator:
+  # Provider Configuration
+  providers:
+    primary: "nvidia_nim"
+    fallback: ["local_nim"]
+  
+  # Provider-specific configurations
+  providers_config:
+    nvidia_nim:
+      base_url: "${NIM_API_ENDPOINT}"  # Set this environment variable
+      api_key: "${NIM_API_KEY}"        # Set this environment variable
+      model: "codellama-13b-instruct"  # Or your preferred NIM model
+      max_tokens: 2000
+      temperature: 0.1
+      timeout: 30
+      use_streaming: false
+      retry_attempts: 3
+      retry_delay: 1.0
+      max_requests_per_minute: 60
+      estimated_cost_per_1k_tokens: 0.002  # Adjust based on your NIM pricing
+    
+    local_nim:
+      base_url: "${LOCAL_NIM_ENDPOINT}" # e.g., "http://localhost:8000"
+      api_key: "${LOCAL_NIM_API_KEY}"   # Local API key if required
+      model: "codellama-7b-instruct"    # Smaller model for local deployment
+      max_tokens: 1500
+      temperature: 0.1
+      timeout: 60
+      use_streaming: false
+      retry_attempts: 2
+      retry_delay: 2.0
+      max_requests_per_minute: 30
+      estimated_cost_per_1k_tokens: null  # No cost for local deployment
+  
+  # Analysis Configuration
+  analysis:
+    generate_multiple_candidates: true
+    num_candidates: 3
+    include_reasoning_trace: true
+    enable_defect_categorization: true
+    confidence_threshold: 0.6
+    include_severity_assessment: true
+    max_context_lines: 50
+    include_function_signature: true
+    include_surrounding_code: true
+  
+  # Quality Control Configuration
+  quality:
+    enforce_style_consistency: true
+    style_consistency_threshold: 0.6
+    validate_syntax: true
+    safety_checks: true
+    require_explanation: true
+    max_files_per_fix: 3
+    max_lines_per_fix: 100
+    min_confidence_for_auto_apply: 0.8
+    min_style_score_for_auto_apply: 0.7
+  
+  # Optimization Configuration
+  optimization:
+    cache_similar_defects: true
+    cache_duration_hours: 24
+    cache_max_size: 1000
+    token_limit_per_defect: 2000
+    enable_prompt_compression: true
+    context_window_optimization: true
+    enable_performance_tracking: true
+    log_token_usage: true
+    track_generation_time: true
+    max_cost_per_defect: 1.0
+    daily_cost_limit: 100.0
+  
+  # Logging and Debug Configuration
+  log_level: "INFO"          # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  debug_mode: false          # Set to true for detailed debugging
+  save_raw_responses: false  # Set to true to save raw NIM responses for analysis
+
+# Environment Variables to Set:
+# 
+# Required for NVIDIA NIM:
+#   export NIM_API_ENDPOINT="https://your-nim-endpoint.com/v1/chat/completions"
+#   export NIM_API_KEY="your-nvidia-nim-api-key"
+#
+# Optional for local NIM fallback:
+#   export LOCAL_NIM_ENDPOINT="http://localhost:8000/v1/chat/completions"
+#   export LOCAL_NIM_API_KEY="local-api-key-if-needed"
+#
+# Model selection (optional, defaults shown above):
+#   export NIM_MODEL="codellama-13b-instruct"
+#   export LOCAL_NIM_MODEL="codellama-7b-instruct"
+
+# Usage Example:
+# from src.fix_generator import LLMFixGenerator
+# 
+# # Load from this config file
+# generator = LLMFixGenerator.create_with_config_file("config/llm_fix_generator_config.yaml")
+# 
+# # Or use default configuration
+# generator = LLMFixGenerator.create_default()
+# 
+# # Analyze a defect
+# result = generator.analyze_and_fix(parsed_defect, code_context) 

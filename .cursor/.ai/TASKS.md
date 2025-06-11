@@ -22,3 +22,7 @@
 - [x] **ID 6: Implement Code Retriever Core Components** (Priority: high)
 > Dependencies: 3
 > Implement the Code Retriever component to extract relevant source code context around defects for LLM Fix Generator. This includes source file management, function-level context extraction, language detection, and integration with classification hints from Issue Parser.
+
+- [x] **ID 7: Implement LLM Fix Generator with NVIDIA NIM Integration** (Priority: critical)
+> Dependencies: 3, 6
+> Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component replaces separate classification and fix planning by leveraging NIM for end-to-end defect analysis and resolution with advanced prompt engineering and multi-candidate generation.
