@@ -2,6 +2,7 @@
 
 # Core dependencies
 pyyaml>=5.4.0
+chardet>=5.0.0  # For file encoding detection in Code Retriever
 
 # Development and testing dependencies
 pytest>=7.0.0
