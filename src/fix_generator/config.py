@@ -2,7 +2,7 @@
 Configuration management for LLM Fix Generator with NVIDIA NIM integration.
 
 This module provides configuration classes and validation for NIM providers,
-prompt engineering, and fix generation parameters.
+prompt engineering, and fix generation parameters with dotenv support.
 """
 
 import os
@@ -10,6 +10,17 @@ import yaml
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
 from pathlib import Path
+
+# Import dotenv with fallback for environments where it's not available
+try:
+    from dotenv import load_dotenv
+    DOTENV_AVAILABLE = True
+except ImportError:
+    DOTENV_AVAILABLE = False
+    
+    def load_dotenv(*args, **kwargs):
+        """Fallback function when python-dotenv is not available."""
+        pass
 
 
 @dataclass
@@ -38,6 +49,10 @@ class NIMProviderConfig:
         if not self.base_url:
             raise ValueError(f"Base URL is required for provider {self.name}")
         
+        # Skip API key validation if _skip_validation flag is set (for testing)
+        if hasattr(self, '_skip_validation') and self._skip_validation:
+            return
+            
         if not self.api_key:
             raise ValueError(f"API key is required for provider {self.name}")
         
@@ -202,8 +217,42 @@ class LLMFixGeneratorConfig:
             raise ValueError(f"Invalid log level: {self.log_level}")
     
     @classmethod
-    def from_yaml_file(cls, config_path: str) -> 'LLMFixGeneratorConfig':
-        """Load configuration from YAML file."""
+    def load_environment_variables(cls, env_file_path: Optional[str] = None) -> None:
+        """
+        Load environment variables from .env file using python-dotenv.
+        
+        Args:
+            env_file_path: Path to .env file. If None, looks for .env in current directory.
+        """
+        if not DOTENV_AVAILABLE:
+            import warnings
+            warnings.warn("python-dotenv not available. Environment variables must be set manually.")
+            return
+        
+        if env_file_path is None:
+            env_file_path = ".env"
+        
+        env_path = Path(env_file_path)
+        if env_path.exists():
+            load_dotenv(env_path)
+            print(f"✅ Loaded environment variables from {env_file_path}")
+        else:
+            print(f"⚠️  Environment file {env_file_path} not found. Using system environment variables.")
+    
+    @classmethod
+    def from_yaml_file(cls, config_path: str, load_env: bool = True, 
+                       env_file_path: Optional[str] = None) -> 'LLMFixGeneratorConfig':
+        """
+        Load configuration from YAML file with optional environment variable loading.
+        
+        Args:
+            config_path: Path to YAML configuration file
+            load_env: Whether to load environment variables from .env file
+            env_file_path: Path to .env file (defaults to .env in current directory)
+        """
+        if load_env:
+            cls.load_environment_variables(env_file_path)
+        
         config_file = Path(config_path)
         if not config_file.exists():
             raise FileNotFoundError(f"Configuration file not found: {config_path}")
@@ -243,37 +292,155 @@ class LLMFixGeneratorConfig:
         )
     
     @classmethod
-    def create_default(cls) -> 'LLMFixGeneratorConfig':
-        """Create a default configuration with NVIDIA NIM setup."""
-        # Default NVIDIA NIM provider
+    def create_default(cls, skip_validation: bool = False) -> 'LLMFixGeneratorConfig':
+        """Create a default configuration with standard settings."""
+        # Default provider configurations
+        api_key = "test-key-placeholder" if skip_validation else ""
+        
         nvidia_nim = NIMProviderConfig(
             name="nvidia_nim",
-            base_url=os.getenv("NIM_API_ENDPOINT", "https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions"),
-            api_key=os.getenv("NIM_API_KEY", ""),
-            model=os.getenv("NIM_MODEL", "codellama-13b-instruct"),
-            max_tokens=2000,
+            base_url="https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions",
+            api_key=api_key,
+            model="meta/llama-3.1-8b-instruct",
+            max_tokens=4096,
             temperature=0.1,
-            timeout=30
+            use_streaming=False,
+            retry_attempts=3,
+            retry_delay=1.0,
+            max_requests_per_minute=60
         )
         
-        # Local NIM fallback
-        local_nim = NIMProviderConfig(
-            name="local_nim",
-            base_url=os.getenv("LOCAL_NIM_ENDPOINT", "http://localhost:8000"),
-            api_key=os.getenv("LOCAL_NIM_API_KEY", "local"),
-            model=os.getenv("LOCAL_NIM_MODEL", "codellama-7b-instruct"),
-            max_tokens=1500,
-            temperature=0.1,
-            timeout=60
+        # Temporarily disable validation for test configs
+        if skip_validation:
+            nvidia_nim.__dict__['_skip_validation'] = True
+        
+        return cls(
+            providers={"nvidia_nim": nvidia_nim},
+            primary_provider="nvidia_nim",
+            fallback_providers=[],
+            analysis=AnalysisConfig(),
+            quality=QualityConfig(),
+            optimization=OptimizationConfig(),
+            log_level="INFO",
+            debug_mode=False,
+            save_raw_responses=False
+        )
+    
+    @classmethod  
+    def create_test_default(cls) -> 'LLMFixGeneratorConfig':
+        """Create a test-friendly default configuration."""
+        return cls.create_default(skip_validation=True)
+    
+    @classmethod
+    def create_from_env(cls, env_file_path: Optional[str] = None) -> 'LLMFixGeneratorConfig':
+        """
+        Create configuration from environment variables using dotenv.
+        
+        Args:
+            env_file_path: Path to .env file. If None, looks for .env in current directory.
+        """
+        # Load environment variables
+        cls.load_environment_variables(env_file_path)
+        
+        # Create NVIDIA NIM provider config from environment
+        nvidia_nim = NIMProviderConfig(
+            name="nvidia_nim",
+            base_url=os.getenv('NVIDIA_NIM_BASE_URL', 'https://integrate.api.nvidia.com/v1'),
+            api_key=os.getenv('NVIDIA_NIM_API_KEY', ''),
+            model=os.getenv('NVIDIA_NIM_MODEL', 'meta/llama-3.1-405b-instruct'),
+            max_tokens=int(os.getenv('NVIDIA_NIM_MAX_TOKENS', '2000')),
+            temperature=float(os.getenv('NVIDIA_NIM_TEMPERATURE', '0.1')),
+            timeout=int(os.getenv('NVIDIA_NIM_TIMEOUT', '30')),
+            use_streaming=False,
+            retry_attempts=int(os.getenv('NIM_RETRY_ATTEMPTS', '3')),
+            retry_delay=float(os.getenv('NIM_RETRY_DELAY', '1.0')),
+            max_requests_per_minute=int(os.getenv('NIM_MAX_REQUESTS_PER_MINUTE', '60')),
+            estimated_cost_per_1k_tokens=float(os.getenv('NIM_COST_PER_1K_TOKENS', '0.01'))
+        )
+        
+        # Create fallback providers if configured
+        providers = {"nvidia_nim": nvidia_nim}
+        fallback_providers = []
+        
+        # Add OpenAI if configured
+        openai_key = os.getenv('OPENAI_API_KEY')
+        if openai_key:
+            providers["openai"] = NIMProviderConfig(
+                name="openai",
+                base_url="https://api.openai.com/v1",
+                api_key=openai_key,
+                model="gpt-4",
+                max_tokens=2000,
+                temperature=0.1,
+                timeout=30
+            )
+            fallback_providers.append("openai")
+        
+        # Add Anthropic if configured
+        anthropic_key = os.getenv('ANTHROPIC_API_KEY')
+        if anthropic_key:
+            providers["anthropic"] = NIMProviderConfig(
+                name="anthropic",
+                base_url="https://api.anthropic.com/v1",
+                api_key=anthropic_key,
+                model="claude-3-sonnet-20240229",
+                max_tokens=2000,
+                temperature=0.1,
+                timeout=30
+            )
+            fallback_providers.append("anthropic")
+        
+        # Create analysis config from environment
+        analysis_config = AnalysisConfig(
+            generate_multiple_candidates=os.getenv('ENABLE_MULTIPLE_CANDIDATES', 'true').lower() == 'true',
+            num_candidates=int(os.getenv('NUM_FIX_CANDIDATES', '3')),
+            confidence_threshold=float(os.getenv('CONFIDENCE_THRESHOLD', '0.7')),
+            max_context_lines=int(os.getenv('MAX_CONTEXT_LINES', '50')),
+            include_reasoning_trace=True,
+            enable_defect_categorization=True,
+            include_severity_assessment=True,
+            include_function_signature=True,
+            include_surrounding_code=True
+        )
+        
+        # Create quality config from environment  
+        quality_config = QualityConfig(
+            enforce_style_consistency=os.getenv('ENFORCE_STYLE_CONSISTENCY', 'true').lower() == 'true',
+            validate_syntax=os.getenv('VALIDATE_SYNTAX', 'true').lower() == 'true',
+            safety_checks=os.getenv('SAFETY_CHECKS', 'true').lower() == 'true',
+            max_files_per_fix=int(os.getenv('MAX_FILES_PER_FIX', '3')),
+            min_confidence_for_auto_apply=float(os.getenv('MIN_CONFIDENCE_FOR_AUTO_APPLY', '0.8')),
+            min_style_score_for_auto_apply=float(os.getenv('MIN_STYLE_SCORE_FOR_AUTO_APPLY', '0.7')),
+            require_explanation=True,
+            style_consistency_threshold=0.6,
+            max_lines_per_fix=100
+        )
+        
+        # Create optimization config from environment
+        optimization_config = OptimizationConfig(
+            cache_similar_defects=os.getenv('CACHE_SIMILAR_DEFECTS', 'true').lower() == 'true',
+            cache_max_size=int(os.getenv('CACHE_MAX_SIZE', '1000')),
+            token_limit_per_defect=int(os.getenv('TOKEN_LIMIT_PER_DEFECT', '2000')),
+            enable_prompt_compression=os.getenv('ENABLE_PROMPT_COMPRESSION', 'true').lower() == 'true',
+            enable_performance_tracking=os.getenv('ENABLE_PERFORMANCE_TRACKING', 'true').lower() == 'true',
+            max_cost_per_defect=float(os.getenv('MAX_COST_PER_DEFECT', '0.50')),
+            daily_cost_limit=float(os.getenv('DAILY_COST_LIMIT', '100.0')) if os.getenv('DAILY_COST_LIMIT') else None,
+            cache_duration_hours=24,
+            log_token_usage=True,
+            track_generation_time=True,
+            context_window_optimization=True
         )
         
         return cls(
-            providers={
-                "nvidia_nim": nvidia_nim,
-                "local_nim": local_nim
-            },
+            providers=providers,
             primary_provider="nvidia_nim",
-            fallback_providers=["local_nim"]
+            fallback_providers=fallback_providers,
+            analysis=analysis_config,
+            quality=quality_config,
+            optimization=optimization_config,
+            log_level=os.getenv('LOG_LEVEL', 'INFO'),
+            debug_mode=os.getenv('DEBUG_MODE', 'false').lower() == 'true',
+            save_raw_responses=os.getenv('SAVE_RAW_RESPONSES', 'false').lower() == 'true'
         )
     
     def get_provider_config(self, provider_name: str) -> NIMProviderConfig:
@@ -294,6 +461,92 @@ class LLMFixGeneratorConfig:
                 errors.append(f"Base URL not set for provider '{provider_name}'")
         
         return errors
+    
+    def validate_nvidia_nim_environment(self) -> List[str]:
+        """
+        Validate that required NVIDIA NIM environment variables are set.
+        
+        Returns:
+            List of validation error messages
+        """
+        errors = []
+        
+        # Check required NVIDIA NIM variables
+        required_vars = {
+            'NVIDIA_NIM_API_KEY': 'NVIDIA NIM API key is required',
+            'NVIDIA_NIM_BASE_URL': 'NVIDIA NIM base URL is required',
+            'NVIDIA_NIM_MODEL': 'NVIDIA NIM model is required'
+        }
+        
+        for var_name, error_msg in required_vars.items():
+            value = os.getenv(var_name)
+            if not value or value.strip() == '' or value == 'your_nim_api_token_here':
+                errors.append(error_msg)
+        
+        # Check optional but recommended variables
+        optional_vars = {
+            'NVIDIA_NIM_MAX_TOKENS': 'Maximum tokens setting',
+            'NVIDIA_NIM_TEMPERATURE': 'Temperature setting',
+            'NVIDIA_NIM_TIMEOUT': 'Timeout setting'
+        }
+        
+        warnings = []
+        for var_name, desc in optional_vars.items():
+            value = os.getenv(var_name)
+            if not value:
+                warnings.append(f"Optional: {desc} not set, using default")
+        
+        if warnings:
+            print("⚠️  Configuration warnings:")
+            for warning in warnings:
+                print(f"   - {warning}")
+        
+        return errors
+    
+    @staticmethod
+    def test_nvidia_nim_connection() -> bool:
+        """
+        Test if NVIDIA NIM connection can be established with current environment.
+        
+        Returns:
+            True if connection test passes, False otherwise
+        """
+        try:
+            import requests
+            
+            api_key = os.getenv('NVIDIA_NIM_API_KEY')
+            base_url = os.getenv('NVIDIA_NIM_BASE_URL')
+            
+            if not api_key or not base_url:
+                print("❌ NVIDIA NIM API key or base URL not configured")
+                return False
+            
+            # Simple connectivity test (without making actual API call)
+            headers = {
+                'Authorization': f'Bearer {api_key}',
+                'Content-Type': 'application/json'
+            }
+            
+            # Test basic connectivity (this might need adjustment based on actual NIM API)
+            response = requests.get(
+                f"{base_url.rstrip('/')}/health",  # Health endpoint if available
+                headers=headers,
+                timeout=5
+            )
+            
+            if response.status_code == 200:
+                print("✅ NVIDIA NIM connection test passed")
+                return True
+            else:
+                print(f"⚠️  NVIDIA NIM connection test returned status {response.status_code}")
+                return False
+        
+        except requests.exceptions.RequestException as e:
+            print(f"❌ NVIDIA NIM connection test failed: {e}")
+            return False
+        except Exception as e:
+            print(f"❌ NVIDIA NIM connection test error: {e}")
+            return False
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert configuration to dictionary."""

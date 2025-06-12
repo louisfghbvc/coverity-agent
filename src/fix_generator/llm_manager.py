@@ -197,7 +197,25 @@ class UnifiedLLMManager:
     and response parsing for the complete defect analysis pipeline.
     """
     
-    def __init__(self, config: LLMFixGeneratorConfig):
+    def __init__(self, config: Optional[LLMFixGeneratorConfig] = None, 
+                 env_file_path: Optional[str] = None):
+        """
+        Initialize UnifiedLLMManager with configuration.
+        
+        Args:
+            config: LLMFixGeneratorConfig instance. If None, loads from environment
+            env_file_path: Path to .env file for environment-based configuration
+        """
+        if config is None:
+            # Load configuration from environment variables
+            config = LLMFixGeneratorConfig.create_from_env(env_file_path)
+            
+            # Validate environment configuration
+            env_errors = config.validate_nvidia_nim_environment()
+            if env_errors:
+                error_msg = "NVIDIA NIM environment validation failed:\n" + "\n".join(f"  - {error}" for error in env_errors)
+                raise ValueError(error_msg)
+        
         self.config = config
         self.prompt_engineer = PromptEngineer(config.analysis)
         self.statistics = GenerationStatistics()
@@ -205,11 +223,32 @@ class UnifiedLLMManager:
         # Initialize providers
         self.providers = {}
         for name, provider_config in config.providers.items():
-            self.providers[name] = NIMProvider(provider_config)
+            try:
+                self.providers[name] = NIMProvider(provider_config)
+                logger.info(f"Initialized provider: {name}")
+            except Exception as e:
+                logger.error(f"Failed to initialize provider {name}: {e}")
+                # Don't fail initialization if fallback providers fail
+                if name != config.primary_provider:
+                    continue
+                raise
         
         # Setup logging
         logging.basicConfig(level=getattr(logging, config.log_level))
         logger.setLevel(getattr(logging, config.log_level))
+        
+        logger.info(f"UnifiedLLMManager initialized with primary provider: {config.primary_provider}")
+        logger.info(f"Available fallback providers: {config.fallback_providers}")
+    
+    @classmethod
+    def create_from_env(cls, env_file_path: Optional[str] = None) -> 'UnifiedLLMManager':
+        """
+        Create UnifiedLLMManager from environment variables.
+        
+        Args:
+            env_file_path: Path to .env file. If None, looks for .env in current directory.
+        """
+        return cls(config=None, env_file_path=env_file_path)
     
     def _get_provider_chain(self) -> List[str]:
         """Get the chain of providers to try (primary + fallbacks)."""

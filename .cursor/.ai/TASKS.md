@@ -25,4 +25,4 @@
 
 - [x] **ID 7: Implement LLM Fix Generator with NVIDIA NIM Integration** (Priority: critical)
 > Dependencies: 3, 6
-> Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component replaces separate classification and fix planning by leveraging NIM for end-to-end defect analysis and resolution with advanced prompt engineering and multi-candidate generation.
+> Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component leverages dotenv-based configuration management for secure API token handling, with NIM as primary provider and OpenAI/Anthropic fallbacks. Features include advanced prompt engineering optimized for NIM models, multi-candidate generation, and comprehensive cost optimization strategies.

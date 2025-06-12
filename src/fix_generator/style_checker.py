@@ -73,11 +73,11 @@ class StyleAnalyzer:
     
     def analyze_style(self, code_context: CodeContext) -> StyleProfile:
         """Analyze code context to determine style profile."""
-        if not code_context.context_code:
+        if not code_context.primary_context.source_lines:
             return StyleProfile(confidence=0.0)
         
-        code = code_context.context_code
-        lines = code.split('\n')
+        lines = code_context.primary_context.source_lines
+        code = '\n'.join(lines)
         
         profile = StyleProfile()
         
@@ -346,25 +346,33 @@ class StyleApplier:
             line = lines[i]
             stripped = line.strip()
             
-            # Check for control structures with braces
-            if any(keyword in stripped for keyword in ['if', 'for', 'while', 'else']) and '{' in stripped:
-                if profile.brace_style == 'allman':
-                    # Move opening brace to next line
-                    if stripped.endswith('{'):
-                        control_part = stripped[:-1].rstrip()
-                        indent = line[:len(line) - len(line.lstrip())]
-                        result.append(indent + control_part)
-                        result.append(indent + '{')
-                    else:
-                        result.append(line)
-                elif profile.brace_style == 'k&r':
-                    # Keep opening brace on same line
-                    if i + 1 < len(lines) and lines[i + 1].strip() == '{':
-                        # Merge with next line
-                        result.append(line + ' {')
+            # Check for control structures 
+            control_keywords = ['if', 'for', 'while', 'else', 'switch']
+            has_control = any(keyword in stripped for keyword in control_keywords)
+            
+            # Also check for function declarations (patterns ending with parentheses)
+            if not has_control and ')' in stripped and not stripped.endswith(';'):
+                has_control = True
+            
+            if profile.brace_style == 'k&r' and has_control:
+                # Convert Allman to K&R: move opening brace to same line
+                if not stripped.endswith('{') and i + 1 < len(lines):
+                    next_line = lines[i + 1].strip()
+                    if next_line == '{':
+                        # Merge the control line with the opening brace
+                        result.append(line.rstrip() + ' {')
                         i += 1  # Skip the standalone brace line
                     else:
                         result.append(line)
+                else:
+                    result.append(line)
+            elif profile.brace_style == 'allman' and has_control and '{' in stripped:
+                # Convert K&R to Allman: move opening brace to next line
+                if stripped.endswith('{'):
+                    control_part = stripped[:-1].rstrip()
+                    indent = line[:len(line) - len(line.lstrip())]
+                    result.append(indent + control_part)
+                    result.append(indent + '{')
                 else:
                     result.append(line)
             else:
@@ -387,9 +395,14 @@ class StyleApplier:
             else:
                 modified_line = re.sub(r'\b(if|for|while|switch)\s+\(', r'\1(', modified_line)
             
-            # Space around operators
+            # Space around operators - improved regex patterns
             if profile.space_around_operators:
-                modified_line = re.sub(r'(\w)([+\-*/=])(\w)', r'\1 \2 \3', modified_line)
+                # Handle assignment operators
+                modified_line = re.sub(r'(\w)\s*=\s*(\w)', r'\1 = \2', modified_line)
+                # Handle comparison operators
+                modified_line = re.sub(r'(\w)\s*([!=]=|[<>]=?)\s*(\w)', r'\1 \2 \3', modified_line)
+                # Handle arithmetic operators
+                modified_line = re.sub(r'(\w)\s*([+\-*/%])\s*(\w)', r'\1 \2 \3', modified_line)
             else:
                 modified_line = re.sub(r'(\w)\s*([+\-*/=])\s*(\w)', r'\1\2\3', modified_line)
             

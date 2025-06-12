@@ -16,33 +16,39 @@ error_log: null
 
 ## Description
 
-Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component replaces separate classification and fix planning by leveraging NIM for end-to-end defect analysis and resolution with advanced prompt engineering and multi-candidate generation.
+Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component leverages dotenv-based configuration management for secure API token handling, with NIM as primary provider and OpenAI/Anthropic fallbacks. Features include advanced prompt engineering optimized for NIM models, multi-candidate generation, and comprehensive cost optimization strategies.
 
 ## Details
 
 ### Core Implementation Requirements
 
-- **NVIDIA NIM Integration**: Replace OpenAI/Anthropic APIs with NVIDIA Inference Microservices for LLM operations
+- **NVIDIA NIM Integration**: Primary provider using NVIDIA Inference Microservices with OpenAI-compatible API interface
+- **Dotenv Configuration Management**: Secure API token handling via .env files with python-dotenv integration
+- **Multi-Provider Fallback**: Primary NIM provider with OpenAI/Anthropic fallback for reliability
+- **Environment Variable Security**: Runtime configuration loading with validation and secure token handling
 - **Unified Defect Analysis**: Single NIM call for both classification and fix generation to optimize performance and context
-- **Multi-Provider Support**: Primary NIM provider with fallback mechanisms for reliability
-- **Advanced Prompt Engineering**: Defect-specific prompt templates optimized for different Coverity defect types
+- **NIM-Optimized Prompt Engineering**: Defect-specific prompt templates optimized for NVIDIA NIM models (Llama, Mistral, CodeLlama)
 - **Multi-Candidate Generation**: Generate 2-3 fix approaches with confidence scoring and explanations
 - **Code Style Consistency**: Analyze existing codebase style and maintain consistency in generated fixes
-- **Security Validation**: Built-in safety checks for generated code patches
+- **Cost Optimization**: NIM-specific pricing advantages and token usage optimization
+- **Security Validation**: Built-in safety checks for generated code patches and secure API token management
 
 ### Key Components to Implement
 
-1. **UnifiedLLMManager with NIM Integration**
-   - NVIDIA NIM API client and authentication
-   - Provider abstraction layer supporting multiple NIM endpoints
-   - Fallback mechanisms and error handling
-   - Token usage optimization and cost tracking
+1. **UnifiedNIMManager with Environment Configuration**
+   - Dotenv-based configuration loading with python-dotenv integration
+   - NVIDIA NIM API client using OpenAI-compatible interface
+   - Environment variable validation and secure token handling
+   - Multi-provider abstraction (NIM primary, OpenAI/Anthropic fallback)
+   - Fallback mechanisms and comprehensive error handling
+   - NIM-specific token usage optimization and cost tracking
 
-2. **Prompt Engineering Framework**
-   - Template system for different defect categories (null_pointer, memory_leak, buffer_overflow, etc.)
-   - Context-aware prompt generation with code snippets
-   - Structured response formatting for consistent parsing
-   - Defect-specific analysis guidelines
+2. **NIM-Optimized Prompt Engineering Framework**
+   - Template system for different defect categories with NIM model optimization
+   - Chat-style prompt formatting for NVIDIA NIM models (system/user/assistant)
+   - Context-aware prompt generation with code snippets and language detection
+   - Structured JSON response formatting for consistent parsing
+   - Defect-specific analysis guidelines optimized for Llama/Mistral/CodeLlama models
 
 3. **DefectAnalysisResult Data Structure**
    - Integrated classification and fix generation results
@@ -56,7 +62,13 @@ Implement the central AI-powered component that analyzes defects, performs intel
    - Quality scoring and confidence thresholds
    - Fallback result generation for parsing failures
 
-5. **Style Consistency Checker**
+5. **NvidiaProvider Implementation**
+   - OpenAI-compatible API client for NVIDIA NIM integration
+   - NIM-specific authentication and request handling
+   - Error handling and retry logic for NIM API failures
+   - Performance monitoring and cost tracking for NIM usage
+
+6. **Style Consistency Checker**
    - Code style analysis from existing codebase context
    - Style hint application to generated fixes
    - Indentation, naming convention, and formatting consistency
@@ -64,32 +76,68 @@ Implement the central AI-powered component that analyzes defects, performs intel
 
 ### NIM-Specific Implementation Details
 
-- **API Integration**: Use NVIDIA NIM REST API or Python SDK for model inference
-- **Model Selection**: Support for code-generation optimized models (CodeLlama, CodeT5, etc.)
-- **Endpoint Configuration**: Configurable NIM deployment endpoints (cloud/on-premise)
-- **Authentication**: API key or JWT token management for NIM services
-- **Rate Limiting**: Respect NIM API limits and implement proper backoff strategies
+- **Environment Configuration**: Dotenv-based configuration with python-dotenv for secure token loading
+- **API Integration**: NVIDIA NIM REST API using OpenAI-compatible client interface
+- **Model Selection**: Support for NVIDIA NIM models (Llama 3.1, Mistral, CodeLlama, etc.)
+- **Endpoint Configuration**: Environment-driven NIM deployment endpoints (cloud/on-premise)
+- **Authentication**: Secure API key management via .env files with validation
+- **Rate Limiting**: NIM API limits with intelligent backoff and fallback strategies
+- **Cost Optimization**: NIM-specific pricing advantages and token usage monitoring
 
 ### Configuration Requirements
 
+#### Environment Variables (.env file)
+```bash
+# .env file for NVIDIA NIM configuration
+NVIDIA_NIM_API_KEY=your_nim_api_token_here
+NVIDIA_NIM_BASE_URL=https://integrate.api.nvidia.com/v1
+NVIDIA_NIM_MODEL=meta/llama-3.1-405b-instruct
+NVIDIA_NIM_MAX_TOKENS=2000
+NVIDIA_NIM_TEMPERATURE=0.1
+NVIDIA_NIM_TIMEOUT=30
+
+# Fallback provider configurations (optional)
+OPENAI_API_KEY=your_openai_key_here
+ANTHROPIC_API_KEY=your_anthropic_key_here
+
+# Pipeline configuration
+DEFECT_ANALYSIS_CACHE_DURATION=24h
+ENABLE_MULTIPLE_CANDIDATES=true
+NUM_FIX_CANDIDATES=3
+CONFIDENCE_THRESHOLD=0.7
+```
+
+#### YAML Configuration Integration
 ```yaml
 llm_fix_generator:
+  # Environment-driven configuration
+  load_from_env: true
+  env_file_path: ".env"
+  
   providers:
     primary: "nvidia_nim"
-    fallback: ["local_nim", "backup_nim"]
-  
+    fallback: ["openai", "anthropic"]
+    
   nvidia_nim:
-    base_url: "${NIM_API_ENDPOINT}"
-    api_key: "${NIM_API_KEY}"
-    model: "codellama-13b-instruct"
+    # All values loaded from .env file
+    api_key: "${NVIDIA_NIM_API_KEY}"
+    base_url: "${NVIDIA_NIM_BASE_URL}"
+    model: "${NVIDIA_NIM_MODEL}"
+    max_tokens: "${NVIDIA_NIM_MAX_TOKENS}"
+    temperature: "${NVIDIA_NIM_TEMPERATURE}"
+    timeout: "${NVIDIA_NIM_TIMEOUT}"
+    
+  openai:
+    model: "gpt-4"
+    api_key: "${OPENAI_API_KEY}"
     max_tokens: 2000
     temperature: 0.1
     timeout: 30
-  
+    
   analysis:
-    generate_multiple_candidates: true
-    num_candidates: 3
-    confidence_threshold: 0.7
+    generate_multiple_candidates: "${ENABLE_MULTIPLE_CANDIDATES}"
+    num_candidates: "${NUM_FIX_CANDIDATES}"
+    confidence_threshold: "${CONFIDENCE_THRESHOLD}"
     include_reasoning_trace: true
   
   quality:
@@ -97,6 +145,15 @@ llm_fix_generator:
     validate_syntax: true
     safety_checks: true
     max_files_per_fix: 3
+```
+
+#### Dependencies
+```txt
+# requirements.txt additions for NIM integration
+python-dotenv>=1.0.0
+openai>=1.0.0  # For NIM compatibility
+requests>=2.31.0
+pydantic>=2.0.0
 ```
 
 ### Integration Points
@@ -111,38 +168,49 @@ llm_fix_generator:
 ```
 src/fix_generator/
 ├── __init__.py
-├── llm_manager.py          # UnifiedLLMManager with NIM integration
-├── prompt_engineering.py   # Advanced prompt templates and generation
+├── llm_manager.py          # UnifiedNIMManager with environment configuration
+├── prompt_engineering.py   # NIM-optimized prompt templates and generation
 ├── response_parser.py      # NIM response parsing and validation
 ├── style_checker.py        # Code style consistency enforcement
 ├── data_structures.py      # DefectAnalysisResult and related classes
-└── config.py              # Configuration management and validation
+└── config.py              # Configuration management with dotenv integration
+
+# Environment configuration
+.env                        # Environment variables for secure token management
+.env.example               # Example environment configuration
 ```
 
 ### Performance Requirements
 
 - Process 50+ defects per minute end-to-end
-- Maintain <10% NIM API failure rate with fallbacks
-- Optimize token usage for cost efficiency (<$1.00 per successful fix)
-- Average processing time <45 seconds per defect
+- Maintain <5% NIM API failure rate with fallback reliability
+- Optimize token usage for NIM cost efficiency (<$0.50 per successful fix)
+- Average processing time <30 seconds per defect with NIM optimization
+- >95% successful API calls to NVIDIA NIM
 - >85% successful defect resolution rate
+- 100% successful environment configuration loading
 
 ### Error Handling
 
-- NIM API failures with automatic fallback to secondary endpoints
+- Environment configuration failures with clear validation messages
+- Missing or invalid API tokens with secure error handling (no token exposure)
+- NIM API failures with automatic fallback to OpenAI/Anthropic providers
 - Invalid response parsing with structured error recovery
-- Network timeout handling with retry logic
+- Network timeout handling with exponential backoff retry logic
 - Token limit exceeded scenarios with prompt compression
-- Model unavailability with graceful degradation
+- Model unavailability with graceful degradation to fallback providers
+- Configuration drift detection and validation
 
 ## Test Strategy
 
 ### Unit Tests
-- NIM API integration and authentication
-- Prompt template generation for each defect type
-- Response parsing accuracy and error handling
+- Environment configuration loading with dotenv integration
+- NIM API integration and secure authentication handling
+- Prompt template generation optimized for NIM models
+- Response parsing accuracy and multi-strategy error handling
 - Style consistency checker validation
-- Multi-candidate generation logic
+- Multi-candidate generation logic with NIM optimization
+- Fallback provider switching and error recovery
 
 ### Integration Tests
 - End-to-end defect analysis with real Coverity output
@@ -157,11 +225,55 @@ src/fix_generator/
 - Concurrent request handling with NIM rate limits
 
 ### Success Criteria
-- All unit tests pass with >90% coverage
-- Integration tests demonstrate successful NIM communication
-- Performance tests meet specified throughput requirements
+- All unit tests pass with >90% coverage including environment configuration
+- Integration tests demonstrate successful NIM communication with fallback validation
+- Performance tests meet enhanced NIM-optimized throughput requirements
+- Environment setup validation with secure token handling verification
 - Generated fixes pass syntax validation and style consistency checks
-- Documentation includes NIM setup and configuration examples
+- Comprehensive documentation includes NIM setup, .env configuration, and troubleshooting
+- Cost optimization validation with NIM pricing advantages demonstrated
+
+## Environment Setup Requirements
+
+### 1. NVIDIA NIM API Token
+- Register at NVIDIA NGC (catalog.ngc.nvidia.com)
+- Generate API key for NIM services
+- Set up billing and usage limits
+- Obtain base URL for NIM API endpoints
+
+### 2. Environment Configuration
+```bash
+# Create .env file in project root
+cp .env.example .env
+
+# Edit .env with your NIM credentials
+NVIDIA_NIM_API_KEY=your_actual_token_here
+NVIDIA_NIM_BASE_URL=https://integrate.api.nvidia.com/v1
+NVIDIA_NIM_MODEL=meta/llama-3.1-405b-instruct
+```
+
+### 3. Configuration Validation
+```python
+# Test script to verify NIM integration
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+nim_token = os.getenv('NVIDIA_NIM_API_KEY')
+if nim_token:
+    print("✅ NVIDIA NIM token loaded successfully")
+else:
+    print("❌ NVIDIA NIM token not found in .env")
+```
+
+### 4. Dependencies Installation
+```bash
+pip install python-dotenv>=1.0.0
+pip install openai>=1.0.0  # For NIM compatibility
+pip install requests>=2.31.0
+pip install pydantic>=2.0.0
+```
 
 ## Agent Notes
 
