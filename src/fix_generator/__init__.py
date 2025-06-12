@@ -36,21 +36,34 @@ class LLMFixGenerator:
     - Performance monitoring and statistics
     """
     
-    def __init__(self, config: LLMFixGeneratorConfig = None):
+    def __init__(self, config: LLMFixGeneratorConfig = None, env_file_path: str = None):
         """
         Initialize the LLM Fix Generator.
         
         Args:
-            config: Configuration object. If None, creates default config.
+            config: Configuration object. If None and env_file_path provided, loads from environment.
+                   If both None, creates default config.
+            env_file_path: Path to .env file for environment-based configuration
         """
         if config is None:
-            config = LLMFixGeneratorConfig.create_default()
+            if env_file_path is not None:
+                # Load from environment variables
+                config = LLMFixGeneratorConfig.create_from_env(env_file_path)
+            else:
+                # Use default configuration
+                config = LLMFixGeneratorConfig.create_default()
         
         self.config = config
         self.llm_manager = UnifiedLLMManager(config)
         self.style_checker = StyleConsistencyChecker()
         
-        # Validate environment
+        # Validate environment if using NIM provider
+        if config.primary_provider == "nvidia_nim":
+            nim_errors = config.validate_nvidia_nim_environment()
+            if nim_errors:
+                raise ValueError(f"NVIDIA NIM configuration errors: {'; '.join(nim_errors)}")
+        
+        # General environment validation
         env_errors = config.validate_environment()
         if env_errors:
             raise ValueError(f"Configuration errors: {'; '.join(env_errors)}")
@@ -161,17 +174,33 @@ class LLMFixGenerator:
         analysis_result.safety_checks_passed = len(validation_errors) == 0
     
     @classmethod
-    def create_with_config_file(cls, config_path: str) -> 'LLMFixGenerator':
+    def create_from_env(cls, env_file_path: str = None) -> 'LLMFixGenerator':
+        """
+        Create LLM Fix Generator from environment variables using dotenv.
+        
+        Args:
+            env_file_path: Path to .env file. If None, looks for .env in current directory.
+            
+        Returns:
+            Configured LLMFixGenerator instance with dotenv-based configuration
+        """
+        return cls(config=None, env_file_path=env_file_path)
+    
+    @classmethod
+    def create_with_config_file(cls, config_path: str, load_env: bool = True, 
+                               env_file_path: str = None) -> 'LLMFixGenerator':
         """
         Create LLM Fix Generator from configuration file.
         
         Args:
             config_path: Path to YAML configuration file
+            load_env: Whether to load environment variables from .env file
+            env_file_path: Path to .env file (defaults to .env in current directory)
             
         Returns:
             Configured LLMFixGenerator instance
         """
-        config = LLMFixGeneratorConfig.from_yaml_file(config_path)
+        config = LLMFixGeneratorConfig.from_yaml_file(config_path, load_env, env_file_path)
         return cls(config)
     
     @classmethod

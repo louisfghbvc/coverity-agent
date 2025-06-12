@@ -1,18 +1,36 @@
 # LLM Fix Generator Configuration with NVIDIA NIM Integration
-# Sample configuration file - customize for your environment
+# This configuration demonstrates dotenv-based environment variable management
 
 llm_fix_generator:
-  # Provider Configuration
+  # Environment-driven configuration
+  load_from_env: true
+  env_file_path: ".env"
+  
+  # Provider configuration with fallback strategy
   providers:
     primary: "nvidia_nim"
-    fallback: ["local_nim"]
-  
-  # Provider-specific configurations
+    fallback: ["openai", "anthropic"]
+    
+  # Provider-specific configurations (loaded from environment variables)
   providers_config:
     nvidia_nim:
-      base_url: "${NIM_API_ENDPOINT}"  # Set this environment variable
-      api_key: "${NIM_API_KEY}"        # Set this environment variable
-      model: "codellama-13b-instruct"  # Or your preferred NIM model
+      # All values loaded from .env file
+      api_key: "${NVIDIA_NIM_API_KEY}"
+      base_url: "${NVIDIA_NIM_BASE_URL}"
+      model: "${NVIDIA_NIM_MODEL}"
+      max_tokens: "${NVIDIA_NIM_MAX_TOKENS}"
+      temperature: "${NVIDIA_NIM_TEMPERATURE}"
+      timeout: "${NVIDIA_NIM_TIMEOUT}"
+      use_streaming: false
+      retry_attempts: "${NIM_RETRY_ATTEMPTS}"
+      retry_delay: "${NIM_RETRY_DELAY}"
+      max_requests_per_minute: "${NIM_MAX_REQUESTS_PER_MINUTE}"
+      estimated_cost_per_1k_tokens: 0.01
+      
+    openai:
+      api_key: "${OPENAI_API_KEY}"
+      base_url: "https://api.openai.com/v1"
+      model: "gpt-4"
       max_tokens: 2000
       temperature: 0.1
       timeout: 30
@@ -20,63 +38,61 @@ llm_fix_generator:
       retry_attempts: 3
       retry_delay: 1.0
       max_requests_per_minute: 60
-      estimated_cost_per_1k_tokens: 0.002  # Adjust based on your NIM pricing
-    
-    local_nim:
-      base_url: "${LOCAL_NIM_ENDPOINT}" # e.g., "http://localhost:8000"
-      api_key: "${LOCAL_NIM_API_KEY}"   # Local API key if required
-      model: "codellama-7b-instruct"    # Smaller model for local deployment
-      max_tokens: 1500
+      
+    anthropic:
+      api_key: "${ANTHROPIC_API_KEY}"
+      base_url: "https://api.anthropic.com/v1"
+      model: "claude-3-sonnet-20240229"
+      max_tokens: 2000
       temperature: 0.1
-      timeout: 60
+      timeout: 30
       use_streaming: false
-      retry_attempts: 2
-      retry_delay: 2.0
-      max_requests_per_minute: 30
-      estimated_cost_per_1k_tokens: null  # No cost for local deployment
-  
-  # Analysis Configuration
+      retry_attempts: 3
+      retry_delay: 1.0
+      max_requests_per_minute: 60
+      
+  # Analysis configuration (loaded from environment)
   analysis:
-    generate_multiple_candidates: true
-    num_candidates: 3
+    generate_multiple_candidates: "${ENABLE_MULTIPLE_CANDIDATES}"
+    num_candidates: "${NUM_FIX_CANDIDATES}"
+    confidence_threshold: "${CONFIDENCE_THRESHOLD}"
     include_reasoning_trace: true
     enable_defect_categorization: true
-    confidence_threshold: 0.6
     include_severity_assessment: true
-    max_context_lines: 50
+    max_context_lines: "${MAX_CONTEXT_LINES}"
     include_function_signature: true
     include_surrounding_code: true
-  
-  # Quality Control Configuration
+    
+  # Quality control configuration
   quality:
-    enforce_style_consistency: true
+    enforce_style_consistency: "${ENFORCE_STYLE_CONSISTENCY}"
     style_consistency_threshold: 0.6
-    validate_syntax: true
-    safety_checks: true
+    validate_syntax: "${VALIDATE_SYNTAX}"
+    safety_checks: "${SAFETY_CHECKS}"
     require_explanation: true
-    max_files_per_fix: 3
+    max_files_per_fix: "${MAX_FILES_PER_FIX}"
     max_lines_per_fix: 100
-    min_confidence_for_auto_apply: 0.8
-    min_style_score_for_auto_apply: 0.7
-  
-  # Optimization Configuration
+    min_confidence_for_auto_apply: "${MIN_CONFIDENCE_FOR_AUTO_APPLY}"
+    min_style_score_for_auto_apply: "${MIN_STYLE_SCORE_FOR_AUTO_APPLY}"
+    
+  # Performance optimization
   optimization:
-    cache_similar_defects: true
+    cache_similar_defects: "${CACHE_SIMILAR_DEFECTS}"
     cache_duration_hours: 24
-    cache_max_size: 1000
-    token_limit_per_defect: 2000
-    enable_prompt_compression: true
+    cache_max_size: "${CACHE_MAX_SIZE}"
+    token_limit_per_defect: "${TOKEN_LIMIT_PER_DEFECT}"
+    enable_prompt_compression: "${ENABLE_PROMPT_COMPRESSION}"
     context_window_optimization: true
-    enable_performance_tracking: true
+    enable_performance_tracking: "${ENABLE_PERFORMANCE_TRACKING}"
     log_token_usage: true
     track_generation_time: true
-    max_cost_per_defect: 1.0
-    daily_cost_limit: 100.0
-  
-  # Logging and Debug Configuration
-  log_level: "INFO"          # DEBUG, INFO, WARNING, ERROR, CRITICAL
-  debug_mode: false          # Set to true for detailed debugging
-  save_raw_responses: false  # Set to true to save raw NIM responses for analysis
+    max_cost_per_defect: "${MAX_COST_PER_DEFECT}"
+    daily_cost_limit: "${DAILY_COST_LIMIT}"
+    
+  # Logging and debugging
+  log_level: "${LOG_LEVEL}"
+  debug_mode: "${DEBUG_MODE}"
+  save_raw_responses: "${SAVE_RAW_RESPONSES}"
 
 # Environment Variables to Set:
 # 
