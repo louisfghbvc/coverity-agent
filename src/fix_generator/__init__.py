@@ -36,17 +36,18 @@ class LLMFixGenerator:
     - Performance monitoring and statistics
     """
     
-    def __init__(self, config: LLMFixGeneratorConfig = None, env_file_path: str = None):
+    def __init__(self, config: LLMFixGeneratorConfig = None, env_file_path: str = None, 
+                 use_env: bool = False):
         """
         Initialize the LLM Fix Generator.
         
         Args:
-            config: Configuration object. If None and env_file_path provided, loads from environment.
-                   If both None, creates default config.
+            config: Configuration object. If None, loads based on use_env flag.
             env_file_path: Path to .env file for environment-based configuration
+            use_env: If True, force loading from environment variables
         """
         if config is None:
-            if env_file_path is not None:
+            if use_env or env_file_path is not None:
                 # Load from environment variables
                 config = LLMFixGeneratorConfig.create_from_env(env_file_path)
             else:
@@ -184,7 +185,7 @@ class LLMFixGenerator:
         Returns:
             Configured LLMFixGenerator instance with dotenv-based configuration
         """
-        return cls(config=None, env_file_path=env_file_path)
+        return cls(config=None, env_file_path=env_file_path, use_env=True)
     
     @classmethod
     def create_with_config_file(cls, config_path: str, load_env: bool = True, 
