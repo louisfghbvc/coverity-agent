@@ -106,7 +106,7 @@ Return ONLY a valid JSON object with the following structure:
             "confidence": 0.0-1.0,
             "complexity": "simple|moderate|complex|high_risk",
             "risk_assessment": "risk analysis",
-            "affected_files": ["file1.c"],
+            "affected_files": ["/full/path/to/file1.c"],
             "line_ranges": [{"start": 10, "end": 15}],
             "fix_strategy": "null_check|validation|redesign",
             "potential_side_effects": ["list of potential issues"]
@@ -195,7 +195,7 @@ RESPONSE FORMAT: Return ONLY a valid JSON object with EXACTLY this structure:
             "confidence": 0.8,
             "complexity": "simple|moderate|complex|high_risk",
             "risk_assessment": "risk analysis",
-            "affected_files": ["file.c"],
+            "affected_files": ["/full/path/to/file.c"],
             "line_ranges": [{"start": 10, "end": 15}]
         }
     ],
@@ -404,7 +404,7 @@ Return ONLY a valid JSON object with the following structure:
             "confidence": 0.0-1.0,
             "complexity": "simple|moderate|complex|high_risk",
             "risk_assessment": "risk analysis",
-            "affected_files": ["file.c"],
+            "affected_files": ["/full/path/to/file.c"],
             "line_ranges": [{"start": N, "end": M}],
             "fix_strategy": "strategy description",
             "potential_side_effects": ["list of issues"]

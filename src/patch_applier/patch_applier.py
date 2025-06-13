@@ -40,7 +40,7 @@ class PatchApplier:
         self.logger = logging.getLogger(__name__)
         
         # Initialize component managers
-        self.validator = PatchValidator(self.config.validation)
+        self.validator = PatchValidator(self.config.validation, self.config)
         self.backup_manager = BackupManager(self.config.backup)
         self.perforce_manager = PerforceManager(self.config.perforce)
         

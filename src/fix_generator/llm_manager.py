@@ -354,13 +354,17 @@ class UnifiedLLMManager:
                     # Clean up code formatting issues
                     fix_code = self._clean_code_formatting(candidate_data.get('fix_code', ''))
                     
+                    # Process affected_files to ensure absolute paths
+                    raw_affected_files = candidate_data.get('affected_files', [defect.file_path])
+                    affected_files = self._resolve_affected_files(raw_affected_files, defect.file_path)
+                    
                     fix_candidate = FixCandidate(
                         fix_code=fix_code,
                         explanation=candidate_data.get('explanation', ''),
                         confidence_score=float(candidate_data.get('confidence', 0.5)),
                         complexity=candidate_complexity,
                         risk_assessment=candidate_data.get('risk_assessment', 'Unknown risk'),
-                        affected_files=candidate_data.get('affected_files', [defect.file_path]),
+                        affected_files=affected_files,
                         line_ranges=candidate_data.get('line_ranges', [{'start': defect.line_number, 'end': defect.line_number}]),
                         fix_strategy=candidate_data.get('fix_strategy', ''),
                         estimated_effort=candidate_data.get('estimated_effort', ''),
@@ -557,3 +561,68 @@ class UnifiedLLMManager:
         code = re.sub(r'\s+>', '>', code)
         
         return code
+    
+    def _resolve_affected_files(self, raw_affected_files: List[str], defect_file_path: str) -> List[str]:
+        """Resolve relative file paths to absolute paths based on the defect file path."""
+        from pathlib import Path
+        
+        resolved_files = []
+        defect_file = Path(defect_file_path)
+        defect_dir = defect_file.parent
+        
+        for file_path in raw_affected_files:
+            if not file_path:
+                continue
+                
+            file_path = file_path.strip()
+            path_obj = Path(file_path)
+            
+            # If it's already an absolute path, use it
+            if path_obj.is_absolute():
+                resolved_files.append(file_path)
+                continue
+            
+            # If it's just a filename (no directory separators), try to find it in the defect's directory
+            if '/' not in file_path and '\\' not in file_path:
+                # It's likely just a filename, try to find it in the same directory as the defect file
+                potential_path = defect_dir / file_path
+                if potential_path.exists():
+                    resolved_files.append(str(potential_path))
+                    logger.info(f"Resolved relative filename '{file_path}' to '{potential_path}'")
+                    continue
+                else:
+                    # Look for common related files (e.g., .cpp for .h, .h for .cpp)
+                    if file_path.endswith('.cpp') or file_path.endswith('.c'):
+                        # Try looking in common source directories
+                        for src_subdir in ['', 'src', '../src', 'source', '../source']:
+                            if src_subdir:
+                                search_dir = defect_dir / src_subdir
+                            else:
+                                search_dir = defect_dir
+                            
+                            potential_path = search_dir / file_path
+                            if potential_path.exists():
+                                resolved_files.append(str(potential_path))
+                                logger.info(f"Found '{file_path}' in '{search_dir}'")
+                                break
+                        else:
+                            # Not found, use relative to defect directory anyway
+                            fallback_path = defect_dir / file_path
+                            resolved_files.append(str(fallback_path))
+                            logger.warning(f"Could not find '{file_path}', using fallback path: {fallback_path}")
+                    else:
+                        # For header files or other types, assume same directory
+                        fallback_path = defect_dir / file_path
+                        resolved_files.append(str(fallback_path))
+                        logger.warning(f"Could not find '{file_path}', using fallback path: {fallback_path}")
+            else:
+                # It's a relative path with directories, resolve relative to defect file directory
+                resolved_path = defect_dir / file_path
+                resolved_files.append(str(resolved_path.resolve()))
+                logger.info(f"Resolved relative path '{file_path}' to '{resolved_path.resolve()}'")
+        
+        # Ensure we always have at least the original defect file
+        if not resolved_files:
+            resolved_files.append(defect_file_path)
+        
+        return resolved_files

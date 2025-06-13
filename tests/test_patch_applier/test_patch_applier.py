@@ -186,7 +186,7 @@ class TestPatchValidator:
         from src.patch_applier.config import ValidationConfig
         
         config = ValidationConfig()
-        return PatchValidator(config)
+        return PatchValidator(config, None)
     
     def test_validate_existing_file(self, validator):
         """Test validation of existing file."""

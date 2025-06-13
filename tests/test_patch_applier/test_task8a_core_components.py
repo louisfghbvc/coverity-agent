@@ -125,7 +125,7 @@ void test_function(char* ptr) {
         print("\n🧪 Test 2: Patch Validator Component")
         
         config = PatchApplierConfig.create_default()
-        validator = PatchValidator(config.validation)
+        validator = PatchValidator(config.validation, config)
         
         # Test valid patch validation
         result = validator.validate_patch(self.mock_analysis, str(self.working_dir))
