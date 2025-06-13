@@ -110,6 +110,13 @@ class NIMProvider:
         try:
             for attempt in range(self.config.retry_attempts):
                 try:
+                    # Log prompt for debugging if enabled
+                    if logger.isEnabledFor(logging.DEBUG):
+                        logger.debug(f"=== PROMPT DEBUG ===")
+                        logger.debug(f"System prompt:\n{prompt_components.system_prompt}")
+                        logger.debug(f"User prompt:\n{prompt_components.user_prompt}")
+                        logger.debug(f"=== END PROMPT ===")
+                    
                     # Make API call using OpenAI client
                     completion = self.client.chat.completions.create(
                         model=self.config.model,
@@ -127,6 +134,12 @@ class NIMProvider:
                         content = self._handle_streaming_response(completion)
                     else:
                         content = completion.choices[0].message.content
+                    
+                    # Log response for debugging if enabled
+                    if logger.isEnabledFor(logging.DEBUG):
+                        logger.debug(f"=== LLM RESPONSE DEBUG ===")
+                        logger.debug(f"Raw response:\n{content}")
+                        logger.debug(f"=== END RESPONSE ===")
                     
                     # Extract usage information
                     tokens_consumed = getattr(completion.usage, 'total_tokens', 0) if hasattr(completion, 'usage') and completion.usage else 0

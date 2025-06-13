@@ -125,7 +125,7 @@ class TestEndToEndFixGeneration:
         print("\n🤖 Step 3: Generating AI-Powered Fixes...")
         
         # Check if NVIDIA NIM is configured
-        if not os.getenv('NIM_API_KEY'):
+        if not os.getenv('NVIDIA_NIM_API_KEY'):
             print("⚠️  NVIDIA NIM not configured, skipping fix generation")
             pytest.skip("NVIDIA NIM API key not configured")
         
@@ -205,91 +205,142 @@ class TestEndToEndFixGeneration:
         return fix_results
 
     def test_complete_pipeline_with_sample_report(self, setup_environment):
-        """Test complete pipeline with sample report (faster test)."""
+        """Test complete pipeline with real report and real code extraction."""
         config = setup_environment
+        real_report_path = config["real_report_path"]
         sample_report_path = config["sample_report_path"]
         
-        assert sample_report_path.exists(), f"Sample report not found: {sample_report_path}"
+        # Try to use real report first, fallback to sample report
+        if os.path.exists(real_report_path):
+            report_path = real_report_path
+            print(f"\n📋 Step 1: Using Real Coverity Report: {report_path}")
+        else:
+            report_path = str(sample_report_path)
+            print(f"\n📋 Step 1: Using Sample Report: {report_path}")
+            assert sample_report_path.exists(), f"Sample report not found: {sample_report_path}"
         
-        # Step 1: Parse Sample Issues
-        print("\n📋 Step 1: Parsing Sample Issues...")
-        adapter = CoverityPipelineAdapter(str(sample_report_path))
+        # Step 1: Parse Issues
+        adapter = CoverityPipelineAdapter(report_path)
+        assert adapter.validate_report(), "Report validation failed"
         
-        assert adapter.validate_report(), "Sample report validation failed"
-        
-        parsed_defects = adapter.parse_all_issues()
-        assert len(parsed_defects) > 0, "No defects parsed from sample report"
-        
-        print(f"✅ Parsed {len(parsed_defects)} defects from sample report")
-        
-        # Step 2: Create Mock Code Context (since sample files don't exist)
-        print("\n🔧 Step 2: Creating Mock Code Context...")
-        
-        from code_retriever.data_structures import (
-            CodeContext, SourceLocation, ContextWindow, FileMetadata
-        )
-        
-        mock_contexts = []
-        for defect in parsed_defects[:2]:  # Test with 2 defects
-            # Create mock context for testing
-            primary_location = SourceLocation(
-                file_path=defect.file_path,
-                line_number=defect.line_number,
-                column_number=0,
-                function_name=defect.function_name
-            )
+        if os.path.exists(real_report_path):
+            # Use real report - get defects from most common category
+            summary = adapter.get_issue_summary()
+            assert len(summary) > 0, "No issues found in report"
             
-            # Create sample C code context
-            sample_code = [
-                "int test_function(char* input) {",
-                "    char* ptr = NULL;",
-                "    if (input != NULL) {",
-                "        ptr = malloc(strlen(input) + 1);",
-                "        strcpy(ptr, input);",
-                "    }",
-                f"    return strlen(ptr);  // {defect.defect_type} here",
-                "}"
-            ]
+            print(f"Found {len(summary)} issue categories:")
+            for category, count in sorted(summary.items(), key=lambda x: x[1], reverse=True)[:5]:
+                print(f"  - {category}: {count} issues")
             
-            primary_context = ContextWindow(
-                start_line=max(1, defect.line_number - 3),
-                end_line=defect.line_number + 4,
-                source_lines=sample_code,
-                highlighted_line=6  # Line with the defect
-            )
-            
-            file_metadata = FileMetadata(
-                file_path=defect.file_path,
-                file_size=len('\n'.join(sample_code)),
-                encoding="utf-8",
-                language="c"
-            )
-            
-            mock_context = CodeContext(
-                defect_id=defect.defect_id,
-                defect_type=defect.defect_type,
-                primary_location=primary_location,
-                primary_context=primary_context,
-                file_metadata=file_metadata,
-                language="c"
-            )
-            
-            mock_contexts.append((defect, mock_context))
+            # Get defects from the most common category
+            most_common_category = max(summary.items(), key=lambda x: x[1])[0]
+            parsed_defects = adapter.parse_issues_by_category(most_common_category)[:2]  # Test with 2 defects
+            print(f"✅ Parsed {len(parsed_defects)} defects from category: {most_common_category}")
+        else:
+            # Use sample report
+            parsed_defects = adapter.parse_all_issues()[:2]  # Test with 2 defects
+            print(f"✅ Parsed {len(parsed_defects)} defects from sample report")
         
-        print(f"✅ Created mock contexts for {len(mock_contexts)} defects")
+        assert len(parsed_defects) > 0, "No defects parsed from report"
+        
+        # Step 2: Extract Real Code Context
+        print("\n🔧 Step 2: Extracting Real Code Context...")
+        code_config = CodeRetrieverConfig()
+        context_analyzer = ContextAnalyzer(code_config)
+        
+        contexts = []
+        for i, defect in enumerate(parsed_defects, 1):
+            print(f"\nProcessing defect {i}/{len(parsed_defects)}:")
+            print(f"  File: {defect.file_path}")
+            print(f"  Line: {defect.line_number}")
+            print(f"  Type: {defect.defect_type}")
+            
+            if not os.path.exists(defect.file_path):
+                print(f"  ⚠️  Source file not found: {defect.file_path}")
+                # Create minimal mock context for missing files
+                from code_retriever.data_structures import (
+                    CodeContext, SourceLocation, ContextWindow, FileMetadata
+                )
+                
+                primary_location = SourceLocation(
+                    file_path=defect.file_path,
+                    line_number=defect.line_number,
+                    column_number=0,
+                    function_name=defect.function_name
+                )
+                
+                # Create sample C code context
+                sample_code = [
+                    "int example_function(char* input) {",
+                    "    char* ptr = NULL;",
+                    "    if (input != NULL) {",
+                    "        ptr = malloc(strlen(input) + 1);",
+                    "        strcpy(ptr, input);",
+                    "    }",
+                    f"    return strlen(ptr);  // {defect.defect_type} here",
+                    "}"
+                ]
+                
+                primary_context = ContextWindow(
+                    start_line=max(1, defect.line_number - 3),
+                    end_line=defect.line_number + 4,
+                    source_lines=sample_code,
+                    highlighted_line=6
+                )
+                
+                file_metadata = FileMetadata(
+                    file_path=defect.file_path,
+                    file_size=len('\n'.join(sample_code)),
+                    encoding="utf-8",
+                    language="c"
+                )
+                
+                mock_context = CodeContext(
+                    defect_id=defect.defect_id,
+                    defect_type=defect.defect_type,
+                    primary_location=primary_location,
+                    primary_context=primary_context,
+                    file_metadata=file_metadata,
+                    language="c"
+                )
+                
+                contexts.append((defect, mock_context))
+                print(f"  ✅ Created mock context for missing file")
+                continue
+            
+            try:
+                # Extract real code context
+                code_context = context_analyzer.extract_context(defect)
+                contexts.append((defect, code_context))
+                
+                print(f"  ✅ Real context extracted successfully")
+                print(f"     Language: {code_context.language}")
+                print(f"     Context lines: {code_context.get_total_context_lines()}")
+                print(f"     File encoding: {code_context.file_metadata.encoding}")
+                
+                if code_context.function_context:
+                    print(f"     Function: {code_context.function_context.name}")
+                    print(f"     Function lines: {code_context.function_context.start_line}-{code_context.function_context.end_line}")
+                
+            except Exception as e:
+                print(f"  ❌ Context extraction failed: {e}")
+                # Continue with other defects
+        
+        assert len(contexts) > 0, "No contexts extracted successfully"
+        print(f"✅ Successfully extracted context for {len(contexts)} defects")
         
         # Step 3: Generate AI Fixes (if NVIDIA NIM is available)
         print("\n🤖 Step 3: Generating AI-Powered Fixes...")
         
-        if not os.getenv('NIM_API_KEY'):
+        if not os.getenv('NVIDIA_NIM_API_KEY'):
             print("⚠️  NVIDIA NIM not configured, creating mock fixes")
             # Create mock fixes for testing
+            from fix_generator.data_structures import (
+                FixCandidate, FixComplexity, DefectSeverity
+            )
+            
             mock_fixes = []
-            for defect, context in mock_contexts:
-                from fix_generator.data_structures import (
-                    DefectAnalysisResult, FixCandidate, FixComplexity, DefectSeverity
-                )
-                
+            for defect, context in contexts:
                 mock_fix_candidate = FixCandidate(
                     fix_code="if (ptr != NULL) { return strlen(ptr); } return 0;",
                     explanation="Added null check to prevent dereference",
@@ -322,7 +373,7 @@ class TestEndToEndFixGeneration:
                 fix_generator = LLMFixGenerator.create_from_env()
                 fix_results = []
                 
-                for defect, context in mock_contexts:
+                for defect, context in contexts:
                     try:
                         fix_result = fix_generator.analyze_and_fix(defect, context)
                         fix_results.append((defect, context, fix_result))

@@ -87,8 +87,10 @@ FOCUS AREAS for null pointer defects:
 4. Consider error handling and recovery strategies
 5. Ensure pointer validity before access
 
+CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+
 RESPONSE FORMAT:
-Return a JSON object with the following structure:
+Return ONLY a valid JSON object with the following structure:
 {
     "defect_analysis": {
         "category": "null_pointer_dereference",
@@ -112,6 +114,12 @@ Return a JSON object with the following structure:
     ],
     "reasoning": "step-by-step analysis"
 }
+
+IMPORTANT: 
+- Response must be valid JSON that can be parsed by json.loads()
+- Do not include markdown code blocks (```json)
+- Do not include any text before or after the JSON object
+- Start your response with { and end with }
 
 PRIORITIZE safety and robustness over minimal code changes."""
     
@@ -169,7 +177,40 @@ FOCUS AREAS for memory defects:
 4. Handle ownership transfer correctly
 5. Prevent double-free and use-after-free issues
 
-RESPONSE FORMAT: JSON with defect_analysis, fix_candidates, and reasoning sections.
+CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+
+RESPONSE FORMAT: Return ONLY a valid JSON object with EXACTLY this structure:
+{
+    "defect_analysis": {
+        "category": "memory_management",
+        "severity": "high|medium|low",
+        "complexity": "simple|moderate|complex|high_risk",
+        "confidence": 0.8,
+        "root_cause": "explanation here"
+    },
+    "fix_candidates": [
+        {
+            "fix_code": "actual complete fixed code here",
+            "explanation": "detailed explanation",
+            "confidence": 0.8,
+            "complexity": "simple|moderate|complex|high_risk",
+            "risk_assessment": "risk analysis",
+            "affected_files": ["file.c"],
+            "line_ranges": [{"start": 10, "end": 15}]
+        }
+    ],
+    "reasoning": "step-by-step analysis"
+}
+
+CRITICAL REQUIREMENTS:
+- fix_code must contain the COMPLETE corrected code, not diffs or fragments
+- Do not use "modified_code" arrays or other formats
+- Each fix_candidate must have ALL required fields
+- Response must be valid JSON that can be parsed by json.loads()
+- ESCAPE ALL BACKSLASHES: Use \\\\ for \n, \\\" for quotes, etc.
+- Do not include markdown code blocks (```json)
+- Start your response with { and end with }
+- Test that your JSON is valid before responding
 
 PRIORITIZE memory safety and follow RAII principles where applicable."""
     
@@ -222,7 +263,15 @@ FOCUS AREAS for buffer defects:
 4. Consider buffer size vs. data size mismatches
 5. Ensure loop bounds are correct
 
-RESPONSE FORMAT: JSON with defect_analysis, fix_candidates, and reasoning sections.
+CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+
+RESPONSE FORMAT: Return ONLY a valid JSON object with defect_analysis, fix_candidates, and reasoning sections.
+
+IMPORTANT: 
+- Response must be valid JSON that can be parsed by json.loads()
+- Do not include markdown code blocks (```json)
+- Do not include any text before or after the JSON object
+- Start your response with { and end with }
 
 PRIORITIZE security and bounds safety."""
     
@@ -275,7 +324,15 @@ FOCUS AREAS for uninitialized variables:
 4. Handle conditional initialization paths
 5. Ensure all code paths initialize variables before use
 
-RESPONSE FORMAT: JSON with defect_analysis, fix_candidates, and reasoning sections.
+CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+
+RESPONSE FORMAT: Return ONLY a valid JSON object with defect_analysis, fix_candidates, and reasoning sections.
+
+IMPORTANT: 
+- Response must be valid JSON that can be parsed by json.loads()
+- Do not include markdown code blocks (```json)
+- Do not include any text before or after the JSON object
+- Start your response with { and end with }
 
 PRIORITIZE correctness and initialization safety."""
     
@@ -328,8 +385,10 @@ GENERAL ANALYSIS APPROACH:
 4. Generate safe and maintainable fixes
 5. Consider potential side effects and edge cases
 
+CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+
 RESPONSE FORMAT:
-Return a JSON object with the following structure:
+Return ONLY a valid JSON object with the following structure:
 {
     "defect_analysis": {
         "category": "defect category",
@@ -353,6 +412,12 @@ Return a JSON object with the following structure:
     ],
     "reasoning": "step-by-step analysis"
 }
+
+IMPORTANT: 
+- Response must be valid JSON that can be parsed by json.loads()
+- Do not include markdown code blocks (```json)
+- Do not include any text before or after the JSON object
+- Start your response with { and end with }
 
 PRIORITIZE code safety, maintainability, and minimal impact."""
     
