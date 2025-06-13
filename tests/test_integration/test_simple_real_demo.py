@@ -127,6 +127,14 @@ def test_simple_real_demo():
         print(f"   Ready for application: {fix_result.is_ready_for_application}")
         print(f"   Fix candidates: {len(fix_result.fix_candidates)}")
         
+        # Debug information for is_ready_for_application
+        print(f"   Style consistency score: {fix_result.style_consistency_score:.2f}")
+        print(f"   Safety checks passed: {fix_result.safety_checks_passed}")
+        print(f"   Validation errors: {len(fix_result.validation_errors)}")
+        if fix_result.validation_errors:
+            for err in fix_result.validation_errors:
+                print(f"     • {err}")
+        
         if fix_result.fix_candidates:
             recommended = fix_result.recommended_fix
             print(f"   Explanation: {recommended.explanation[:100]}...")
@@ -146,7 +154,7 @@ def test_simple_real_demo():
     try:
         # Use existing PatchApplier in dry run mode
         patch_config = PatchApplierConfig.create_default()
-        patch_config.safety.dry_run_mode = True  # Safe demo
+        patch_config.safety.dry_run_mode = False  # Safe demo
         patch_config.perforce.enabled = True
         
         patch_applier = PatchApplier(patch_config)

@@ -26,6 +26,9 @@ class PerforceManager:
         self.config = config
         self.logger = logging.getLogger(__name__)
         
+        # Cache for workspace-specific configurations
+        self._workspace_configs = {}
+        
         # Set Perforce environment variables
         if config.enabled:
             self._setup_perforce_environment()
@@ -197,8 +200,16 @@ class PerforceManager:
         try:
             full_path = str(Path(working_directory) / file_path)
             
+            # Get workspace-specific configuration for this file
+            workspace_config = self._get_workspace_config_for_file(full_path)
+            workspace_dir = self._find_workspace_for_file(full_path)
+            
             # Check if file is in Perforce
-            fstat_result = self._run_p4_command(['fstat', full_path])
+            fstat_result = self._run_p4_command(
+                ['fstat', full_path], 
+                workspace_config=workspace_config,
+                cwd=workspace_dir
+            )
             
             if not fstat_result.strip():
                 return PerforceFileInfo(
@@ -229,9 +240,114 @@ class PerforceManager:
         if self.config.p4_charset:
             os.environ['P4CHARSET'] = self.config.p4_charset
     
-    def _run_p4_command(self, args: List[str], input_data: str = None) -> str:
-        """Run a Perforce command and return output."""
+    def _find_workspace_for_file(self, file_path: str) -> Optional[str]:
+        """
+        Find the Perforce workspace directory that contains the given file.
+        
+        Args:
+            file_path: Path to the file
+            
+        Returns:
+            Path to workspace directory containing .p4config, or None
+        """
+        file_path = Path(file_path).resolve()
+        current_dir = file_path.parent if file_path.is_file() else file_path
+        
+        # Look up the directory tree for .p4config
+        while current_dir != current_dir.parent:
+            p4config_path = current_dir / '.p4config'
+            if p4config_path.exists():
+                self.logger.debug(f"Found .p4config in {current_dir}")
+                return str(current_dir)
+            current_dir = current_dir.parent
+        
+        return None
+    
+    def _read_p4config(self, workspace_dir: str) -> Dict[str, str]:
+        """
+        Read .p4config file from workspace directory.
+        
+        Args:
+            workspace_dir: Path to workspace directory
+            
+        Returns:
+            Dictionary of Perforce environment variables
+        """
+        if workspace_dir in self._workspace_configs:
+            return self._workspace_configs[workspace_dir]
+        
+        p4config_path = Path(workspace_dir) / '.p4config'
+        config = {}
+        
+        try:
+            with open(p4config_path, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and '=' in line and not line.startswith('#'):
+                        key, value = line.split('=', 1)
+                        config[key.strip()] = value.strip()
+            
+            self.logger.debug(f"Loaded .p4config from {workspace_dir}: {list(config.keys())}")
+            
+            # Cache the configuration
+            self._workspace_configs[workspace_dir] = config
+            
+        except Exception as e:
+            self.logger.warning(f"Failed to read .p4config from {workspace_dir}: {e}")
+        
+        return config
+    
+    def _get_workspace_config_for_file(self, file_path: str) -> Dict[str, str]:
+        """
+        Get workspace-specific Perforce configuration for a file.
+        
+        Args:
+            file_path: Path to the file
+            
+        Returns:
+            Dictionary of Perforce environment variables for the workspace
+        """
+        workspace_dir = self._find_workspace_for_file(file_path)
+        workspace_config = {}
+        
+        if workspace_dir:
+            workspace_config = self._read_p4config(workspace_dir)
+            self.logger.info(f"Using workspace config from {workspace_dir}: P4CLIENT={workspace_config.get('P4CLIENT', 'not set')}")
+        
+        # Merge with global configuration as fallback
+        config = {
+            'P4PORT': self.config.p4_port or '',
+            'P4USER': self.config.p4_user or '',
+            'P4CLIENT': self.config.p4_client or '',
+            'P4CHARSET': self.config.p4_charset or ''
+        }
+        
+        # Override with workspace-specific values
+        config.update(workspace_config)
+        
+        # Remove empty values
+        config = {k: v for k, v in config.items() if v}
+        
+        return config
+    
+    def _run_p4_command(self, args: List[str], input_data: str = None, 
+                       workspace_config: Dict[str, str] = None, 
+                       cwd: str = None) -> str:
+        """
+        Run a Perforce command and return output.
+        
+        Args:
+            args: Perforce command arguments
+            input_data: Input data for stdin
+            workspace_config: Workspace-specific P4 environment variables
+            cwd: Working directory to run command from
+        """
         cmd = ['p4'] + args
+        
+        # Prepare environment with workspace-specific config
+        env = os.environ.copy()
+        if workspace_config:
+            env.update(workspace_config)
         
         try:
             if input_data:
@@ -241,7 +357,9 @@ class PerforceManager:
                     text=True,
                     capture_output=True,
                     timeout=self.config.p4_timeout,
-                    check=True
+                    check=True,
+                    env=env,
+                    cwd=cwd
                 )
             else:
                 result = subprocess.run(
@@ -249,7 +367,9 @@ class PerforceManager:
                     text=True,
                     capture_output=True,
                     timeout=self.config.p4_timeout,
-                    check=True
+                    check=True,
+                    env=env,
+                    cwd=cwd
                 )
             
             return result.stdout
@@ -272,7 +392,15 @@ class PerforceManager:
         
         # Check out file for edit
         try:
-            self._run_p4_command(['edit', full_path])
+            # Get workspace-specific configuration for this file
+            workspace_config = self._get_workspace_config_for_file(full_path)
+            workspace_dir = self._find_workspace_for_file(full_path)
+            
+            self._run_p4_command(
+                ['edit', full_path], 
+                workspace_config=workspace_config,
+                cwd=workspace_dir
+            )
             
             # Update status
             file_info.status = PerforceStatus.EDIT
@@ -287,7 +415,15 @@ class PerforceManager:
     def _revert_file(self, file_path: str):
         """Revert a single file."""
         try:
-            self._run_p4_command(['revert', file_path])
+            # Get workspace-specific configuration for this file
+            workspace_config = self._get_workspace_config_for_file(file_path)
+            workspace_dir = self._find_workspace_for_file(file_path)
+            
+            self._run_p4_command(
+                ['revert', file_path], 
+                workspace_config=workspace_config,
+                cwd=workspace_dir
+            )
             self.logger.debug(f"Reverted {file_path}")
         except PerforceError as e:
             self.logger.error(f"Failed to revert {file_path}: {e}")
