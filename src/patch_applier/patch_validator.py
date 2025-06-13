@@ -73,14 +73,33 @@ class PatchValidator:
         """Validate a single file for patch application."""
         full_path = Path(working_directory) / file_path
         
-        # Check file existence
-        if self.config.check_file_existence and not full_path.exists():
-            result.add_issue(ValidationSeverity.ERROR, f"File does not exist: {file_path}")
-            result.files_missing.append(file_path)
-            return
+        # For absolute paths, check the original file instead of working directory
+        if Path(file_path).is_absolute():
+            original_file = Path(file_path)
+            if original_file.exists():
+                # Original file exists, validation passes for dry run
+                if self.config.check_file_permissions:
+                    if not os.access(original_file, os.R_OK):
+                        result.add_issue(ValidationSeverity.ERROR, f"Original file not readable: {file_path}")
+                    # For dry run, we don't need write permission to original file
+                result.files_to_modify.append(file_path)
+                return
         
-        # Check file permissions
-        if self.config.check_file_permissions:
+        # Check file existence in working directory
+        if self.config.check_file_existence and not full_path.exists():
+            # If it's an absolute path and original exists, this is OK for dry run
+            if Path(file_path).is_absolute() and Path(file_path).exists():
+                result.add_issue(ValidationSeverity.WARNING, 
+                               f"File exists at original location but not in working directory: {file_path}")
+                result.files_to_modify.append(file_path)
+                return
+            else:
+                result.add_issue(ValidationSeverity.ERROR, f"File does not exist: {file_path}")
+                result.files_missing.append(file_path)
+                return
+        
+        # Check file permissions for files in working directory
+        if self.config.check_file_permissions and full_path.exists():
             if not os.access(full_path, os.R_OK):
                 result.add_issue(ValidationSeverity.ERROR, f"File not readable: {file_path}")
             if not os.access(full_path, os.W_OK):

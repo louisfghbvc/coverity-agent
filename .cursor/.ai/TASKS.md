@@ -27,12 +27,16 @@
 > Dependencies: 3, 6
 > Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component leverages dotenv-based configuration management for secure API token handling, with NIM as primary provider and OpenAI/Anthropic fallbacks. Features include advanced prompt engineering optimized for NIM models, multi-candidate generation, and comprehensive cost optimization strategies.
 
-- [ ] **ID 8: Implement Core Patch Application Engine** (Priority: critical)
+- [ ] **ID 8a: Implement Core Patch Application Components** (Priority: critical)
 > Dependencies: 7
-> Implement the foundational patch application system with safe validation, file backup mechanisms, and basic Perforce integration for applying generated patches to target codebases.
+> Implements the foundational patch application system components including patch validation, backup management, and basic Perforce integration. This is the core infrastructure needed for safe patch application.
+
+- [ ] **ID 8b: Implement Pipeline Integration and End-to-End Verification** (Priority: critical)
+> Dependencies: 8a
+> Implement the main PatchApplier orchestrator that integrates all core components and provides comprehensive end-to-end pipeline verification. Demonstrates the complete workflow from Coverity defect input → LLM analysis → P4 edit → patch application.
 
 - [ ] **ID 12: Implement Core Verification System** (Priority: critical)
-> Dependencies: 8
+> Dependencies: 8b
 > Implement the foundational verification system with Coverity interface, basic defect comparison logic, compilation validation, and simple before/after reporting to validate that applied fixes actually resolve defects.
 
 - [ ] **ID 13: Implement Advanced Verification Analysis** (Priority: high)

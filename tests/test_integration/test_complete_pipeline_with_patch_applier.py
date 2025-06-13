@@ -278,13 +278,13 @@ class TestCompletePipelineWithPatchApplier:
         print(f"  Fixes ready for application: {ready_for_application}")
         
         print("\n🎉 Complete pipeline test with Patch Applier PASSED!")
-        return {
-            "parsed_defects": len(parsed_defects),
-            "contexts": len(contexts),
-            "fixes": len(fix_results),
-            "patches": len(patch_results),
-            "successful_applications": successful_applications
-        }
+        
+        # Final assertions for pytest
+        assert len(parsed_defects) > 0, "Should have parsed defects"
+        assert len(contexts) > 0, "Should have extracted contexts"
+        assert len(fix_results) > 0, "Should have generated fixes"
+        assert len(patch_results) > 0, "Should have applied patches"
+        assert successful_applications > 0, "Should have successful applications"
 
     def test_complete_pipeline_with_real_files(self, setup_environment):
         """Test complete pipeline with real source files when available."""
@@ -394,6 +394,207 @@ class TestCompletePipelineWithPatchApplier:
                         print(f"❌ Patch test failed for {source_file.name}: {e}")
         
         print("🎉 Real file pipeline test completed safely!")
+
+    def test_show_detailed_llm_results(self, setup_environment):
+        """显示详细的LLM修复结果，包括真实的p4操作"""
+        config = setup_environment
+        real_report_path = config["real_report_path"]
+        
+        if not os.path.exists(real_report_path):
+            pytest.skip(f"Real Coverity report not found: {real_report_path}")
+        
+        print("\n" + "=" * 80)
+        print("详细LLM修复结果展示 (真实案例)")
+        print("=" * 80)
+        
+        # Step 1: 解析一个真实的RESOURCE_LEAK缺陷
+        print("\n📋 第1步: 解析真实Coverity缺陷...")
+        adapter = CoverityPipelineAdapter(real_report_path)
+        
+        assert adapter.validate_report(), "Real Coverity report validation failed"
+        
+        # 获取RESOURCE_LEAK类型的缺陷
+        resource_leak_defects = adapter.parse_issues_by_category("RESOURCE_LEAK")[:1]
+        if not resource_leak_defects:
+            pytest.skip("No RESOURCE_LEAK defects found")
+        
+        defect = resource_leak_defects[0]
+        print(f"✅ 选择缺陷: {defect.defect_id}")
+        print(f"   文件: {defect.file_path}")
+        print(f"   行号: {defect.line_number}")
+        print(f"   类型: {defect.defect_type}")
+        print(f"   函数: {defect.function_name}")
+        print(f"   子类别: {defect.subcategory}")
+        if defect.events:
+            print(f"   事件: {', '.join(defect.events[:2])}...")  # 显示前2个事件
+        
+        # Step 2: 提取真实代码上下文
+        print("\n🔧 第2步: 提取真实代码上下文...")
+        code_config = CodeRetrieverConfig()
+        context_analyzer = ContextAnalyzer(code_config)
+        
+        if not os.path.exists(defect.file_path):
+            pytest.skip(f"Source file not found: {defect.file_path}")
+        
+        try:
+            context = context_analyzer.extract_context(defect)
+            print(f"✅ 成功提取上下文")
+            print(f"   语言: {context.language}")
+            print(f"   编码: {context.file_metadata.encoding}")
+            print(f"   文件大小: {context.file_metadata.file_size} bytes")
+            print(f"   上下文行数: {context.get_total_context_lines()}")
+            
+            # 显示原始代码上下文
+            print(f"\n📝 原始代码上下文 ({defect.file_path}:{context.primary_context.start_line}-{context.primary_context.end_line}):")
+            print("-" * 80)
+            for i, line in enumerate(context.primary_context.source_lines, context.primary_context.start_line):
+                marker = ">>> " if i == defect.line_number else "    "
+                print(f"{marker}{i:4d}: {line}")
+            print("-" * 80)
+            
+            if context.function_context:
+                print(f"   函数上下文: {context.function_context.name}")
+                print(f"   函数起始行: {context.function_context.start_line}")
+                print(f"   函数结束行: {context.function_context.end_line}")
+            
+        except Exception as e:
+            pytest.skip(f"Context extraction failed: {e}")
+        
+        # Step 3: 生成AI修复 (显示详细结果)
+        print("\n🤖 第3步: 生成AI修复...")
+        
+        if not os.getenv('NVIDIA_NIM_API_KEY'):
+            pytest.skip("NVIDIA NIM not configured")
+        
+        try:
+            fix_generator = LLMFixGenerator.create_from_env()
+            print("✅ LLM修复生成器已初始化 (NVIDIA NIM)")
+            
+            # 生成修复
+            print(f"🔄 正在为缺陷 {defect.defect_id} 生成AI修复...")
+            fix_result = fix_generator.analyze_and_fix(defect, context)
+            
+            print(f"\n🎯 AI分析结果:")
+            print(f"   缺陷ID: {fix_result.defect_id}")
+            print(f"   缺陷类型: {fix_result.defect_type}")
+            print(f"   文件路径: {fix_result.file_path}")
+            print(f"   行号: {fix_result.line_number}")
+            print(f"   严重程度: {fix_result.severity_assessment.value}")
+            print(f"   修复复杂度: {fix_result.fix_complexity.value}")
+            print(f"   置信度: {fix_result.confidence_score:.2f}")
+            print(f"   安全检查通过: {fix_result.safety_checks_passed}")
+            print(f"   样式一致性评分: {fix_result.style_consistency_score:.2f}")
+            print(f"   准备应用: {fix_result.is_ready_for_application}")
+            
+            # 显示所有修复候选
+            print(f"\n💡 AI生成的修复候选 ({len(fix_result.fix_candidates)}个):")
+            for i, candidate in enumerate(fix_result.fix_candidates, 1):
+                print(f"\n{'='*20} 修复候选 {i} {'='*20}")
+                print(f"置信度: {candidate.confidence_score:.2f}")
+                print(f"复杂度: {candidate.complexity.value}")
+                print(f"风险评估: {candidate.risk_assessment}")
+                print(f"解释: {candidate.explanation}")
+                
+                print(f"\n🔧 修复代码:")
+                print("─" * 60)
+                print(candidate.fix_code)
+                print("─" * 60)
+                
+                print(f"影响的文件: {candidate.affected_files}")
+                print(f"修改行范围: {candidate.line_ranges}")
+            
+        except Exception as e:
+            print(f"❌ AI修复生成失败: {e}")
+            import traceback
+            traceback.print_exc()
+            pytest.skip(f"AI fix generation failed: {e}")
+        
+        # Step 4: 测试补丁应用 (包含Perforce操作)
+        print("\n🚀 第4步: 测试补丁应用 (包含Perforce检查)...")
+        
+        # 配置patch applier - 启用Perforce检查
+        patch_config = PatchApplierConfig.create_default()
+        patch_config.perforce.enabled = True  # 启用Perforce检查
+        patch_config.safety.dry_run_mode = True  # 但仍使用干运行模式以保证安全
+        patch_config.backup.enabled = True
+        
+        print(f"✅ Patch Applier配置:")
+        print(f"   Perforce启用: {patch_config.perforce.enabled}")
+        print(f"   干运行模式: {patch_config.safety.dry_run_mode}")
+        print(f"   备份启用: {patch_config.backup.enabled}")
+        
+        patch_applier = PatchApplier(patch_config)
+        
+        with tempfile.TemporaryDirectory() as temp_dir:
+            print(f"✅ 创建临时目录: {temp_dir}")
+            
+            try:
+                # 在真实文件上测试 (但使用干运行模式)
+                print(f"\n📝 测试文件: {defect.file_path}")
+                print(f"   检查文件是否在Perforce控制下...")
+                
+                # 应用补丁
+                patch_result = patch_applier.apply_patch(fix_result, working_directory=temp_dir)
+                
+                print(f"\n✅ 补丁应用结果:")
+                print(f"   状态: {patch_result.overall_status.value}")
+                print(f"   成功计数: {patch_result.success_count}")
+                print(f"   失败计数: {patch_result.failure_count}")
+                print(f"   处理时间: {patch_result.processing_time_seconds:.3f}秒")
+                # Show applied changes information  
+                if patch_result.applied_changes:
+                    print(f"   Applied Changes: {len(patch_result.applied_changes)}")
+                    print(f"   Modified Files:")
+                    for change in patch_result.applied_changes:
+                        print(f"     - {change.file_path} (confidence: {change.confidence_score:.2f})")
+                else:
+                    print(f"   Applied Changes: 0")
+                
+                if patch_result.validation_result:
+                    print(f"   验证结果:")
+                    print(f"     有效: {patch_result.validation_result.is_valid}")
+                    print(f"     错误数: {patch_result.validation_result.error_count}")
+                    print(f"     警告数: {patch_result.validation_result.warning_count}")
+                
+                if patch_result.backup_info:
+                    print(f"   备份信息:")
+                    print(f"     备份ID: {patch_result.backup_info.backup_id}")
+                    print(f"     备份位置: {patch_result.backup_info.backup_directory}")
+                    print(f"     文件数: {patch_result.backup_info.file_count}")
+                    print(f"     总大小: {patch_result.backup_info.total_size_bytes} bytes")
+                
+                # 显示预期的修复结果
+                if patch_result.overall_status.value == "success" and fix_result.fix_candidates:
+                    print(f"\n📋 预期的修复结果 (干运行模式预览):")
+                    print("─" * 60)
+                    print("修复后的代码 (最佳候选):")
+                    print(fix_result.fix_candidates[0].fix_code)
+                    print("─" * 60)
+                
+                # 显示Perforce相关信息
+                if hasattr(patch_result, 'perforce_info'):
+                    print(f"\n🔧 Perforce操作信息:")
+                    print(f"   P4 edit调用: {patch_result.perforce_info.get('p4_edit_called', 'N/A')}")
+                    print(f"   文件状态: {patch_result.perforce_info.get('file_status', 'N/A')}")
+                
+                # 显示错误和警告
+                if patch_result.errors:
+                    print(f"\n❌ 错误:")
+                    for error in patch_result.errors:
+                        print(f"   - {error}")
+                
+                if patch_result.warnings:
+                    print(f"\n⚠️  警告:")
+                    for warning in patch_result.warnings:
+                        print(f"   - {warning}")
+                
+            except Exception as e:
+                print(f"❌ 补丁应用测试失败: {e}")
+                import traceback
+                traceback.print_exc()
+        
+        print(f"\n🎉 详细LLM修复结果展示完成!")
+        print("注意: 使用了干运行模式，未实际修改文件")
 
     def _create_mock_context(self, defect: ParsedDefect) -> CodeContext:
         """Create mock code context for testing."""
@@ -559,9 +760,8 @@ def run_manual_complete_pipeline_test():
     
     try:
         print("\n🚀 Testing complete pipeline in dry-run mode...")
-        results = test_instance.test_complete_pipeline_dry_run(setup_config)
+        test_instance.test_complete_pipeline_dry_run(setup_config)
         print(f"✅ Dry-run pipeline test passed")
-        print(f"   Results: {results}")
         
         if os.path.exists(setup_config["real_report_path"]):
             print("\n🚀 Testing with real files (safe mode)...")

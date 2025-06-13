@@ -10,6 +10,7 @@ import time
 import logging
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
+import re
 
 try:
     from openai import OpenAI
@@ -350,8 +351,11 @@ class UnifiedLLMManager:
                     candidate_complexity_str = candidate_data.get('complexity', 'moderate').lower()
                     candidate_complexity = FixComplexity(candidate_complexity_str) if candidate_complexity_str in [e.value for e in FixComplexity] else FixComplexity.MODERATE
                     
+                    # Clean up code formatting issues
+                    fix_code = self._clean_code_formatting(candidate_data.get('fix_code', ''))
+                    
                     fix_candidate = FixCandidate(
-                        fix_code=candidate_data.get('fix_code', ''),
+                        fix_code=fix_code,
                         explanation=candidate_data.get('explanation', ''),
                         confidence_score=float(candidate_data.get('confidence', 0.5)),
                         complexity=candidate_complexity,
@@ -494,4 +498,62 @@ class UnifiedLLMManager:
     
     def reset_statistics(self):
         """Reset generation statistics."""
-        self.statistics = GenerationStatistics() 
+        self.statistics = GenerationStatistics()
+
+    def _clean_code_formatting(self, code: str) -> str:
+        """Clean up LLM code formatting using clang-format."""
+        if not code or not code.strip():
+            return code
+        
+        try:
+            import subprocess
+            import tempfile
+            import os
+            
+            # Create a temporary file with C++ extension
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.cpp', delete=False) as temp_file:
+                temp_file.write(code)
+                temp_file_path = temp_file.name
+            
+            try:
+                # Run clang-format
+                result = subprocess.run(
+                    ['clang-format', '--style=Google', temp_file_path],
+                    capture_output=True,
+                    text=True,
+                    timeout=10
+                )
+                
+                if result.returncode == 0:
+                    formatted_code = result.stdout
+                    logger.debug("Successfully formatted code with clang-format")
+                    return formatted_code
+                else:
+                    logger.warning(f"clang-format failed: {result.stderr}")
+                    return self._fallback_formatting(code)
+                    
+            finally:
+                # Clean up temp file
+                os.unlink(temp_file_path)
+                
+        except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
+            logger.debug(f"clang-format not available or failed: {e}, using fallback formatting")
+            return self._fallback_formatting(code)
+    
+    def _fallback_formatting(self, code: str) -> str:
+        """Fallback formatting when clang-format is not available."""
+        if not code:
+            return code
+        
+        # Basic template spacing fixes
+        code = code.replace('std::unique_ptr < ', 'std::unique_ptr<')
+        code = code.replace('std::shared_ptr < ', 'std::shared_ptr<')
+        code = code.replace('std::make_unique < ', 'std::make_unique<')
+        code = code.replace('std::make_shared < ', 'std::make_shared<')
+        code = code.replace(' >', '>')
+        
+        # Clean up extra spaces around angle brackets
+        code = re.sub(r'<\s+', '<', code)
+        code = re.sub(r'\s+>', '>', code)
+        
+        return code
