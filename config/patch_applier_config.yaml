@@ -1,0 +1,123 @@
+# Patch Applier Configuration
+# Configuration for safe patch application with Perforce integration
+
+patch_applier:
+  # Perforce integration settings
+  perforce:
+    enabled: true
+    p4_port: "${P4PORT}"
+    p4_user: "${P4USER}" 
+    p4_client: "${P4CLIENT}"
+    p4_charset: "utf8"
+    
+    # Perforce operation settings
+    auto_checkout: true
+    auto_revert_on_failure: true
+    create_changelist: true
+    changelist_description_template: "Automated fix for Coverity defect {defect_id}: {defect_type}"
+    
+    # Timeout and retry settings
+    p4_timeout: 30
+    retry_attempts: 3
+    retry_delay: 1.0
+  
+  # Backup management settings
+  backup:
+    enabled: true
+    backup_directory: ".patch_backups"
+    create_timestamp_dirs: true
+    
+    # Backup retention
+    retain_backups: true
+    max_backup_age_days: 30
+    max_total_backups: 100
+    
+    # Backup validation
+    verify_checksums: true
+    compression_enabled: false
+    
+    # Cleanup settings
+    auto_cleanup: true
+    cleanup_on_success: false  # Keep backups for safety
+  
+  # Patch validation settings
+  validation:
+    # File validation
+    check_file_existence: true
+    check_file_permissions: true
+    check_file_encoding: true
+    
+    # Content validation
+    validate_syntax: true
+    check_line_endings: true
+    validate_patch_format: true
+    
+    # Conflict detection
+    detect_conflicts: true
+    fuzzy_matching: true
+    fuzzy_threshold: 0.8
+    
+    # Safety checks
+    max_files_per_patch: 10
+    max_lines_per_file: 1000
+    max_total_line_changes: 5000
+    
+    # Confidence thresholds
+    min_confidence_for_auto_apply: 0.7
+    min_style_score_for_auto_apply: 0.6
+  
+  # Safety mechanisms
+  safety:
+    # Rollback settings
+    enable_rollback: true
+    automatic_rollback_on_failure: true
+    rollback_timeout: 30
+    
+    # Workspace protection
+    require_clean_workspace: false
+    check_workspace_state: true
+    prevent_overwrite_uncommitted: true
+    
+    # Application limits
+    dry_run_mode: false
+    require_confirmation: false
+    batch_size_limit: 50
+    
+    # Error handling
+    stop_on_first_error: false
+    max_consecutive_failures: 5
+  
+  # Working directory settings
+  working_directory: "."
+  temp_directory: ".patch_temp"
+  
+  # Logging and monitoring
+  log_level: "INFO"
+  enable_progress_tracking: true
+  save_detailed_logs: true
+  
+  # Performance settings
+  parallel_processing: false
+  max_concurrent_patches: 1
+
+# Environment Variables to Set:
+# 
+# Required for Perforce (if enabled):
+#   export P4PORT="your-perforce-server:1666"
+#   export P4USER="your-username"
+#   export P4CLIENT="your-workspace-name"
+#
+# Optional settings:
+#   export PATCH_BACKUP_DIR="/path/to/backups"
+#   export PATCH_DRY_RUN="true"
+#   export PATCH_LOG_LEVEL="DEBUG"
+
+# Usage Example:
+# from src.patch_applier import PatchApplier, PatchApplierConfig
+# 
+# # Load from this config file
+# config = PatchApplierConfig.from_yaml_file("config/patch_applier_config.yaml")
+# applier = PatchApplier(config)
+# 
+# # Apply a patch
+# result = applier.apply_patch(defect_analysis_result, working_directory="./src") 
