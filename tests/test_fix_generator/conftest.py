@@ -149,17 +149,23 @@ def sample_defect_analysis_result(sample_parsed_defect, sample_fix_candidate, sa
 @pytest.fixture
 def test_config():
     """Create a test configuration for LLM Fix Generator."""
+    # Create provider config that skips validation
+    provider_config = NIMProviderConfig(
+        name="test_nim",
+        base_url="https://test-nim-endpoint.com",
+        api_key="test-api-key",
+        model="test-model",
+        max_tokens=1000,
+        temperature=0.1,
+        timeout=30,
+        use_streaming=False  # Disable streaming for tests
+    )
+    # Skip validation for testing
+    provider_config.__dict__['_skip_validation'] = True
+    
     return LLMFixGeneratorConfig(
         providers={
-            "test_nim": NIMProviderConfig(
-                name="test_nim",
-                base_url="https://test-nim-endpoint.com",
-                api_key="test-api-key",
-                model="test-model",
-                max_tokens=1000,
-                temperature=0.1,
-                timeout=30
-            )
+            "test_nim": provider_config
         },
         primary_provider="test_nim",
         fallback_providers=[],

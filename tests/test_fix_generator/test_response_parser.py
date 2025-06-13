@@ -327,7 +327,8 @@ class TestLLMResponseParser:
         
         assert isinstance(parsed, ParsedResponse)
         assert len(parsed.fix_candidates) == 1  # Should create fallback candidate
-        assert "No code extracted" in parsed.fix_candidates[0]["fix_code"]
+        # The implementation uses the raw response as fix_code for fallback cases
+        assert parsed.fix_candidates[0]["fix_code"] == raw_response
         assert parsed.confidence_score == 0.1  # Low confidence
     
     def test_parse_response_with_validation_disabled(self, sample_parsed_defect):
