@@ -15,6 +15,7 @@ class PerforceConfig:
     p4_user: str = ""
     p4_client: str = ""
     p4_charset: str = ""
+    p4_timeout: int = 30
     auto_checkout: bool = True
     auto_revert_on_failure: bool = True
 

@@ -63,6 +63,10 @@ class PatchApplier:
         
         self.logger.info(f"Starting patch application for defect {analysis_result.defect_id}")
         
+        # Initialize variables for exception handling
+        backup_manifest = None
+        perforce_files = []
+        
         # Initialize result
         result = PatchApplicationResult(
             patch_id=patch_id,
