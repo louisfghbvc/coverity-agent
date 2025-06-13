@@ -8,9 +8,13 @@ Microservices for defect analysis and fix generation.
 import json
 import time
 import logging
-import requests
 from typing import Dict, List, Any, Optional, Tuple
 from datetime import datetime, timedelta
+
+try:
+    from openai import OpenAI
+except ImportError:
+    raise ImportError("OpenAI library is required. Install with: pip install openai>=1.0.0")
 
 from issue_parser.data_structures import ParsedDefect
 from code_retriever.data_structures import CodeContext
@@ -31,16 +35,17 @@ class NIMAPIException(Exception):
 
 
 class NIMProvider:
-    """Interface to a single NVIDIA NIM provider."""
+    """Interface to a single NVIDIA NIM provider using OpenAI client."""
     
     def __init__(self, config: NIMProviderConfig):
         self.config = config
-        self.session = requests.Session()
-        self.session.headers.update({
-            'Authorization': f'Bearer {config.api_key}',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        })
+        
+        # Initialize OpenAI client for NVIDIA NIM
+        self.client = OpenAI(
+            base_url=config.base_url,
+            api_key=config.api_key,
+            timeout=config.timeout
+        )
         
         # Rate limiting
         self.last_request_time = 0.0
@@ -65,9 +70,32 @@ class NIMProvider:
                 self.request_count = 0
                 self.request_window_start = time.time()
     
-    def _prepare_request_payload(self, prompt_components: PromptComponents) -> Dict[str, Any]:
-        """Prepare the request payload for NIM API."""
-        # Construct messages for chat completion format
+    def _handle_streaming_response(self, completion) -> str:
+        """Handle streaming response from NVIDIA NIM API."""
+        content_parts = []
+        
+        try:
+            for chunk in completion:
+                if hasattr(chunk, 'choices') and chunk.choices:
+                    delta = chunk.choices[0].delta
+                    if hasattr(delta, 'content') and delta.content:
+                        content_parts.append(delta.content)
+            
+            return ''.join(content_parts)
+        
+        except Exception as e:
+            logger.error(f"Error handling streaming response: {e}")
+            # Return partial content if available
+            return ''.join(content_parts) if content_parts else ""
+    
+    def generate_response(self, prompt_components: PromptComponents) -> Tuple[str, NIMMetadata]:
+        """Generate response from NVIDIA NIM API using OpenAI client."""
+        self._check_rate_limit()
+        
+        start_time = time.time()
+        request_id = f"nim-{int(start_time * 1000)}"
+        
+        # Prepare messages
         messages = [
             {
                 "role": "system",
@@ -79,94 +107,65 @@ class NIMProvider:
             }
         ]
         
-        payload = {
-            "model": self.config.model,
-            "messages": messages,
-            "max_tokens": self.config.max_tokens,
-            "temperature": self.config.temperature,
-            "stream": self.config.use_streaming
-        }
-        
-        return payload
-    
-    def generate_response(self, prompt_components: PromptComponents) -> Tuple[str, NIMMetadata]:
-        """Generate response from NVIDIA NIM API."""
-        self._check_rate_limit()
-        
-        payload = self._prepare_request_payload(prompt_components)
-        
-        start_time = time.time()
-        request_id = f"nim-{int(start_time * 1000)}"
-        
         try:
             for attempt in range(self.config.retry_attempts):
                 try:
-                    response = self.session.post(
-                        self.config.base_url,
-                        json=payload,
-                        timeout=self.config.timeout
+                    # Make API call using OpenAI client
+                    completion = self.client.chat.completions.create(
+                        model=self.config.model,
+                        messages=messages,
+                        temperature=self.config.temperature,
+                        top_p=self.config.top_p,
+                        max_tokens=self.config.max_tokens,
+                        frequency_penalty=self.config.frequency_penalty,
+                        presence_penalty=self.config.presence_penalty,
+                        stream=self.config.use_streaming
                     )
                     
-                    if response.status_code == 200:
-                        break
-                    elif response.status_code == 429:  # Rate limited
-                        retry_after = int(response.headers.get('Retry-After', self.config.retry_delay))
-                        logger.warning(f"Rate limited by {self.config.name}, retrying after {retry_after}s")
-                        time.sleep(retry_after)
-                        continue
+                    # Handle streaming vs non-streaming response
+                    if self.config.use_streaming:
+                        content = self._handle_streaming_response(completion)
                     else:
-                        logger.warning(f"HTTP {response.status_code} from {self.config.name}: {response.text}")
-                        if attempt < self.config.retry_attempts - 1:
-                            time.sleep(self.config.retry_delay * (2 ** attempt))
-                            continue
-                        else:
-                            raise NIMAPIException(f"HTTP {response.status_code}: {response.text}")
+                        content = completion.choices[0].message.content
+                    
+                    # Extract usage information
+                    tokens_consumed = getattr(completion.usage, 'total_tokens', 0) if hasattr(completion, 'usage') and completion.usage else 0
+                    
+                    generation_time = time.time() - start_time
+                    
+                    # Create metadata
+                    nim_metadata = NIMMetadata(
+                        model_used=self.config.model,
+                        tokens_consumed=tokens_consumed,
+                        generation_time=generation_time,
+                        api_endpoint=self.config.base_url,
+                        request_id=request_id,
+                        estimated_cost=self._calculate_cost(tokens_consumed)
+                    )
+                    
+                    self.request_count += 1
+                    logger.debug(f"Successfully generated response using {self.config.name}")
+                    
+                    return content, nim_metadata
                 
-                except requests.exceptions.Timeout:
-                    if attempt < self.config.retry_attempts - 1:
-                        logger.warning(f"Timeout for {self.config.name}, retrying...")
-                        time.sleep(self.config.retry_delay * (2 ** attempt))
+                except Exception as e:
+                    error_str = str(e)
+                    if "rate" in error_str.lower() and "limit" in error_str.lower():
+                        # Rate limit error
+                        retry_delay = self.config.retry_delay * (2 ** attempt)
+                        logger.warning(f"Rate limited by {self.config.name}, retrying after {retry_delay}s")
+                        time.sleep(retry_delay)
+                        continue
+                    elif attempt < self.config.retry_attempts - 1:
+                        # Other retryable errors
+                        retry_delay = self.config.retry_delay * (2 ** attempt)
+                        logger.warning(f"Request error for {self.config.name}: {e}, retrying in {retry_delay}s...")
+                        time.sleep(retry_delay)
                         continue
                     else:
-                        raise NIMAPIException(f"Timeout after {self.config.retry_attempts} attempts")
-                
-                except requests.exceptions.RequestException as e:
-                    if attempt < self.config.retry_attempts - 1:
-                        logger.warning(f"Request error for {self.config.name}: {e}, retrying...")
-                        time.sleep(self.config.retry_delay * (2 ** attempt))
-                        continue
-                    else:
-                        raise NIMAPIException(f"Request failed: {e}")
+                        # Final attempt failed
+                        raise NIMAPIException(f"All attempts failed: {e}")
             
-            response.raise_for_status()
-            response_data = response.json()
-            
-            # Extract response content
-            if 'choices' in response_data and response_data['choices']:
-                content = response_data['choices'][0]['message']['content']
-            else:
-                raise NIMAPIException("Invalid response format: missing choices")
-            
-            # Extract usage information
-            usage = response_data.get('usage', {})
-            tokens_consumed = usage.get('total_tokens', 0)
-            
-            generation_time = time.time() - start_time
-            
-            # Create metadata
-            nim_metadata = NIMMetadata(
-                model_used=self.config.model,
-                tokens_consumed=tokens_consumed,
-                generation_time=generation_time,
-                api_endpoint=self.config.base_url,
-                request_id=request_id,
-                estimated_cost=self._calculate_cost(tokens_consumed)
-            )
-            
-            self.request_count += 1
-            
-            return content, nim_metadata
-        
         except Exception as e:
             generation_time = time.time() - start_time
             logger.error(f"Failed to generate response from {self.config.name}: {e}")

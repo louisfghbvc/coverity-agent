@@ -20,8 +20,11 @@ llm_fix_generator:
       model: "${NVIDIA_NIM_MODEL}"
       max_tokens: "${NVIDIA_NIM_MAX_TOKENS}"
       temperature: "${NVIDIA_NIM_TEMPERATURE}"
+      top_p: "${NVIDIA_NIM_TOP_P}"
+      frequency_penalty: "${NVIDIA_NIM_FREQUENCY_PENALTY}"
+      presence_penalty: "${NVIDIA_NIM_PRESENCE_PENALTY}"
       timeout: "${NVIDIA_NIM_TIMEOUT}"
-      use_streaming: false
+      use_streaming: "${NVIDIA_NIM_STREAMING}"
       retry_attempts: "${NIM_RETRY_ATTEMPTS}"
       retry_delay: "${NIM_RETRY_DELAY}"
       max_requests_per_minute: "${NIM_MAX_REQUESTS_PER_MINUTE}"

@@ -31,12 +31,17 @@ class NIMProviderConfig:
     base_url: str
     api_key: str
     model: str
-    max_tokens: int = 2000
-    temperature: float = 0.1
+    max_tokens: int = 4096
+    temperature: float = 0.6
     timeout: int = 30
     
+    # Additional OpenAI-compatible parameters
+    top_p: float = 0.95
+    frequency_penalty: float = 0.0
+    presence_penalty: float = 0.0
+    
     # NIM-specific settings
-    use_streaming: bool = False
+    use_streaming: bool = True
     retry_attempts: int = 3
     retry_delay: float = 1.0
     
@@ -58,6 +63,15 @@ class NIMProviderConfig:
         
         if not (0.0 <= self.temperature <= 2.0):
             raise ValueError(f"Temperature must be 0.0-2.0, got {self.temperature}")
+        
+        if not (0.0 <= self.top_p <= 1.0):
+            raise ValueError(f"Top_p must be 0.0-1.0, got {self.top_p}")
+        
+        if not (-2.0 <= self.frequency_penalty <= 2.0):
+            raise ValueError(f"Frequency penalty must be -2.0 to 2.0, got {self.frequency_penalty}")
+        
+        if not (-2.0 <= self.presence_penalty <= 2.0):
+            raise ValueError(f"Presence penalty must be -2.0 to 2.0, got {self.presence_penalty}")
         
         if self.max_tokens <= 0:
             raise ValueError(f"Max tokens must be positive, got {self.max_tokens}")
@@ -299,12 +313,15 @@ class LLMFixGeneratorConfig:
         
         nvidia_nim = NIMProviderConfig(
             name="nvidia_nim",
-            base_url="https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions",
+            base_url="https://integrate.api.nvidia.com/v1",
             api_key=api_key,
-            model="meta/llama-3.1-8b-instruct",
+            model="nvidia/llama-3.3-nemotron-super-49b-v1",
             max_tokens=4096,
-            temperature=0.1,
-            use_streaming=False,
+            temperature=0.6,
+            top_p=0.95,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            use_streaming=True,
             retry_attempts=3,
             retry_delay=1.0,
             max_requests_per_minute=60
@@ -347,11 +364,14 @@ class LLMFixGeneratorConfig:
             name="nvidia_nim",
             base_url=os.getenv('NVIDIA_NIM_BASE_URL', 'https://integrate.api.nvidia.com/v1'),
             api_key=os.getenv('NVIDIA_NIM_API_KEY', ''),
-            model=os.getenv('NVIDIA_NIM_MODEL', 'meta/llama-3.1-405b-instruct'),
-            max_tokens=int(os.getenv('NVIDIA_NIM_MAX_TOKENS', '2000')),
-            temperature=float(os.getenv('NVIDIA_NIM_TEMPERATURE', '0.1')),
+            model=os.getenv('NVIDIA_NIM_MODEL', 'nvidia/llama-3.3-nemotron-super-49b-v1'),
+            max_tokens=int(os.getenv('NVIDIA_NIM_MAX_TOKENS', '4096')),
+            temperature=float(os.getenv('NVIDIA_NIM_TEMPERATURE', '0.6')),
+            top_p=float(os.getenv('NVIDIA_NIM_TOP_P', '0.95')),
+            frequency_penalty=float(os.getenv('NVIDIA_NIM_FREQUENCY_PENALTY', '0.0')),
+            presence_penalty=float(os.getenv('NVIDIA_NIM_PRESENCE_PENALTY', '0.0')),
             timeout=int(os.getenv('NVIDIA_NIM_TIMEOUT', '30')),
-            use_streaming=False,
+            use_streaming=os.getenv('NVIDIA_NIM_STREAMING', 'true').lower() == 'true',
             retry_attempts=int(os.getenv('NIM_RETRY_ATTEMPTS', '3')),
             retry_delay=float(os.getenv('NIM_RETRY_DELAY', '1.0')),
             max_requests_per_minute=int(os.getenv('NIM_MAX_REQUESTS_PER_MINUTE', '60')),
@@ -562,6 +582,9 @@ class LLMFixGeneratorConfig:
                         "model": provider.model,
                         "max_tokens": provider.max_tokens,
                         "temperature": provider.temperature,
+                        "top_p": provider.top_p,
+                        "frequency_penalty": provider.frequency_penalty,
+                        "presence_penalty": provider.presence_penalty,
                         "timeout": provider.timeout,
                         "use_streaming": provider.use_streaming,
                         "retry_attempts": provider.retry_attempts,

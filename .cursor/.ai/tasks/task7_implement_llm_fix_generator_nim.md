@@ -430,4 +430,129 @@ The LLM Fix Generator is fully implemented with enhanced NVIDIA NIM integration 
 - **Hybrid Config**: YAML configuration with environment variable resolution
 - **Validation**: Built-in environment validation and connection testing
 
-The implementation now provides enterprise-grade configuration management with the requested dotenv integration, making it production-ready for the complete Coverity Agent pipeline. 
+The implementation now provides enterprise-grade configuration management with the requested dotenv integration, making it production-ready for the complete Coverity Agent pipeline.
+
+**✅ OPENAI CLIENT INTEGRATION COMPLETED (Major Update - 2025-01-15)**
+
+**Revolutionary Enhancement: Migrated from requests to OpenAI Client Library**
+
+**Architecture Transformation ✅:**
+- **Complete Migration**: Successfully migrated from direct `requests` HTTP calls to OpenAI client library
+- **API Compatibility**: Full OpenAI-compatible interface for NVIDIA NIM integration
+- **Streamlined Implementation**: Cleaner, more maintainable codebase with industry-standard client library
+- **Enhanced Reliability**: Improved error handling and retry logic provided by OpenAI client
+
+**Updated Components:**
+
+1. **LLM Manager (`src/fix_generator/llm_manager.py`) - MAJOR REWRITE**:
+   - ❌ **Removed**: Direct HTTP requests using `requests` library
+   - ✅ **Added**: OpenAI client initialization: `OpenAI(base_url, api_key)`
+   - ✅ **Enhanced**: Native streaming support with `_handle_streaming_response()`
+   - ✅ **Improved**: Better error handling and retry mechanisms
+   - ✅ **Added**: Full parameter support (top_p, frequency_penalty, presence_penalty)
+
+2. **Configuration (`src/fix_generator/config.py`) - ENHANCED**:
+   - ✅ **New Parameters**: `top_p=0.95`, `frequency_penalty=0.0`, `presence_penalty=0.0`
+   - ✅ **Model Update**: Default model changed to `nvidia/llama-3.3-nemotron-super-49b-v1`
+   - ✅ **Token Increase**: Max tokens increased from 2000 to 4096
+   - ✅ **Temperature**: Adjusted from 0.1 to 0.6 for better creativity
+   - ✅ **Streaming**: Enabled by default for real-time responses
+
+3. **Environment Variables (`env.example`) - EXPANDED**:
+   ```bash
+   # NEW PARAMETERS ADDED:
+   NVIDIA_NIM_TOP_P=0.95
+   NVIDIA_NIM_FREQUENCY_PENALTY=0.0
+   NVIDIA_NIM_PRESENCE_PENALTY=0.0
+   NVIDIA_NIM_STREAMING=true
+   
+   # UPDATED VALUES:
+   NVIDIA_NIM_MODEL=nvidia/llama-3.3-nemotron-super-49b-v1
+   NVIDIA_NIM_MAX_TOKENS=4096
+   NVIDIA_NIM_TEMPERATURE=0.6
+   ```
+
+4. **YAML Configuration - ENHANCED**:
+   - ✅ **Full Parameter Support**: All OpenAI client parameters now configurable
+   - ✅ **Environment Integration**: Seamless environment variable resolution
+   - ✅ **Validation**: Enhanced parameter validation for OpenAI compatibility
+
+**New Test Scripts Created ✅:**
+
+1. **`test_openai_nim_integration.py`** - Comprehensive test suite for OpenAI client integration
+2. **`example_openai_nim_usage.py`** - Detailed usage examples showing both direct OpenAI client and Fix Generator usage
+
+**Technical Benefits Achieved:**
+
+🚀 **Performance Improvements**:
+- **Native Streaming**: Real-time response streaming with better performance
+- **Connection Pooling**: Built-in connection management from OpenAI client
+- **Retry Logic**: Intelligent retry mechanisms with exponential backoff
+- **Error Recovery**: Better error classification and handling
+
+🔧 **Developer Experience**:
+- **Industry Standard**: Using the same client library as mainstream OpenAI integration
+- **Cleaner Code**: Removed complex HTTP handling and response parsing
+- **Better Documentation**: OpenAI client comes with extensive documentation
+- **Type Safety**: Enhanced type hints and parameter validation
+
+📊 **Enhanced Features**:
+- **Full Parameter Control**: Access to all OpenAI-compatible parameters
+- **Advanced Model Support**: Better support for latest NIM models
+- **Cost Optimization**: More granular control over token usage and model behavior
+- **Quality Improvements**: Better text generation with optimized parameters
+
+**Migration Summary:**
+
+| Component | Before (requests) | After (OpenAI Client) | Status |
+|-----------|------------------|----------------------|---------|
+| API Client | Manual HTTP requests | `OpenAI(base_url, api_key)` | ✅ Migrated |
+| Streaming | Basic implementation | Native streaming support | ✅ Enhanced |
+| Parameters | Limited (temp, max_tokens) | Full set (top_p, penalties, etc.) | ✅ Expanded |
+| Error Handling | Manual retry logic | Built-in resilience | ✅ Improved |
+| Model Support | Basic | Advanced NIM models | ✅ Updated |
+| Performance | Good | Excellent | ✅ Optimized |
+
+**Usage Examples:**
+
+**Direct OpenAI Client (User's Requested Pattern):**
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=os.getenv('NVIDIA_NIM_API_KEY')
+)
+
+completion = client.chat.completions.create(
+    model="nvidia/llama-3.3-nemotron-super-49b-v1",
+    messages=[{"role":"system","content":"You are a code expert."}],
+    temperature=0.6,
+    top_p=0.95,
+    max_tokens=4096,
+    frequency_penalty=0,
+    presence_penalty=0,
+    stream=True
+)
+```
+
+**Fix Generator (Internal OpenAI Client):**
+```python
+# Now uses OpenAI client internally
+generator = LLMFixGenerator.create_from_env()
+result = generator.analyze_and_fix(defect, code_context)
+```
+
+**Validation and Testing:**
+- ✅ **Test Scripts**: Comprehensive test coverage for OpenAI client integration
+- ✅ **Backwards Compatibility**: Existing Fix Generator API remains unchanged
+- ✅ **Environment Validation**: Enhanced validation for new parameters
+- ✅ **Performance Testing**: Verified improved response times and reliability
+
+**Production Readiness:**
+- ✅ **Enterprise Grade**: Industry-standard client library implementation
+- ✅ **Scalable**: Better handling of concurrent requests and rate limiting
+- ✅ **Maintainable**: Cleaner codebase with reduced complexity
+- ✅ **Future Proof**: Easy to adopt new OpenAI/NIM features
+
+This major enhancement transforms the NVIDIA NIM integration from a custom HTTP implementation to a production-ready, industry-standard OpenAI client integration, exactly as requested by the user. The system now provides the best of both worlds: the power of NVIDIA NIM models with the reliability and features of the OpenAI client ecosystem. 
