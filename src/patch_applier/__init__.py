@@ -12,7 +12,8 @@ from .data_structures import (
     BackupManifest,
     PatchApplicationResult,
     PerforceWorkspaceState,
-    AppliedChange
+    AppliedChange,
+    ApplicationStatus
 )
 from .config import PatchApplierConfig
 from .exceptions import (
@@ -30,6 +31,7 @@ __all__ = [
     'PatchApplicationResult',
     'PerforceWorkspaceState',
     'AppliedChange',
+    'ApplicationStatus',
     'PatchApplierConfig',
     'PatchApplierError',
     'PatchValidationError',

@@ -23,6 +23,7 @@ class BackupConfig:
     """Configuration for backup management."""
     enabled: bool = True
     backup_directory: str = ".patch_backups"
+    create_timestamp_dirs: bool = True
     retain_backups: bool = True
     verify_checksums: bool = True
 
@@ -31,6 +32,7 @@ class BackupConfig:
 class ValidationConfig:
     """Configuration for patch validation."""
     check_file_existence: bool = True
+    check_file_permissions: bool = True
     validate_syntax: bool = True
     detect_conflicts: bool = True
     min_confidence_for_auto_apply: float = 0.7

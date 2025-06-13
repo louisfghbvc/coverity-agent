@@ -170,9 +170,10 @@ class TestPatchApplier:
                 working_directory=temp_dir
             )
             
-            # Should still succeed but with warnings
-            assert result.overall_status == ApplicationStatus.SUCCESS
+            # Should fail due to low confidence (0.3 < 0.5 minimum threshold)
+            assert result.overall_status == ApplicationStatus.FAILED
             assert result.validation_result.has_warnings
+            assert not result.validation_result.is_valid
 
 
 class TestPatchValidator:
