@@ -23,9 +23,41 @@
 > Dependencies: 3
 > Implement the Code Retriever component to extract relevant source code context around defects for LLM Fix Generator. This includes source file management, function-level context extraction, language detection, and integration with classification hints from Issue Parser.
 
-- [x] **ID 7: Implement LLM Fix Generator with NVIDIA NIM Integration** (Priority: critical)
+- [-] **ID 7: LLM Fix Generator with NVIDIA NIM Integration (Parent Task)** (Priority: critical)
 > Dependencies: 3, 6
-> Implement the central AI-powered component that analyzes defects, performs intelligent classification, and generates concrete code patches using NVIDIA Inference Microservices. This unified component leverages dotenv-based configuration management for secure API token handling, with NIM as primary provider and OpenAI/Anthropic fallbacks. Features include advanced prompt engineering optimized for NIM models, multi-candidate generation, and comprehensive cost optimization strategies.
+> Parent task for implementing the LangChain-based LLM Fix Generator with NVIDIA NIM integration. This task has been expanded into 8 focused sub-tasks for better development workflow and parallel implementation.
+
+- [ ] **ID 7.1: Create Pydantic Data Models** (Priority: critical)
+> Dependencies: None
+> Implement all Pydantic BaseModel classes for type-safe structured output including DefectAnalysisResult, FixCandidate, NIMMetadata, and StyleAnalysisResult with automatic validation and JSON schema generation.
+
+- [ ] **ID 7.2: Implement LangChain Configuration Management** (Priority: critical)
+> Dependencies: 7.1
+> Set up comprehensive configuration system with dotenv integration, environment variable validation, and YAML-based LangChain provider configurations for NVIDIA NIM, OpenAI, and Anthropic.
+
+- [ ] **ID 7.3: Develop LangChain Prompt Templates** (Priority: high)
+> Dependencies: 7.1, 7.2
+> Create defect-specific ChatPromptTemplate and PromptTemplate systems optimized for NVIDIA NIM models with dynamic variable substitution and template composition.
+
+- [ ] **ID 7.4: Build LangChain Output Parsers** (Priority: high)
+> Dependencies: 7.1, 7.3
+> Implement PydanticOutputParser with automatic retry mechanisms, OutputFixingParser for error recovery, and fallback parsing strategies for robust response handling.
+
+- [ ] **ID 7.5: Create LangChain Provider Manager** (Priority: critical)
+> Dependencies: 7.2, 7.4
+> Implement ChatOpenAI configuration for NVIDIA NIM endpoints with multi-provider fallback system, streaming support, and unified provider interface.
+
+- [ ] **ID 7.6: Implement LangChain Callbacks** (Priority: medium)
+> Dependencies: 7.5
+> Create custom LangChain callbacks for token counting, cost tracking, performance monitoring, and streaming support with comprehensive observability.
+
+- [ ] **ID 7.7: Build Style Consistency Checker** (Priority: medium)
+> Dependencies: 7.3, 7.4
+> Implement LangChain-based style analysis using dedicated prompt templates with Pydantic models for structured style recommendations and language-specific guidelines.
+
+- [ ] **ID 7.8: Main LangChain Integration & API** (Priority: critical)
+> Dependencies: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7
+> Create the main LLMFixGenerator public API integrating all components with chain composition, quality validation, performance monitoring, and comprehensive testing.
 
 - [x] **ID 8a: Implement Core Patch Application Components** (Priority: critical)
 > Dependencies: 7
@@ -46,7 +78,7 @@
 - 🎯 **NEW**: **Multiple Application Modes** - Line range-based, keyword-based, multiple ranges with intelligent distribution
 - ⚡ **NEW**: **Enhanced Safety** - Only modifies target lines, preserves code structure and comments
 
-**NEXT PRIORITY: Task 12 - Verification System Implementation**
+**NEXT PRIORITY: Task 7 Sub-Tasks - LangChain Integration**
 
 - [ ] **ID 12: Implement Core Verification System** (Priority: critical)
 > Dependencies: 8b
