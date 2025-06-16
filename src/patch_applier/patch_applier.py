@@ -217,81 +217,64 @@ class PatchApplier:
     def _apply_fix_to_file(self, file_path: str, fix_candidate, 
                           working_directory: str, analysis_result=None) -> FileModification:
         """
-        Apply fix to a single file using enhanced replacement strategies.
+        Apply fix to a single file using line ranges and fix code.
         
-        This method supports four modes:
-        1. Content marker replacement (preferred): Use content markers for surgical fixes
-        2. Line range replacement: Use line_ranges from FixCandidate
-        3. Keyword-based replacement: Add keywords and replace marked blocks
-        4. Full file replacement (fallback): Replace entire file content
+        This method uses the standard FixCandidate attributes (line_ranges and fix_code)
+        to apply the fix to the specified file.
         """
         full_path = Path(working_directory) / file_path
         
-        # Read original content
         with open(full_path, 'r', encoding='utf-8') as f:
-            original_content = f.read()
-        
-        original_lines = original_content.splitlines()
-        
-        # Determine replacement mode based on available data
-        if self._has_content_markers(fix_candidate.fix_code):
-            # Mode 1: Content marker replacement (preferred)
-            modified_content = self._apply_content_marker_replacement(
-                original_content, fix_candidate.fix_code, analysis_result
-            )
-            modified_lines = modified_content.splitlines()
-            self.logger.info(f"Applied content marker replacement to {file_path}")
+            original_lines = f.read().splitlines()
             
-        elif hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
-            # Mode 2: Line range replacement
+        # Use line range replacement as the primary method
+        if hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
             modified_lines = self._apply_line_range_replacement(
                 original_lines, fix_candidate.fix_code, fix_candidate.line_ranges
             )
-            modified_content = '\n'.join(modified_lines)
             self.logger.info(f"Applied line range replacement to {file_path}")
-            
-        elif self.config.patch_application.enable_keyword_replacement:
-            # Mode 3: Keyword-based replacement
-            modified_lines = self._apply_keyword_replacement(
-                original_lines, fix_candidate.fix_code, analysis_result
-            )
-            modified_content = '\n'.join(modified_lines)
-            self.logger.info(f"Applied keyword-based replacement to {file_path}")
-            
         else:
-            # Mode 4: Full file replacement (fallback)
-            self.logger.warning(f"No specific replacement method found, falling back to full file replacement for {file_path}")
-            modified_lines = fix_candidate.fix_code.splitlines()
-            modified_content = '\n'.join(modified_lines)
-        
-        # Write modified content
+            # Fallback: try to detect the defect line and apply fix there
+            defect_line = analysis_result.line_number if analysis_result else 1
+            # Create a simple line range for the defect line
+            line_ranges = [{"start": defect_line, "end": defect_line}]
+            modified_lines = self._apply_line_range_replacement(
+                original_lines, fix_candidate.fix_code, line_ranges
+            )
+            self.logger.info(f"Applied fallback line replacement at line {defect_line} in {file_path}")
+
+        modified_content = '\n'.join(modified_lines)
+        if original_lines and not modified_content.endswith('\n'):
+             modified_content += '\n'
+
         with open(full_path, 'w', encoding='utf-8') as f:
             f.write(modified_content)
-        
+
         # Calculate line changes
-        differ = difflib.unified_diff(original_lines, modified_lines, lineterm='')
-        diff_lines = list(differ)
+        original_content_for_diff = '\n'.join(original_lines)
+        diff = difflib.unified_diff(
+            original_content_for_diff.splitlines(keepends=True),
+            modified_content.splitlines(keepends=True),
+            fromfile='original',
+            tofile='modified',
+        )
         
-        lines_added = sum(1 for line in diff_lines if line.startswith('+') and not line.startswith('+++'))
-        lines_removed = sum(1 for line in diff_lines if line.startswith('-') and not line.startswith('---'))
-        lines_changed = min(lines_added, lines_removed)
+        diff_str = "".join(diff)
+        lines_added = len([line for line in diff_str.splitlines() if line.startswith('+') and not line.startswith('+++')])
+        lines_removed = len([line for line in diff_str.splitlines() if line.startswith('-') and not line.startswith('---')])
         
         return FileModification(
-            file_path=file_path,
-            original_content=original_content,
+            file_path=str(full_path),
+            original_content=original_content_for_diff,
             modified_content=modified_content,
-            lines_added=lines_added - lines_changed,
-            lines_removed=lines_removed - lines_changed,
-            lines_changed=lines_changed
+            lines_added=lines_added,
+            lines_removed=lines_removed,
+            lines_changed=min(lines_added, lines_removed)
         )
     
     def _has_content_markers(self, fix_code: str) -> bool:
-        """Check if fix_code contains content replacement markers."""
-        return (
-            ('<<<REPLACE_START>>>' in fix_code and '<<<REPLACE_END>>>' in fix_code) or
-            ('<<<INSERT_AFTER_LINE:' in fix_code and '<<<INSERT_END>>>' in fix_code) or
-            ('<<<LINE_REPLACE:' in fix_code and '<<<LINE_REPLACE_END>>>' in fix_code)
-        )
+        # This is now obsolete with the instruction-based approach
+        return False
     
     def _apply_content_marker_replacement(self, original_content: str, fix_code: str, analysis_result) -> str:
         """

@@ -25,6 +25,7 @@ from .data_structures import (
 )
 from .config import LLMFixGeneratorConfig, NIMProviderConfig
 from .prompt_engineering import PromptEngineer, PromptComponents
+from .response_parser import LLMResponseParser
 
 
 logger = logging.getLogger(__name__)
@@ -232,6 +233,7 @@ class UnifiedLLMManager:
         self.config = config
         self.prompt_engineer = PromptEngineer(config.analysis)
         self.statistics = GenerationStatistics()
+        self.response_parser = LLMResponseParser(enable_validation=True)
         
         # Initialize providers
         self.providers = {}
@@ -305,7 +307,7 @@ class UnifiedLLMManager:
                 
                 # Parse the response
                 analysis_result = self._parse_response(
-                    raw_response, defect, nim_metadata, prompt_components.template_used
+                    raw_response, defect, nim_metadata
                 )
                 
                 # Update statistics
@@ -326,90 +328,183 @@ class UnifiedLLMManager:
         raise NIMAPIException(f"All providers failed for defect {defect.defect_id}. Last error: {last_exception}")
     
     def _parse_response(self, raw_response: str, defect: ParsedDefect, 
-                       nim_metadata: NIMMetadata, template_used: str) -> DefectAnalysisResult:
-        """Parse the LLM response into a DefectAnalysisResult."""
+                       nim_metadata: NIMMetadata) -> DefectAnalysisResult:
+        """Parse the LLM response into a DefectAnalysisResult using LLMResponseParser."""
+        
+        logger.debug(f"Parsing response using LLMResponseParser, length: {len(raw_response)}")
+        
+        if not raw_response or not raw_response.strip():
+            logger.error("Empty response received from AI")
+            return self._create_fallback_result(defect, Exception("Empty response from AI"), nim_metadata)
+
         try:
-            # Try to parse as JSON
-            response_data = json.loads(raw_response)
+            parsed_response = self.response_parser.parse_response(raw_response, defect)
             
-            # Extract defect analysis
-            defect_analysis = response_data.get('defect_analysis', {})
-            
-            # Parse severity and complexity
-            severity_str = defect_analysis.get('severity', 'medium').lower()
-            severity = DefectSeverity(severity_str) if severity_str in [e.value for e in DefectSeverity] else DefectSeverity.MEDIUM
-            
-            complexity_str = defect_analysis.get('complexity', 'moderate').lower()
-            complexity = FixComplexity(complexity_str) if complexity_str in [e.value for e in FixComplexity] else FixComplexity.MODERATE
-            
-            # Parse fix candidates
+            # Map ParsedResponse to DefectAnalysisResult
+            if not parsed_response.fix_candidates:
+                raise ValueError("No valid fix candidates found after parsing.")
+
+            # Create FixCandidate objects from parsed data
             fix_candidates = []
-            candidates_data = response_data.get('fix_candidates', [])
-            
-            for i, candidate_data in enumerate(candidates_data):
-                try:
-                    candidate_complexity_str = candidate_data.get('complexity', 'moderate').lower()
-                    candidate_complexity = FixComplexity(candidate_complexity_str) if candidate_complexity_str in [e.value for e in FixComplexity] else FixComplexity.MODERATE
-                    
-                    # Clean up code formatting issues
-                    fix_code = self._clean_code_formatting(candidate_data.get('fix_code', ''))
-                    
-                    # Process affected_files to ensure absolute paths
-                    raw_affected_files = candidate_data.get('affected_files', [defect.file_path])
-                    affected_files = self._resolve_affected_files(raw_affected_files, defect.file_path)
-                    
-                    fix_candidate = FixCandidate(
-                        fix_code=fix_code,
-                        explanation=candidate_data.get('explanation', ''),
-                        confidence_score=float(candidate_data.get('confidence', 0.5)),
-                        complexity=candidate_complexity,
-                        risk_assessment=candidate_data.get('risk_assessment', 'Unknown risk'),
-                        affected_files=affected_files,
-                        line_ranges=candidate_data.get('line_ranges', [{'start': defect.line_number, 'end': defect.line_number}]),
-                        fix_strategy=candidate_data.get('fix_strategy', ''),
-                        estimated_effort=candidate_data.get('estimated_effort', ''),
-                        potential_side_effects=candidate_data.get('potential_side_effects', [])
-                    )
-                    fix_candidates.append(fix_candidate)
-                except Exception as e:
-                    logger.warning(f"Failed to parse fix candidate {i}: {e}")
-                    continue
-            
-            # Ensure we have at least one candidate
-            if not fix_candidates:
-                raise ValueError("No valid fix candidates found in response")
-            
-            # Create the analysis result
+            for cand_data in parsed_response.fix_candidates:
+                # Handle potentially incomplete explanation field
+                explanation = cand_data.get('explanation', '')
+                if not explanation or not explanation.strip():
+                    explanation = 'AI-generated fix (explanation incomplete)'
+                
+                fix_candidates.append(FixCandidate(
+                    fix_code='\n'.join(cand_data.get('fix_code', [])) if isinstance(cand_data.get('fix_code'), list) else cand_data.get('fix_code', ''),
+                    explanation=explanation,
+                    confidence_score=float(cand_data.get('confidence', 0.5)),
+                    complexity=FixComplexity(cand_data.get('complexity', 'moderate').lower()),
+                    risk_assessment=cand_data.get('risk_assessment', 'N/A'),
+                    affected_files=cand_data.get('affected_files', [defect.file_path]),
+                    line_ranges=cand_data.get('line_ranges', [])
+                ))
+
+            analysis = parsed_response.defect_analysis
+            severity = DefectSeverity(analysis.get('severity', 'medium').lower())
+            complexity = FixComplexity(analysis.get('complexity', 'moderate').lower())
+
             analysis_result = DefectAnalysisResult(
                 defect_id=defect.defect_id,
                 defect_type=defect.defect_type,
                 file_path=defect.file_path,
                 line_number=defect.line_number,
-                defect_category=defect_analysis.get('category', defect.defect_type),
+                defect_category=analysis.get('category', defect.defect_type),
                 severity_assessment=severity,
                 fix_complexity=complexity,
-                confidence_score=float(defect_analysis.get('confidence', 0.5)),
+                confidence_score=parsed_response.confidence_score,
                 fix_candidates=fix_candidates,
-                recommended_fix_index=0,  # First candidate is recommended by default
-                reasoning_trace=response_data.get('reasoning', ''),
-                nim_metadata=nim_metadata
+                recommended_fix_index=0,  # Default to first
+                reasoning_trace=parsed_response.reasoning,
+                nim_metadata=nim_metadata,
+                validation_errors=parsed_response.parsing_errors
             )
             
             return analysis_result
-        
-        except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse JSON response: {e}")
-            # Try to extract fix code from non-JSON response
-            return self._parse_fallback_response(raw_response, defect, nim_metadata)
-        
+
         except Exception as e:
-            logger.error(f"Failed to parse response: {e}")
+            logger.error(f"Failed to parse response with LLMResponseParser: {e}")
+            logger.error(f"Response preview (first 500 chars): {raw_response[:500]}")
             return self._create_fallback_result(defect, e, nim_metadata)
+    
+    def _clean_and_extract_json(self, text: str) -> Optional[str]:
+        """
+        Extracts and cleans a JSON object from a string.
+        Handles markdown code blocks and removes comments.
+        """
+        # 1. Extract content within ```json ... ```, or find the largest JSON-like block
+        json_str = None
+        match = re.search(r'```json\s*(\{.*?\})\s*```', text, re.DOTALL)
+        if match:
+            json_str = match.group(1)
+        else:
+            # Fallback to find the largest '{...}' block
+            match = re.search(r'(\{.*\})', text, re.DOTALL)
+            if match:
+                json_str = match.group(0)
+
+        if not json_str:
+            return None
+
+        # 2. Remove // comments from the extracted JSON string
+        # This is a common failure mode of LLMs.
+        lines = json_str.split('\n')
+        cleaned_lines = []
+        for line in lines:
+            # Remove any trailing // comments
+            line = re.sub(r'\s*//.*$', '', line)
+            cleaned_lines.append(line)
+        
+        json_str_no_comments = '\n'.join(cleaned_lines)
+
+        # 3. Remove trailing commas from the last element in an object or array
+        # Another common failure mode.
+        json_str_no_trailing_commas = re.sub(r',\s*([\}\]])', r'\1', json_str_no_comments)
+        
+        return json_str_no_trailing_commas
+
+    def _extract_json_from_response(self, text: str) -> Optional[str]:
+        # This function is now replaced by _clean_and_extract_json
+        return self._clean_and_extract_json(text)
     
     def _parse_fallback_response(self, raw_response: str, defect: ParsedDefect, 
                                 nim_metadata: NIMMetadata) -> DefectAnalysisResult:
         """Parse non-JSON response as fallback."""
-        # Simple extraction - look for code blocks
+        
+        # Check if response is empty or error message
+        if not raw_response or raw_response.strip() == "Empty response":
+            confidence = 0.1
+            fix_code = "// Empty AI response - manual review required"
+            explanation = "AI returned empty response"
+        else:
+            # Try to extract meaningful content
+            
+            # Look for JSON-like structures in the response
+            import re
+            json_match = re.search(r'\{.*"fix_candidates".*\}', raw_response, re.DOTALL)
+            if json_match:
+                try:
+                    # Try to parse the extracted JSON
+                    potential_json = json_match.group(0)
+                    response_data = json.loads(potential_json)
+                    
+                    # Extract fix candidates if found
+                    candidates_data = response_data.get('fix_candidates', [])
+                    if candidates_data and len(candidates_data) > 0:
+                        first_candidate = candidates_data[0]
+                        fix_code = self._clean_code_formatting(first_candidate.get('fix_code', ''))
+                        explanation = first_candidate.get('explanation', 'Partial JSON parsing successful')
+                        confidence = 0.6  # Higher confidence for partial JSON success
+                    else:
+                        confidence = 0.4
+                        fix_code = "// JSON found but no fix candidates"
+                        explanation = "Partial JSON parsing - no fix candidates found"
+                        
+                except json.JSONDecodeError:
+                    # Fall back to code block extraction
+                    confidence = 0.4
+                    fix_code, explanation = self._extract_code_blocks(raw_response)
+            else:
+                # Simple extraction - look for code blocks
+                confidence = 0.4
+                fix_code, explanation = self._extract_code_blocks(raw_response)
+        
+        fix_candidate = FixCandidate(
+            fix_code=fix_code,
+            explanation=explanation,
+            confidence_score=confidence,
+            complexity=FixComplexity.MODERATE,
+            risk_assessment="Unknown - requires manual review",
+            affected_files=[defect.file_path],
+            line_ranges=[{'start': defect.line_number, 'end': defect.line_number}]
+        )
+        
+        validation_errors = []
+        if confidence < 0.5:
+            validation_errors.append(f"Low confidence fallback parsing: {confidence:.2f}")
+        if "Empty response" in explanation:
+            validation_errors.append("AI returned empty response")
+        else:
+            validation_errors.append("Fallback parsing used - manual review recommended")
+        
+        return DefectAnalysisResult(
+            defect_id=defect.defect_id,
+            defect_type=defect.defect_type,
+            file_path=defect.file_path,
+            line_number=defect.line_number,
+            defect_category="unknown",
+            severity_assessment=DefectSeverity.MEDIUM,
+            fix_complexity=FixComplexity.MODERATE,
+            confidence_score=confidence,
+            fix_candidates=[fix_candidate],
+            nim_metadata=nim_metadata,
+            validation_errors=validation_errors
+        )
+    
+    def _extract_code_blocks(self, raw_response: str) -> tuple[str, str]:
+        """Extract code blocks from response text."""
         lines = raw_response.split('\n')
         code_lines = []
         in_code_block = False
@@ -421,31 +516,20 @@ class UnifiedLLMManager:
             if in_code_block:
                 code_lines.append(line)
         
-        fix_code = '\n'.join(code_lines) if code_lines else raw_response[:500]
+        if code_lines:
+            fix_code = '\n'.join(code_lines)
+            explanation = "Code block extraction from non-JSON response"
+        else:
+            # Look for any meaningful content
+            meaningful_lines = [line.strip() for line in lines if line.strip() and not line.strip().startswith('#')]
+            if meaningful_lines:
+                fix_code = '\n'.join(meaningful_lines[:5])  # Take first 5 meaningful lines
+                explanation = "Text extraction from non-JSON response"
+            else:
+                fix_code = raw_response[:200] if len(raw_response) > 10 else "// No meaningful content found"
+                explanation = "Raw text fallback - minimal content found"
         
-        fix_candidate = FixCandidate(
-            fix_code=fix_code,
-            explanation="Fallback parsing - manual review recommended",
-            confidence_score=0.3,
-            complexity=FixComplexity.MODERATE,
-            risk_assessment="Unknown - requires manual review",
-            affected_files=[defect.file_path],
-            line_ranges=[{'start': defect.line_number, 'end': defect.line_number}]
-        )
-        
-        return DefectAnalysisResult(
-            defect_id=defect.defect_id,
-            defect_type=defect.defect_type,
-            file_path=defect.file_path,
-            line_number=defect.line_number,
-            defect_category="unknown",
-            severity_assessment=DefectSeverity.MEDIUM,
-            fix_complexity=FixComplexity.MODERATE,
-            confidence_score=0.3,
-            fix_candidates=[fix_candidate],
-            nim_metadata=nim_metadata,
-            validation_errors=["Fallback parsing used - manual review recommended"]
-        )
+        return fix_code, explanation
     
     def _create_fallback_result(self, defect: ParsedDefect, error: Exception, 
                                nim_metadata: Optional[NIMMetadata] = None) -> DefectAnalysisResult:

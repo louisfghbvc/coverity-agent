@@ -458,9 +458,9 @@ class LLMFixGeneratorConfig:
             analysis=analysis_config,
             quality=quality_config,
             optimization=optimization_config,
-            log_level=os.getenv('LOG_LEVEL', 'INFO'),
-            debug_mode=os.getenv('DEBUG_MODE', 'false').lower() == 'true',
-            save_raw_responses=os.getenv('SAVE_RAW_RESPONSES', 'false').lower() == 'true'
+            log_level=os.getenv('LOG_LEVEL', 'DEBUG'),
+            debug_mode=os.getenv('DEBUG_MODE', 'true').lower() == 'true',
+            save_raw_responses=os.getenv('SAVE_RAW_RESPONSES', 'true').lower() == 'true'
         )
     
     def get_provider_config(self, provider_name: str) -> NIMProviderConfig:

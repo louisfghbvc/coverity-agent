@@ -42,7 +42,7 @@ def test_simple_real_demo():
     print("=" * 80)
     
     # Enable debug logging for patch validation
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     patch_logger = logging.getLogger('src.patch_applier.patch_validator')
     patch_logger.setLevel(logging.DEBUG)
     
@@ -67,13 +67,13 @@ def test_simple_real_demo():
     adapter = CoverityPipelineAdapter(real_report_path)
     assert adapter.validate_report(), "Report validation failed"
     
-    # Get one RESOURCE_LEAK defect
-    resource_leaks = adapter.parse_issues_by_category("RESOURCE_LEAK")[:1]
-    if not resource_leaks:
-        print("❌ No RESOURCE_LEAK defects found")
-        return False
-    
-    defect = resource_leaks[0]
+    # Get one FORWARD_NULL defect
+    target_defects = adapter.parse_issues_by_category("FORWARD_NULL")
+    if not target_defects:
+        print("❌ No FORWARD_NULL defects found")
+        pytest.skip("No FORWARD_NULL defects found in the report.")
+
+    defect = target_defects[0]
     print(f"✅ Selected defect: {defect.defect_id}")
     print(f"   File: {Path(defect.file_path).name}")
     print(f"   Line: {defect.line_number}")
