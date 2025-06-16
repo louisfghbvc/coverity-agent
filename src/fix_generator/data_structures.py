@@ -37,6 +37,12 @@ class ConfidenceLevel(Enum):
     VERY_LOW = "very_low"  # <0.3
 
 
+class FixType(Enum):
+    """Type of fix being applied."""
+    CODE_FIX = "code_fix"
+    SUPPRESSION = "suppression"
+
+
 @dataclass
 class FixCandidate:
     """Represents a single fix candidate with metadata."""
@@ -51,6 +57,9 @@ class FixCandidate:
     # File modification details
     affected_files: List[str]
     line_ranges: List[Dict[str, int]]  # [{"start": n, "end": m}]
+    
+    # Fix type (code fix or suppression)
+    fix_type: FixType = FixType.CODE_FIX
     
     # Additional metadata
     fix_strategy: str = ""
@@ -93,6 +102,7 @@ class FixCandidate:
             "risk_assessment": self.risk_assessment,
             "affected_files": self.affected_files,
             "line_ranges": self.line_ranges,
+            "fix_type": self.fix_type.value,
             "fix_strategy": self.fix_strategy,
             "estimated_effort": self.estimated_effort,
             "potential_side_effects": self.potential_side_effects
@@ -156,8 +166,12 @@ class DefectAnalysisResult:
     fix_complexity: FixComplexity
     confidence_score: float
     
-    # Fix generation results
+    # Fix generation results (required fields)
     fix_candidates: List[FixCandidate]
+    
+    # False positive detection (optional fields with defaults)
+    is_false_positive: bool = False
+    false_positive_reason: str = ""
     recommended_fix_index: int = 0  # Index of recommended fix in candidates list
     
     # Analysis metadata
@@ -216,6 +230,8 @@ class DefectAnalysisResult:
             "severity": self.severity_assessment.value,
             "complexity": self.fix_complexity.value,
             "confidence": self.confidence_score,
+            "is_false_positive": self.is_false_positive,
+            "false_positive_reason": self.false_positive_reason,
             "num_candidates": len(self.fix_candidates),
             "recommended_confidence": self.recommended_fix.confidence_score,
             "style_consistency": self.style_consistency_score,
@@ -234,6 +250,8 @@ class DefectAnalysisResult:
             "severity_assessment": self.severity_assessment.value,
             "fix_complexity": self.fix_complexity.value,
             "confidence_score": self.confidence_score,
+            "is_false_positive": self.is_false_positive,
+            "false_positive_reason": self.false_positive_reason,
             "fix_candidates": [fix.to_dict() for fix in self.fix_candidates],
             "recommended_fix_index": self.recommended_fix_index,
             "reasoning_trace": self.reasoning_trace,

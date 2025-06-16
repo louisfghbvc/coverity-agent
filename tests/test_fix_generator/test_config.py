@@ -117,7 +117,7 @@ class TestAnalysisConfig:
         config = AnalysisConfig()
         
         assert config.generate_multiple_candidates is True
-        assert config.num_candidates == 3
+        assert config.num_candidates == 1
         assert config.include_reasoning_trace is True
         assert config.confidence_threshold == 0.6
         assert config.max_context_lines == 50

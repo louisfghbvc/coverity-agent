@@ -18,6 +18,14 @@ from .data_structures import (
     PatchApplicationResult, AppliedChange, ApplicationStatus,
     FileModification, PerforceWorkspaceState
 )
+try:
+    from ..fix_generator.data_structures import FixType
+except ImportError:
+    # Fallback for when running as script
+    import sys
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent.parent))
+    from fix_generator.data_structures import FixType
 from .patch_validator import PatchValidator
 from .backup_manager import BackupManager
 from .perforce_manager import PerforceManager
@@ -220,28 +228,39 @@ class PatchApplier:
         Apply fix to a single file using line ranges and fix code.
         
         This method uses the standard FixCandidate attributes (line_ranges and fix_code)
-        to apply the fix to the specified file.
+        to apply the fix to the specified file. Supports both code fixes and Coverity suppressions.
         """
         full_path = Path(working_directory) / file_path
         
         with open(full_path, 'r', encoding='utf-8') as f:
             original_lines = f.read().splitlines()
-            
-        # Use line range replacement as the primary method
-        if hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
-            modified_lines = self._apply_line_range_replacement(
-                original_lines, fix_candidate.fix_code, fix_candidate.line_ranges
+        
+        # Check if this is a suppression fix
+        is_suppression = (hasattr(fix_candidate, 'fix_type') and 
+                         fix_candidate.fix_type == FixType.SUPPRESSION)
+        
+        if is_suppression:
+            # Handle Coverity suppression comments
+            modified_lines = self._apply_suppression_comment(
+                original_lines, fix_candidate.fix_code, analysis_result
             )
-            self.logger.info(f"Applied line range replacement to {file_path}")
+            self.logger.info(f"Applied Coverity suppression comment to {file_path}")
         else:
-            # Fallback: try to detect the defect line and apply fix there
-            defect_line = analysis_result.line_number if analysis_result else 1
-            # Create a simple line range for the defect line
-            line_ranges = [{"start": defect_line, "end": defect_line}]
-            modified_lines = self._apply_line_range_replacement(
-                original_lines, fix_candidate.fix_code, line_ranges
-            )
-            self.logger.info(f"Applied fallback line replacement at line {defect_line} in {file_path}")
+            # Handle regular code fixes
+            if hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
+                modified_lines = self._apply_line_range_replacement(
+                    original_lines, fix_candidate.fix_code, fix_candidate.line_ranges
+                )
+                self.logger.info(f"Applied line range replacement to {file_path}")
+            else:
+                # Fallback: try to detect the defect line and apply fix there
+                defect_line = analysis_result.line_number if analysis_result else 1
+                # Create a simple line range for the defect line
+                line_ranges = [{"start": defect_line, "end": defect_line}]
+                modified_lines = self._apply_line_range_replacement(
+                    original_lines, fix_candidate.fix_code, line_ranges
+                )
+                self.logger.info(f"Applied fallback line replacement at line {defect_line} in {file_path}")
 
         modified_content = '\n'.join(modified_lines)
         if original_lines and not modified_content.endswith('\n'):
@@ -436,6 +455,81 @@ class PatchApplier:
                     modified_lines[start_line:end_line + 1] = range_fix_lines
                     self.logger.debug(f"Replaced lines {start_line + 1}-{end_line + 1} "
                                     f"with {len(range_fix_lines)} fix lines")
+        
+        return modified_lines
+    
+    def _apply_suppression_comment(self, original_lines: List[str], 
+                                 fix_code: str, analysis_result) -> List[str]:
+        """
+        Apply Coverity suppression comment to the file.
+        
+        Args:
+            original_lines: Original file lines
+            fix_code: Suppression comment and code (may include both comment and original line)
+            analysis_result: Analysis result with line number info
+            
+        Returns:
+            Modified lines with suppression comment added
+        """
+        modified_lines = original_lines.copy()
+        fix_lines = fix_code.splitlines()
+        
+        # Find the target line (defect line)
+        if analysis_result and hasattr(analysis_result, 'line_number'):
+            target_line_num = analysis_result.line_number
+        else:
+            target_line_num = 1
+        
+        target_line_index = target_line_num - 1  # Convert to 0-indexed
+        
+        # Validate target line
+        if target_line_index < 0 or target_line_index >= len(original_lines):
+            self.logger.warning(f"Invalid target line {target_line_num}, using line 1")
+            target_line_index = 0
+        
+        # Extract suppression comment and determine insertion strategy
+        suppression_comment = None
+        replacement_lines = []
+        
+        for line in fix_lines:
+            line = line.strip()
+            if line.startswith('// coverity['):
+                suppression_comment = line
+            elif line and not line.startswith('//'):
+                # This might be the original code line or replacement
+                replacement_lines.append(line)
+        
+        if not suppression_comment:
+            # Try to extract from the first line that contains coverity
+            for line in fix_lines:
+                if 'coverity[' in line:
+                    suppression_comment = line.strip()
+                    break
+        
+        if not suppression_comment:
+            self.logger.warning("No Coverity suppression comment found in fix code")
+            suppression_comment = f"// coverity[{analysis_result.defect_type}], AI-generated suppression"
+        
+        # Strategy 1: If we have replacement lines, replace the target line and add comment above
+        if replacement_lines:
+            # Insert suppression comment before the target line
+            modified_lines.insert(target_line_index, suppression_comment)
+            # Replace the target line (now at target_line_index + 1) with the replacement
+            modified_lines[target_line_index + 1] = replacement_lines[0]
+            
+            # If there are multiple replacement lines, replace additional lines
+            for i, replacement_line in enumerate(replacement_lines[1:], 1):
+                if target_line_index + 1 + i < len(modified_lines):
+                    modified_lines[target_line_index + 1 + i] = replacement_line
+                else:
+                    modified_lines.append(replacement_line)
+            
+            self.logger.debug(f"Added suppression comment and replaced {len(replacement_lines)} lines at line {target_line_num}")
+        
+        else:
+            # Strategy 2: Just add the suppression comment before the target line
+            modified_lines.insert(target_line_index, suppression_comment)
+            self.logger.debug(f"Added suppression comment before line {target_line_num}")
         
         return modified_lines
     

@@ -96,7 +96,7 @@ class LLMFixGenerator:
         
         return analysis_result
     
-    def generate_multiple_fixes(self, defect, code_context, num_candidates: int = 3):
+    def generate_multiple_fixes(self, defect, code_context, num_candidates: int = 1):
         """
         Generate multiple fix approaches for comparison.
         

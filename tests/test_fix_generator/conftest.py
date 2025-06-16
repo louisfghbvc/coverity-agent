@@ -171,7 +171,7 @@ def test_config():
         fallback_providers=[],
         analysis=AnalysisConfig(
             generate_multiple_candidates=True,
-            num_candidates=3,
+            num_candidates=1,
             confidence_threshold=0.6
         ),
         quality=QualityConfig(

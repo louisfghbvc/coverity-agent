@@ -352,6 +352,14 @@ class UnifiedLLMManager:
                 if not explanation or not explanation.strip():
                     explanation = 'AI-generated fix (explanation incomplete)'
                 
+                # Handle fix_type field
+                fix_type_str = cand_data.get('fix_type', 'code_fix').lower()
+                try:
+                    from .data_structures import FixType
+                    fix_type = FixType.CODE_FIX if fix_type_str == 'code_fix' else FixType.SUPPRESSION
+                except:
+                    fix_type = FixType.CODE_FIX  # Default fallback
+                
                 fix_candidates.append(FixCandidate(
                     fix_code='\n'.join(cand_data.get('fix_code', [])) if isinstance(cand_data.get('fix_code'), list) else cand_data.get('fix_code', ''),
                     explanation=explanation,
@@ -359,12 +367,17 @@ class UnifiedLLMManager:
                     complexity=FixComplexity(cand_data.get('complexity', 'moderate').lower()),
                     risk_assessment=cand_data.get('risk_assessment', 'N/A'),
                     affected_files=cand_data.get('affected_files', [defect.file_path]),
-                    line_ranges=cand_data.get('line_ranges', [])
+                    line_ranges=cand_data.get('line_ranges', []),
+                    fix_type=fix_type
                 ))
 
             analysis = parsed_response.defect_analysis
             severity = DefectSeverity(analysis.get('severity', 'medium').lower())
             complexity = FixComplexity(analysis.get('complexity', 'moderate').lower())
+
+            # Handle false positive detection
+            is_false_positive = analysis.get('is_false_positive', False)
+            false_positive_reason = analysis.get('false_positive_reason', '')
 
             analysis_result = DefectAnalysisResult(
                 defect_id=defect.defect_id,
@@ -375,6 +388,8 @@ class UnifiedLLMManager:
                 severity_assessment=severity,
                 fix_complexity=complexity,
                 confidence_score=parsed_response.confidence_score,
+                is_false_positive=is_false_positive,
+                false_positive_reason=false_positive_reason,
                 fix_candidates=fix_candidates,
                 recommended_fix_index=0,  # Default to first
                 reasoning_trace=parsed_response.reasoning,
@@ -560,7 +575,7 @@ class UnifiedLLMManager:
         )
     
     def generate_fix_candidates(self, defect: ParsedDefect, code_context: CodeContext,
-                               num_candidates: int = 3) -> List[DefectAnalysisResult]:
+                               num_candidates: int = 1) -> List[DefectAnalysisResult]:
         """Generate multiple fix approaches for comparison."""
         results = []
         

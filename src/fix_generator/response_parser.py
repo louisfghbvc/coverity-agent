@@ -69,6 +69,16 @@ class ResponseValidator:
         if complexity and complexity not in valid_complexities:
             errors.append(f"Invalid complexity '{complexity}', must be one of: {valid_complexities}")
         
+        # Validate false positive fields
+        is_false_positive = analysis.get('is_false_positive')
+        if is_false_positive is not None:
+            if not isinstance(is_false_positive, bool):
+                errors.append(f"is_false_positive must be boolean, got {type(is_false_positive)}")
+            
+            # If marked as false positive, reason should be provided
+            if is_false_positive and not analysis.get('false_positive_reason'):
+                errors.append("false_positive_reason required when is_false_positive is true")
+        
         return errors
     
     @staticmethod
@@ -104,6 +114,23 @@ class ResponseValidator:
         valid_replacement_types = ['content_replace', 'line_insert', 'line_replace']
         if replacement_type and replacement_type not in valid_replacement_types:
             errors.append(f"Fix candidate {index} invalid replacement_type '{replacement_type}', must be one of: {valid_replacement_types}")
+        
+        # Validate fix type (new field for suppression support)
+        fix_type = candidate.get('fix_type', '').lower()
+        valid_fix_types = ['code_fix', 'suppression']
+        if fix_type and fix_type not in valid_fix_types:
+            errors.append(f"Fix candidate {index} invalid fix_type '{fix_type}', must be one of: {valid_fix_types}")
+        
+        # If fix_type is suppression, validate that fix_code contains coverity comment
+        if fix_type == 'suppression':
+            fix_code = candidate.get('fix_code', [])
+            if isinstance(fix_code, list):
+                fix_code_str = '\n'.join(fix_code)
+            else:
+                fix_code_str = str(fix_code)
+            
+            if '// coverity[' not in fix_code_str:
+                errors.append(f"Fix candidate {index} marked as suppression but missing '// coverity[' comment")
         
         # Validate target location (new field)
         target_location = candidate.get('target_location')
@@ -207,6 +234,10 @@ class LLMResponseParser:
         """Parse LLM response with multiple strategies."""
         parsing_errors = []
         
+        # Debug: Log the raw response for investigation
+        logger.info(f"Raw AI response for defect {defect.defect_id} (first 500 chars): {raw_response[:500]}")
+        logger.info(f"Raw AI response length: {len(raw_response)} characters")
+        
         # Strategy 1: Try JSON parsing
         try:
             return self._parse_json_response(raw_response, defect)
@@ -223,7 +254,9 @@ class LLMResponseParser:
         
         # Strategy 3: Try structured text parsing
         try:
-            return self._parse_structured_text_response(raw_response, defect)
+            result = self._parse_structured_text_response(raw_response, defect)
+            logger.info(f"Successfully parsed using structured text parsing for defect {defect.defect_id}")
+            return result
         except Exception as e:
             parsing_errors.append(f"Structured text parsing failed: {e}")
             logger.debug(f"Structured text parsing failed for defect {defect.defect_id}: {e}")

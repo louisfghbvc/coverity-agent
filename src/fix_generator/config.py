@@ -100,7 +100,7 @@ class AnalysisConfig:
     
     # Fix generation settings
     generate_multiple_candidates: bool = True
-    num_candidates: int = 3
+    num_candidates: int = 1
     include_reasoning_trace: bool = True
     
     # Classification settings
@@ -413,7 +413,7 @@ class LLMFixGeneratorConfig:
         # Create analysis config from environment
         analysis_config = AnalysisConfig(
             generate_multiple_candidates=os.getenv('ENABLE_MULTIPLE_CANDIDATES', 'true').lower() == 'true',
-            num_candidates=int(os.getenv('NUM_FIX_CANDIDATES', '3')),
+            num_candidates=int(os.getenv('NUM_FIX_CANDIDATES', '1')),
             confidence_threshold=float(os.getenv('CONFIDENCE_THRESHOLD', '0.7')),
             max_context_lines=int(os.getenv('MAX_CONTEXT_LINES', '50')),
             include_reasoning_trace=True,

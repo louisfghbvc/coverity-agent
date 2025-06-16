@@ -33,11 +33,24 @@ def get_unified_system_prompt(defect_type: str, specific_guidance: str = "") -> 
 
 ANALYSIS APPROACH:
 1. Identify the specific issue in the code
-2. Generate targeted fixes that address the root cause
-3. Provide minimal changes - only modify what's necessary
-4. Include proper defect analysis with your assessment.
+2. Determine if this is a real defect or a false positive
+3. Generate targeted fixes that address the root cause OR suppress false positives
+4. Include proper defect analysis with your assessment
 
 {specific_guidance}
+
+FALSE POSITIVE HANDLING:
+If you determine this is a false positive (Coverity incorrectly flagged safe code), you can suppress it using:
+- Add a Coverity suppression comment: // coverity[DEFECT_TYPE], <reason>
+- Place the comment on the line before the flagged code
+- Provide a clear reason explaining why this is safe
+
+EXAMPLE SUPPRESSION:
+"fix_code": [
+  "// coverity[NULL_RETURNS], pointer is guaranteed to be valid by previous validation",
+  "ptr->method();"
+],
+"explanation": "This is a false positive. The pointer is validated earlier in the function."
 
 RESPONSE FORMAT REQUIREMENTS:
 You MUST respond with ONLY a valid JSON object - no markdown, no explanations, no code blocks.
@@ -49,15 +62,18 @@ Required JSON structure:
     "category": "defect category",
     "severity": "low|medium|high|critical", 
     "complexity": "simple|moderate|complex|high_risk",
-    "confidence": 0.8
+    "confidence": 0.8,
+    "is_false_positive": true/false,
+    "false_positive_reason": "explanation if is_false_positive is true"
   }},
   "fix_candidates": [
     {{
       "fix_code": ["line 1 of fix", "line 2 of fix"],
-      "explanation": "clear explanation of the fix",
+      "explanation": "clear explanation of the fix or suppression",
       "confidence": 0.9,
       "line_ranges": [{{"start": line_num, "end": line_num}}],
-      "affected_files": ["file_path"]
+      "affected_files": ["file_path"],
+      "fix_type": "code_fix" or "suppression"
     }}
   ]
 }}
@@ -68,7 +84,8 @@ CRITICAL FORMATTING RULES:
 - Do NOT add comments (//) inside JSON
 - Preserve ALL existing comments in the original code
 - Focus on minimal necessary changes to fix the defect
-- Use line_ranges to specify exactly which lines to replace"""
+- Use line_ranges to specify exactly which lines to replace
+- Set "fix_type" to "suppression" when adding Coverity comments, "code_fix" for actual fixes"""
 
 
 def generate_unified_user_prompt(template_name: str, defect: ParsedDefect, code_context: CodeContext, 
@@ -113,7 +130,7 @@ REPLACEMENT SCOPE: {replacement_scope}
 CRITICAL: Generate the COMPLETE function body that includes ALL necessary branches and logic.
 Do NOT generate partial replacements that would leave orphaned code.
 
-Generate {config.num_candidates} targeted fix candidates."""
+Generate {config.num_candidates} targeted fix candidate{"s" if config.num_candidates > 1 else ""}."""
 
 
 @dataclass

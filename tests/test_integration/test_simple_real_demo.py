@@ -67,11 +67,11 @@ def test_simple_real_demo():
     adapter = CoverityPipelineAdapter(real_report_path)
     assert adapter.validate_report(), "Report validation failed"
     
-    # Get one FORWARD_NULL defect
-    target_defects = adapter.parse_issues_by_category("FORWARD_NULL")
+    # Get one RESOURCE_LEAK defect for testing suppression functionality
+    target_defects = adapter.parse_issues_by_category("RESOURCE_LEAK")
     if not target_defects:
-        print("❌ No FORWARD_NULL defects found")
-        pytest.skip("No FORWARD_NULL defects found in the report.")
+        print("❌ No RESOURCE_LEAK defects found")
+        pytest.skip("No RESOURCE_LEAK defects found in the report.")
 
     defect = target_defects[0]
     print(f"✅ Selected defect: {defect.defect_id}")
