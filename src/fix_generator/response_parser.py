@@ -266,9 +266,77 @@ class LLMResponseParser:
         return self._parse_fallback_response(raw_response, defect, parsing_errors)
     
     def _parse_json_response(self, raw_response: str, defect: ParsedDefect) -> ParsedResponse:
-        """Parse direct JSON response."""
-        response_data = json.loads(raw_response)
-        return self._validate_and_create_parsed_response(response_data, raw_response, defect)
+        """Parse direct JSON response with robust error handling."""
+        try:
+            response_data = json.loads(raw_response)
+            return self._validate_and_create_parsed_response(response_data, raw_response, defect)
+        except json.JSONDecodeError as e:
+            # Try to fix common JSON issues
+            cleaned_json = self._clean_json_response(raw_response)
+            if cleaned_json:
+                try:
+                    response_data = json.loads(cleaned_json)
+                    logger.info(f"Successfully parsed JSON after cleaning for defect {defect.defect_id}")
+                    return self._validate_and_create_parsed_response(response_data, raw_response, defect)
+                except json.JSONDecodeError:
+                    pass
+            
+            # If still failing, re-raise the original error
+            raise e
+    
+    def _clean_json_response(self, raw_response: str) -> Optional[str]:
+        """Clean and fix common JSON formatting issues."""
+        try:
+            # Remove any leading/trailing whitespace
+            cleaned = raw_response.strip()
+            
+            # Remove trailing commas before closing brackets/braces
+            cleaned = re.sub(r',(\s*[}\]])', r'\1', cleaned)
+            
+            # Fix unescaped quotes in strings (basic attempt)
+            # This is a simple fix - more sophisticated parsing might be needed
+            lines = cleaned.split('\n')
+            fixed_lines = []
+            
+            for line in lines:
+                # Skip lines that are clearly not JSON content
+                if line.strip().startswith('//') or line.strip().startswith('#'):
+                    continue
+                
+                # Remove inline comments (// comments)
+                if '//' in line and not line.strip().startswith('"'):
+                    # Find // that's not inside a string
+                    in_string = False
+                    escape_next = False
+                    comment_pos = -1
+                    
+                    for i, char in enumerate(line):
+                        if escape_next:
+                            escape_next = False
+                            continue
+                        if char == '\\':
+                            escape_next = True
+                            continue
+                        if char == '"':
+                            in_string = not in_string
+                            continue
+                        if not in_string and char == '/' and i + 1 < len(line) and line[i + 1] == '/':
+                            comment_pos = i
+                            break
+                    
+                    if comment_pos >= 0:
+                        line = line[:comment_pos].rstrip()
+                
+                fixed_lines.append(line)
+            
+            cleaned = '\n'.join(fixed_lines)
+            
+            # Try to validate the cleaned JSON
+            json.loads(cleaned)
+            return cleaned
+            
+        except Exception:
+            return None
     
     def _parse_markdown_json_response(self, raw_response: str, defect: ParsedDefect) -> ParsedResponse:
         """Extract JSON from markdown code blocks."""
@@ -299,6 +367,14 @@ class LLMResponseParser:
     
     def _parse_structured_text_response(self, raw_response: str, defect: ParsedDefect) -> ParsedResponse:
         """Parse structured text response using patterns."""
+        # First check if this looks like a malformed JSON that we should try to extract from
+        if raw_response.strip().startswith('{') and 'fix_candidates' in raw_response:
+            logger.debug(f"Structured text parser detected JSON-like content, attempting extraction")
+            try:
+                return self._extract_from_malformed_json(raw_response, defect)
+            except Exception as e:
+                logger.debug(f"JSON extraction failed: {e}, falling back to text parsing")
+        
         lines = raw_response.split('\n')
         
         # Extract sections
@@ -311,6 +387,10 @@ class LLMResponseParser:
         
         for line in lines:
             line = line.strip()
+            
+            # Skip JSON-like lines that shouldn't be treated as code
+            if line.startswith('{') or line.startswith('}') or line.startswith('"fix_code":'):
+                continue
             
             # Section headers
             if line.lower().startswith('defect analysis') or 'analysis:' in line.lower():
@@ -378,6 +458,49 @@ class LLMResponseParser:
         }
         
         return self._validate_and_create_parsed_response(response_data, raw_response, defect)
+    
+    def _extract_from_malformed_json(self, raw_response: str, defect: ParsedDefect) -> ParsedResponse:
+        """Extract data from malformed JSON response."""
+        # Try to find the fix_code array in the response
+        fix_code_pattern = r'"fix_code":\s*\[(.*?)\]'
+        match = re.search(fix_code_pattern, raw_response, re.DOTALL)
+        
+        if match:
+            fix_code_content = match.group(1)
+            # Extract individual lines from the array
+            line_pattern = r'"([^"]*)"'
+            lines = re.findall(line_pattern, fix_code_content)
+            
+            if lines:
+                fix_code = '\n'.join(lines)
+                
+                # Try to extract other fields
+                explanation_match = re.search(r'"explanation":\s*"([^"]*)"', raw_response)
+                explanation = explanation_match.group(1) if explanation_match else "Extracted from malformed JSON"
+                
+                confidence_match = re.search(r'"confidence":\s*([0-9.]+)', raw_response)
+                confidence = float(confidence_match.group(1)) if confidence_match else 0.5
+                
+                # Create response data
+                response_data = {
+                    'defect_analysis': {
+                        'category': 'extracted',
+                        'severity': 'medium',
+                        'complexity': 'moderate',
+                        'confidence': confidence
+                    },
+                    'fix_candidates': [{
+                        'fix_code': fix_code,
+                        'explanation': explanation,
+                        'confidence': confidence
+                    }],
+                    'reasoning': 'Extracted from malformed JSON response'
+                }
+                
+                logger.info(f"Successfully extracted fix from malformed JSON for defect {defect.defect_id}")
+                return self._validate_and_create_parsed_response(response_data, raw_response, defect)
+        
+        raise ValueError("Could not extract valid data from malformed JSON")
     
     def _parse_fallback_response(self, raw_response: str, defect: ParsedDefect, 
                                 parsing_errors: List[str]) -> ParsedResponse:

@@ -105,6 +105,20 @@ def generate_unified_user_prompt(template_name: str, defect: ParsedDefect, code_
         replacement_scope = f"SINGLE LINE ({start_line})"
         line_range_instruction = f"Use line_ranges: [{{'start': {start_line}, 'end': {end_line}}}] to replace the problematic line."
     
+    # Determine if this is a class member function
+    is_class_member = (code_context.function_context and 
+                      code_context.function_context.is_complete and
+                      '::' not in get_function_signature(code_context))
+    
+    class_context_note = ""
+    if is_class_member:
+        class_context_note = """
+IMPORTANT CLASS CONTEXT:
+This is a class member function definition INSIDE a class declaration.
+- Do NOT use class name prefix (e.g., use "Verigy93kChip(...)" not "Verigy93kChip::Verigy93kChip(...)")
+- Generate the function definition as it would appear inside the class body
+- Maintain proper indentation for class member functions"""
+    
     return f"""ANALYZE AND FIX {template_name.upper()}:
 
 DEFECT INFORMATION:
@@ -122,7 +136,7 @@ CODE CONTEXT:
 ```
 
 FUNCTION SIGNATURE:
-{get_function_signature(code_context)}
+{get_function_signature(code_context)}{class_context_note}
 
 REPLACEMENT SCOPE: {replacement_scope}
 {line_range_instruction}

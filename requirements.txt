@@ -8,6 +8,11 @@ python-dotenv>=1.0.0  # For environment variable management
 openai>=1.0.0  # For NIM compatibility
 pydantic>=2.0.0  # For data validation
 
+# LangChain for structured parsing
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-openai>=0.1.0
+
 # Development and testing dependencies
 pytest>=7.0.0
 pytest-cov>=4.0.0
