@@ -99,7 +99,26 @@ class ResponseValidator:
         if complexity and complexity not in valid_complexities:
             errors.append(f"Fix candidate {index} invalid complexity '{complexity}'")
         
-        # Validate line ranges
+        # Validate replacement type (new field)
+        replacement_type = candidate.get('replacement_type', '').lower()
+        valid_replacement_types = ['content_replace', 'line_insert', 'line_replace']
+        if replacement_type and replacement_type not in valid_replacement_types:
+            errors.append(f"Fix candidate {index} invalid replacement_type '{replacement_type}', must be one of: {valid_replacement_types}")
+        
+        # Validate target location (new field)
+        target_location = candidate.get('target_location')
+        if target_location and isinstance(target_location, dict):
+            if 'line' not in target_location:
+                errors.append(f"Fix candidate {index} target_location missing 'line' field")
+            else:
+                try:
+                    line_num = int(target_location['line'])
+                    if line_num <= 0:
+                        errors.append(f"Fix candidate {index} target_location line must be positive")
+                except (ValueError, TypeError):
+                    errors.append(f"Fix candidate {index} target_location line must be a number")
+        
+        # Validate line ranges (legacy support)
         line_ranges = candidate.get('line_ranges', [])
         if line_ranges:
             for i, line_range in enumerate(line_ranges):
@@ -120,6 +139,22 @@ class ResponseValidator:
                         errors.append(f"Fix candidate {index} line_range {i} must be positive")
                 except (ValueError, TypeError):
                     errors.append(f"Fix candidate {index} line_range {i} invalid numbers")
+        
+        # Validate content markers in fix_code
+        fix_code = candidate.get('fix_code', '')
+        if fix_code:
+            # Check for valid marker patterns
+            has_replace_markers = '<<<REPLACE_START>>>' in fix_code and '<<<REPLACE_END>>>' in fix_code
+            has_insert_markers = '<<<INSERT_AFTER_LINE:' in fix_code and '<<<INSERT_END>>>' in fix_code
+            has_line_replace_markers = '<<<LINE_REPLACE:' in fix_code and '<<<LINE_REPLACE_END>>>' in fix_code
+            
+            # If replacement_type is specified, validate corresponding markers
+            if replacement_type == 'content_replace' and not has_replace_markers:
+                errors.append(f"Fix candidate {index} specified content_replace but missing REPLACE_START/REPLACE_END markers")
+            elif replacement_type == 'line_insert' and not has_insert_markers:
+                errors.append(f"Fix candidate {index} specified line_insert but missing INSERT_AFTER_LINE markers")
+            elif replacement_type == 'line_replace' and not has_line_replace_markers:
+                errors.append(f"Fix candidate {index} specified line_replace but missing LINE_REPLACE markers")
         
         return errors
     

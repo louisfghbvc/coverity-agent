@@ -295,6 +295,8 @@ class CoverityReportTool:
             "You need to provide a patch to fix the issue. \n"
             "Describe why you made the changes you did. \n"
             "If there's an issue with the first change, don't modify the entire file. \n"
+            "CRITICAL: PRESERVE ALL EXISTING COMMENTS - Do not remove any comments from the original code. \n"
+            "Comments are essential for code understanding and must be kept in the fixed code. \n"
         )
     
     def create_multi_issue_prompt(self, location_issues: List[Dict[str, Any]], location: Tuple[str, int, str]) -> str:
@@ -334,6 +336,8 @@ class CoverityReportTool:
             "Describe why you made the changes you did. \n"
             "You describe the patch in detail, including the code changes and the rationale behind them. \n"
             "If there's an issue with the first change, don't modify the entire file. \n"
+            "CRITICAL: PRESERVE ALL EXISTING COMMENTS - Do not remove any comments from the original code. \n"
+            "Comments are essential for code understanding and must be kept in the fixed code. \n"
         )
         
         return merged_prompt 

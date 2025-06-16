@@ -504,63 +504,28 @@ class UnifiedLLMManager:
         """Reset generation statistics."""
         self.statistics = GenerationStatistics()
 
-    def _clean_code_formatting(self, code: str) -> str:
-        """Clean up LLM code formatting using clang-format."""
-        if not code or not code.strip():
-            return code
+    def _clean_code_formatting(self, code) -> str:
+        """Convert fix code to string format, handling different input types.
         
-        try:
-            import subprocess
-            import tempfile
-            import os
+        Args:
+            code: Fix code as string or list of strings
             
-            # Create a temporary file with C++ extension
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.cpp', delete=False) as temp_file:
-                temp_file.write(code)
-                temp_file_path = temp_file.name
-            
-            try:
-                # Run clang-format
-                result = subprocess.run(
-                    ['clang-format', '--style=Google', temp_file_path],
-                    capture_output=True,
-                    text=True,
-                    timeout=10
-                )
-                
-                if result.returncode == 0:
-                    formatted_code = result.stdout
-                    logger.debug("Successfully formatted code with clang-format")
-                    return formatted_code
-                else:
-                    logger.warning(f"clang-format failed: {result.stderr}")
-                    return self._fallback_formatting(code)
-                    
-            finally:
-                # Clean up temp file
-                os.unlink(temp_file_path)
-                
-        except (subprocess.TimeoutExpired, FileNotFoundError, Exception) as e:
-            logger.debug(f"clang-format not available or failed: {e}, using fallback formatting")
-            return self._fallback_formatting(code)
-    
-    def _fallback_formatting(self, code: str) -> str:
-        """Fallback formatting when clang-format is not available."""
+        Returns:
+            Code as string
+        """
+        # Handle different input types
         if not code:
+            return ""
+        
+        # Convert list to string if needed
+        if isinstance(code, list):
+            # Join list elements with newlines
+            return '\n'.join(str(line) for line in code)
+        elif isinstance(code, str):
             return code
-        
-        # Basic template spacing fixes
-        code = code.replace('std::unique_ptr < ', 'std::unique_ptr<')
-        code = code.replace('std::shared_ptr < ', 'std::shared_ptr<')
-        code = code.replace('std::make_unique < ', 'std::make_unique<')
-        code = code.replace('std::make_shared < ', 'std::make_shared<')
-        code = code.replace(' >', '>')
-        
-        # Clean up extra spaces around angle brackets
-        code = re.sub(r'<\s+', '<', code)
-        code = re.sub(r'\s+>', '>', code)
-        
-        return code
+        else:
+            # Handle other types by converting to string
+            return str(code)
     
     def _resolve_affected_files(self, raw_affected_files: List[str], defect_file_path: str) -> List[str]:
         """Resolve relative file paths to absolute paths based on the defect file path."""

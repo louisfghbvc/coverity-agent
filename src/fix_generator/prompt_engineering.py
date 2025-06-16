@@ -82,46 +82,40 @@ Your task is to analyze code defects and generate safe, reliable fixes that prev
 
 FOCUS AREAS for null pointer defects:
 1. Identify all potential null value sources
-2. Find missing null checks and validation
-3. Propose defensive programming approaches
-4. Consider error handling and recovery strategies
-5. Ensure pointer validity before access
+2. Find missing null checks and add appropriate validation
+3. Initialize pointers to safe default values
+4. Handle error conditions gracefully
+5. Use modern C++ smart pointers when beneficial
 
-CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+CRITICAL COMMENT PRESERVATION REQUIREMENTS:
+- MUST preserve ALL existing comments in the original code
+- Do NOT remove or modify existing comments
+- Comments are essential for code understanding and debugging
+- Only add new comments if they provide additional value
 
-RESPONSE FORMAT:
-Return ONLY a valid JSON object with the following structure:
-{
-    "defect_analysis": {
-        "category": "null_pointer_dereference",
-        "severity": "high|medium|low",
-        "complexity": "simple|moderate|complex|high_risk",
-        "confidence": 0.0-1.0,
-        "root_cause": "detailed explanation"
-    },
-    "fix_candidates": [
-        {
-            "fix_code": "actual code fix",
-            "explanation": "detailed explanation of the fix",
-            "confidence": 0.0-1.0,
-            "complexity": "simple|moderate|complex|high_risk",
-            "risk_assessment": "risk analysis",
-            "affected_files": ["/full/path/to/file1.c"],
-            "line_ranges": [{"start": 10, "end": 15}],
-            "fix_strategy": "null_check|validation|redesign",
-            "potential_side_effects": ["list of potential issues"]
-        }
-    ],
-    "reasoning": "step-by-step analysis"
-}
+CRITICAL PRE-MARKED DEFECT LINE TARGETING:
+The code contains a pre-marked defect line with the marker:
+- Line marked with /* <<<FIX_HERE:defect_id>>> */ is the problematic line that needs fixing
 
-IMPORTANT: 
-- Response must be valid JSON that can be parsed by json.loads()
-- Do not include markdown code blocks (```json)
-- Do not include any text before or after the JSON object
-- Start your response with { and end with }
+YOUR TASK:
+1. Find the line marked with /* <<<FIX_HERE:{defect.defect_id}>>> */ in the provided code
+2. Generate a targeted fix using content markers for that specific marked line
+3. Focus on the minimal necessary change to fix the defect
 
-PRIORITIZE safety and robustness over minimal code changes."""
+RESPONSE FORMAT REQUIREMENTS:
+You MUST respond with a JSON object containing a "fix_candidates" array. Each candidate must include:
+- "fix_code": Content markers targeting the specific marked line
+- "explanation": Clear explanation of the targeted fix
+- "confidence": Float between 0.0-1.0
+- "replacement_type": "marker_based_fix"
+- "target_marker": "FIX_HERE:{defect.defect_id}"
+- "affected_files": Array of file paths
+
+MARKER-BASED FIX EXAMPLE:
+For the marked line /* <<<FIX_HERE:abc123>>> */, use:
+"fix_code": "<<<MARKER_REPLACE:FIX_HERE:abc123>>>fixed_content_here"
+
+The system will replace the original marked line with your fixed content."""
     
     def generate_user_prompt(self, defect: ParsedDefect, code_context: CodeContext, 
                            config: AnalysisConfig) -> str:
@@ -137,7 +131,7 @@ DEFECT INFORMATION:
 DEFECT TRACE:
 {chr(10).join(f"  {i+1}. {event}" for i, event in enumerate(defect.events))}
 
-CODE CONTEXT:
+PRE-MARKED CODE CONTEXT:
 ```c
 {get_code_text(code_context)}
 ```
@@ -146,14 +140,19 @@ FUNCTION SIGNATURE:
 {get_function_signature(code_context)}
 
 ANALYSIS REQUIREMENTS:
-1. Identify the exact line where null dereference occurs
-2. Trace back to find all possible null value sources
-3. Determine appropriate null checking strategy
-4. Generate 2-3 fix approaches focusing on safety
-5. Consider error handling and graceful degradation
-6. Ensure fixes don't break existing functionality
+1. Find the line marked with /* <<<FIX_HERE:{defect.defect_id}>>> */ in the code above
+2. Determine what type of null pointer fix is needed for that specific line
+3. Generate a marker-based fix that targets that exact marked line
+4. Preserve all existing code structure, function signatures, and comments
 
-Generate {config.num_candidates} fix candidates prioritizing robustness and maintainability."""
+RESPONSE REQUIREMENTS:
+- Use marker-based fixes that target the pre-marked defect line
+- "replacement_type": "marker_based_fix"
+- "target_marker": "FIX_HERE:{defect.defect_id}"
+- Keep changes surgical and targeted to the marked line only
+- Preserve all existing comments and code structure
+
+Generate a targeted marker-based fix for the pre-marked defect line."""
 
 
 class MemoryLeakTemplate(PromptTemplate):
@@ -173,46 +172,32 @@ Your task is to analyze memory-related defects and generate fixes that ensure pr
 FOCUS AREAS for memory defects:
 1. Track resource allocation and deallocation pairs
 2. Identify missing cleanup in error paths
-3. Ensure exception safety and RAII principles
-4. Handle ownership transfer correctly
-5. Prevent double-free and use-after-free issues
+3. Implement RAII patterns where appropriate
+4. Consider smart pointers for automatic management
+5. Ensure exception-safe resource handling
 
-CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+CRITICAL COMMENT PRESERVATION REQUIREMENTS:
+- MUST preserve ALL existing comments in the original code
+- Do NOT remove or modify existing comments
+- Comments are essential for code understanding and debugging
+- Only add new comments if they provide additional value
 
-RESPONSE FORMAT: Return ONLY a valid JSON object with EXACTLY this structure:
-{
-    "defect_analysis": {
-        "category": "memory_management",
-        "severity": "high|medium|low",
-        "complexity": "simple|moderate|complex|high_risk",
-        "confidence": 0.8,
-        "root_cause": "explanation here"
-    },
-    "fix_candidates": [
-        {
-            "fix_code": "actual complete fixed code here",
-            "explanation": "detailed explanation",
-            "confidence": 0.8,
-            "complexity": "simple|moderate|complex|high_risk",
-            "risk_assessment": "risk analysis",
-            "affected_files": ["/full/path/to/file.c"],
-            "line_ranges": [{"start": 10, "end": 15}]
-        }
-    ],
-    "reasoning": "step-by-step analysis"
-}
+CRITICAL MINIMAL CHANGE REQUIREMENTS:
+- Generate ONLY the specific lines that need to be changed
+- Do NOT rewrite entire functions, classes, or code blocks
+- Focus on the minimal necessary changes to fix the defect
+- Use line_ranges to specify exactly which lines to replace
+- Each line in fix_code should correspond to a specific line range
 
-CRITICAL REQUIREMENTS:
-- fix_code must contain the COMPLETE corrected code, not diffs or fragments
-- Do not use "modified_code" arrays or other formats
-- Each fix_candidate must have ALL required fields
-- Response must be valid JSON that can be parsed by json.loads()
-- ESCAPE ALL BACKSLASHES: Use \\\\ for \n, \\\" for quotes, etc.
-- Do not include markdown code blocks (```json)
-- Start your response with { and end with }
-- Test that your JSON is valid before responding
+RESPONSE FORMAT REQUIREMENTS:
+You MUST respond with a JSON object containing a "fix_candidates" array. Each candidate must include:
+- "fix_code": Only the specific lines that need to be changed (not entire blocks)
+- "explanation": Clear explanation of the minimal changes made
+- "confidence": Float between 0.0-1.0
+- "line_ranges": Array of {"start": line_num, "end": line_num} for each line to replace
+- "affected_files": Array of file paths
 
-PRIORITIZE memory safety and follow RAII principles where applicable."""
+Do NOT include newline characters (\\n) as literal text in your fix_code."""
     
     def generate_user_prompt(self, defect: ParsedDefect, code_context: CodeContext, 
                            config: AnalysisConfig) -> str:
@@ -260,20 +245,31 @@ FOCUS AREAS for buffer defects:
 1. Validate array/buffer bounds before access
 2. Use safe string functions and bounds checking
 3. Implement proper size validation
-4. Consider buffer size vs. data size mismatches
-5. Ensure loop bounds are correct
+4. Consider safer alternatives to unsafe functions
+5. Ensure consistent buffer size handling
 
-CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+CRITICAL COMMENT PRESERVATION REQUIREMENTS:
+- MUST preserve ALL existing comments in the original code
+- Do NOT remove or modify existing comments
+- Comments are essential for code understanding and debugging
+- Only add new comments if they provide additional value
 
-RESPONSE FORMAT: Return ONLY a valid JSON object with defect_analysis, fix_candidates, and reasoning sections.
+CRITICAL MINIMAL CHANGE REQUIREMENTS:
+- Generate ONLY the specific lines that need to be changed
+- Do NOT rewrite entire functions, classes, or code blocks
+- Focus on the minimal necessary changes to fix the defect
+- Use line_ranges to specify exactly which lines to replace
+- Each line in fix_code should correspond to a specific line range
 
-IMPORTANT: 
-- Response must be valid JSON that can be parsed by json.loads()
-- Do not include markdown code blocks (```json)
-- Do not include any text before or after the JSON object
-- Start your response with { and end with }
+RESPONSE FORMAT REQUIREMENTS:
+You MUST respond with a JSON object containing a "fix_candidates" array. Each candidate must include:
+- "fix_code": Only the specific lines that need to be changed (not entire blocks)
+- "explanation": Clear explanation of the minimal changes made
+- "confidence": Float between 0.0-1.0
+- "line_ranges": Array of {"start": line_num, "end": line_num} for each line to replace
+- "affected_files": Array of file paths
 
-PRIORITIZE security and bounds safety."""
+Do NOT include newline characters (\\n) as literal text in your fix_code."""
     
     def generate_user_prompt(self, defect: ParsedDefect, code_context: CodeContext, 
                            config: AnalysisConfig) -> str:
@@ -322,19 +318,30 @@ FOCUS AREAS for uninitialized variables:
 2. Determine appropriate default values
 3. Consider initialization timing and scope
 4. Handle conditional initialization paths
-5. Ensure all code paths initialize variables before use
+5. Ensure all code paths initialize variables
 
-CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+CRITICAL COMMENT PRESERVATION REQUIREMENTS:
+- MUST preserve ALL existing comments in the original code
+- Do NOT remove or modify existing comments
+- Comments are essential for code understanding and debugging
+- Only add new comments if they provide additional value
 
-RESPONSE FORMAT: Return ONLY a valid JSON object with defect_analysis, fix_candidates, and reasoning sections.
+CRITICAL MINIMAL CHANGE REQUIREMENTS:
+- Generate ONLY the specific lines that need to be changed
+- Do NOT rewrite entire functions, classes, or code blocks
+- Focus on the minimal necessary changes to fix the defect
+- Use line_ranges to specify exactly which lines to replace
+- Each line in fix_code should correspond to a specific line range
 
-IMPORTANT: 
-- Response must be valid JSON that can be parsed by json.loads()
-- Do not include markdown code blocks (```json)
-- Do not include any text before or after the JSON object
-- Start your response with { and end with }
+RESPONSE FORMAT REQUIREMENTS:
+You MUST respond with a JSON object containing a "fix_candidates" array. Each candidate must include:
+- "fix_code": Only the specific lines that need to be changed (not entire blocks)
+- "explanation": Clear explanation of the minimal changes made
+- "confidence": Float between 0.0-1.0
+- "line_ranges": Array of {"start": line_num, "end": line_num} for each line to replace
+- "affected_files": Array of file paths
 
-PRIORITIZE correctness and initialization safety."""
+Do NOT include newline characters (\\n) as literal text in your fix_code."""
     
     def generate_user_prompt(self, defect: ParsedDefect, code_context: CodeContext, 
                            config: AnalysisConfig) -> str:
@@ -385,41 +392,39 @@ GENERAL ANALYSIS APPROACH:
 4. Generate safe and maintainable fixes
 5. Consider potential side effects and edge cases
 
-CRITICAL: YOU MUST RESPOND WITH PURE JSON ONLY. NO TEXT BEFORE OR AFTER THE JSON.
+CRITICAL COMMENT PRESERVATION REQUIREMENTS:
+- MUST preserve ALL existing comments in the original code
+- Do NOT remove or modify existing comments
+- Comments are essential for code understanding and debugging
+- Only add new comments if they provide additional value
 
-RESPONSE FORMAT:
-Return ONLY a valid JSON object with the following structure:
-{
-    "defect_analysis": {
-        "category": "defect category",
-        "severity": "critical|high|medium|low",
-        "complexity": "simple|moderate|complex|high_risk",
-        "confidence": 0.0-1.0,
-        "root_cause": "detailed explanation"
-    },
-    "fix_candidates": [
-        {
-            "fix_code": "actual code fix",
-            "explanation": "detailed explanation",
-            "confidence": 0.0-1.0,
-            "complexity": "simple|moderate|complex|high_risk",
-            "risk_assessment": "risk analysis",
-            "affected_files": ["/full/path/to/file.c"],
-            "line_ranges": [{"start": N, "end": M}],
-            "fix_strategy": "strategy description",
-            "potential_side_effects": ["list of issues"]
-        }
-    ],
-    "reasoning": "step-by-step analysis"
-}
+CRITICAL PRECISE REPLACEMENT REQUIREMENTS:
+- Generate MINIMAL targeted fixes using content markers
+- Use <<<REPLACE_START>>> and <<<REPLACE_END>>> to mark exact content to replace
+- Use <<<INSERT_AFTER_LINE>>> to insert new content after specific lines
+- Do NOT replace entire lines unless absolutely necessary
+- Preserve function signatures, class declarations, and existing structure
 
-IMPORTANT: 
-- Response must be valid JSON that can be parsed by json.loads()
-- Do not include markdown code blocks (```json)
-- Do not include any text before or after the JSON object
-- Start your response with { and end with }
+RESPONSE FORMAT REQUIREMENTS:
+You MUST respond with a JSON object containing a "fix_candidates" array. Each candidate must include:
+- "fix_code": The exact content with replacement markers
+- "explanation": Clear explanation of the targeted changes
+- "confidence": Float between 0.0-1.0
+- "replacement_type": "content_replace" | "line_insert" | "line_replace"
+- "target_location": {"line": N, "content": "content to find"}
+- "affected_files": Array of file paths
 
-PRIORITIZE code safety, maintainability, and minimal impact."""
+REPLACEMENT MARKER EXAMPLES:
+1. Content replacement within a line:
+   "some_function(<<<REPLACE_START>>>old_param<<<REPLACE_END>>>new_param)"
+
+2. Insert new lines after specific line:
+   "<<<INSERT_AFTER_LINE:42>>>    delete ptr;\\n<<<INSERT_END>>>"
+
+3. Replace entire line only if necessary:
+   "<<<LINE_REPLACE:42>>>    new_line_content<<<LINE_REPLACE_END>>>"
+
+Do NOT include newline characters (\\n) as literal text except in INSERT markers."""
     
     def generate_user_prompt(self, defect: ParsedDefect, code_context: CodeContext, 
                            config: AnalysisConfig) -> str:
@@ -446,12 +451,19 @@ FUNCTION SIGNATURE:
 ANALYSIS REQUIREMENTS:
 1. Understand the specific defect type and its characteristics
 2. Analyze the code flow and identify the problematic pattern
-3. Determine the most appropriate fix strategy
-4. Generate {config.num_candidates} fix candidates with varying approaches
-5. Consider maintainability and minimal code changes
-6. Ensure fixes address the root cause, not just symptoms
+3. Determine the most appropriate fix approach
+4. Generate PRECISE targeted fixes - replace only the problematic content
+5. Preserve all existing code structure, function signatures, and comments
 
-Provide comprehensive analysis and practical fix solutions."""
+RESPONSE REQUIREMENTS:
+- fix_code: Use replacement markers to target specific content
+- replacement_type: Specify the type of fix (content_replace/line_insert/line_replace)
+- target_location: Identify where the fix should be applied
+- Keep changes surgical and minimal
+- Do NOT replace entire lines unless absolutely necessary
+- Preserve all existing comments and code structure
+
+Generate a targeted fix using replacement markers to resolve this code defect."""
 
 
 class PromptEngineer:

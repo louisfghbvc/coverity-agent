@@ -78,15 +78,20 @@ class ContextAnalyzer:
                 after_lines
             )
             
+            # ADD MARKERS: Mark the problematic line for AI targeting
+            marked_context_lines = self._add_defect_markers(
+                context_lines, parsed_defect, start_line
+            )
+            
             # Calculate highlighted line within context
             highlighted_line = parsed_defect.line_number - start_line
-            if highlighted_line < 0 or highlighted_line >= len(context_lines):
+            if highlighted_line < 0 or highlighted_line >= len(marked_context_lines):
                 highlighted_line = None
             
             primary_context = ContextWindow(
                 start_line=start_line,
                 end_line=end_line,
-                source_lines=context_lines,
+                source_lines=marked_context_lines,
                 highlighted_line=highlighted_line
             )
             
@@ -220,6 +225,35 @@ class ContextAnalyzer:
     def clear_caches(self):
         """Clear all internal caches."""
         self.file_manager.clear_cache()
+    
+    def _add_defect_markers(self, context_lines: List[str], parsed_defect, start_line: int) -> List[str]:
+        """Add markers to the problematic line for AI targeting.
+        
+        Args:
+            context_lines: Original context lines
+            parsed_defect: ParsedDefect with defect information
+            start_line: Starting line number of context
+            
+        Returns:
+            Context lines with markers added to problematic line
+        """
+        marked_lines = context_lines.copy()
+        
+        # Calculate the index of the problematic line within context
+        defect_line_index = parsed_defect.line_number - start_line
+        
+        # Validate the index
+        if defect_line_index < 0 or defect_line_index >= len(marked_lines):
+            return marked_lines  # Return unchanged if out of bounds
+        
+        # Get the original line
+        original_line = marked_lines[defect_line_index]
+        
+        # Add unified marker for all defect types
+        defect_id = parsed_defect.defect_id
+        marked_lines[defect_line_index] = f"{original_line}  /* <<<FIX_HERE:{defect_id}>>> */"
+        
+        return marked_lines
 
 
 # Convenience function for standalone usage

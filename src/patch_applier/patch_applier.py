@@ -217,12 +217,13 @@ class PatchApplier:
     def _apply_fix_to_file(self, file_path: str, fix_candidate, 
                           working_directory: str, analysis_result=None) -> FileModification:
         """
-        Apply fix to a single file using enhanced line-based replacement.
+        Apply fix to a single file using enhanced replacement strategies.
         
-        This method supports three modes:
-        1. Line range replacement (recommended): Use line_ranges from FixCandidate
-        2. Keyword-based replacement: Add keywords and replace marked blocks
-        3. Full file replacement (fallback): Replace entire file content
+        This method supports four modes:
+        1. Content marker replacement (preferred): Use content markers for surgical fixes
+        2. Line range replacement: Use line_ranges from FixCandidate
+        3. Keyword-based replacement: Add keywords and replace marked blocks
+        4. Full file replacement (fallback): Replace entire file content
         """
         full_path = Path(working_directory) / file_path
         
@@ -233,27 +234,35 @@ class PatchApplier:
         original_lines = original_content.splitlines()
         
         # Determine replacement mode based on available data
-        if hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
-            # Mode 1: Line range replacement (preferred)
+        if self._has_content_markers(fix_candidate.fix_code):
+            # Mode 1: Content marker replacement (preferred)
+            modified_content = self._apply_content_marker_replacement(
+                original_content, fix_candidate.fix_code, analysis_result
+            )
+            modified_lines = modified_content.splitlines()
+            self.logger.info(f"Applied content marker replacement to {file_path}")
+            
+        elif hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
+            # Mode 2: Line range replacement
             modified_lines = self._apply_line_range_replacement(
                 original_lines, fix_candidate.fix_code, fix_candidate.line_ranges
             )
+            modified_content = '\n'.join(modified_lines)
             self.logger.info(f"Applied line range replacement to {file_path}")
             
         elif self.config.patch_application.enable_keyword_replacement:
-            # Mode 2: Keyword-based replacement
+            # Mode 3: Keyword-based replacement
             modified_lines = self._apply_keyword_replacement(
                 original_lines, fix_candidate.fix_code, analysis_result
             )
+            modified_content = '\n'.join(modified_lines)
             self.logger.info(f"Applied keyword-based replacement to {file_path}")
             
         else:
-            # Mode 3: Full file replacement (fallback)
-            self.logger.warning(f"No line ranges found, falling back to full file replacement for {file_path}")
+            # Mode 4: Full file replacement (fallback)
+            self.logger.warning(f"No specific replacement method found, falling back to full file replacement for {file_path}")
             modified_lines = fix_candidate.fix_code.splitlines()
-        
-        # Prepare modified content
-        modified_content = '\n'.join(modified_lines)
+            modified_content = '\n'.join(modified_lines)
         
         # Write modified content
         with open(full_path, 'w', encoding='utf-8') as f:
@@ -275,6 +284,69 @@ class PatchApplier:
             lines_removed=lines_removed - lines_changed,
             lines_changed=lines_changed
         )
+    
+    def _has_content_markers(self, fix_code: str) -> bool:
+        """Check if fix_code contains content replacement markers."""
+        return (
+            ('<<<REPLACE_START>>>' in fix_code and '<<<REPLACE_END>>>' in fix_code) or
+            ('<<<INSERT_AFTER_LINE:' in fix_code and '<<<INSERT_END>>>' in fix_code) or
+            ('<<<LINE_REPLACE:' in fix_code and '<<<LINE_REPLACE_END>>>' in fix_code)
+        )
+    
+    def _apply_content_marker_replacement(self, original_content: str, fix_code: str, analysis_result) -> str:
+        """
+        Apply content marker-based replacement for surgical fixes.
+        
+        This method processes content markers like:
+        - <<<REPLACE_START>>>old_content<<<REPLACE_END>>>new_content
+        - <<<INSERT_AFTER_LINE:42>>>new_content<<<INSERT_END>>>
+        - <<<LINE_REPLACE:42>>>new_line<<<LINE_REPLACE_END>>>
+        """
+        modified_content = original_content
+        
+        # Handle INSERT_AFTER_LINE markers
+        insert_pattern = r'<<<INSERT_AFTER_LINE:(\d+)>>>(.*?)<<<INSERT_END>>>'
+        for match in re.finditer(insert_pattern, fix_code, re.DOTALL):
+            line_num = int(match.group(1))
+            insert_content = match.group(2).strip()
+            
+            lines = modified_content.splitlines()
+            if 0 < line_num <= len(lines):
+                # Insert after the specified line (1-indexed)
+                lines.insert(line_num, insert_content)
+                modified_content = '\n'.join(lines)
+                self.logger.debug(f"Inserted content after line {line_num}")
+        
+        # Handle REPLACE_START/REPLACE_END markers
+        replace_pattern = r'([^<]*)<<<REPLACE_START>>>(.*?)<<<REPLACE_END>>>(.*?)(?=<<<|$)'
+        for match in re.finditer(replace_pattern, fix_code, re.DOTALL):
+            context_before = match.group(1).strip()
+            old_content = match.group(2)
+            new_content = match.group(3)
+            
+            # Find the line containing the old content to replace
+            lines = modified_content.splitlines()
+            for i, line in enumerate(lines):
+                if old_content in line:
+                    # Replace within the line
+                    lines[i] = line.replace(old_content, new_content)
+                    modified_content = '\n'.join(lines)
+                    self.logger.debug(f"Replaced '{old_content}' with '{new_content}' in line {i+1}")
+                    break
+        
+        # Handle LINE_REPLACE markers
+        line_replace_pattern = r'<<<LINE_REPLACE:(\d+)>>>(.*?)<<<LINE_REPLACE_END>>>'
+        for match in re.finditer(line_replace_pattern, fix_code, re.DOTALL):
+            line_num = int(match.group(1))
+            new_line = match.group(2).strip()
+            
+            lines = modified_content.splitlines()
+            if 0 < line_num <= len(lines):
+                lines[line_num - 1] = new_line  # 1-indexed to 0-indexed
+                modified_content = '\n'.join(lines)
+                self.logger.debug(f"Replaced line {line_num} with new content")
+        
+        return modified_content
     
     def _apply_line_range_replacement(self, original_lines: List[str], 
                                     fix_code: str, line_ranges: List[Dict[str, int]]) -> List[str]:
