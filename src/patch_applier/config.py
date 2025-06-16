@@ -75,6 +75,36 @@ class SafetyConfig:
 
 
 @dataclass
+class PatchApplicationConfig:
+    """Configuration for patch application modes and behaviors."""
+    
+    # Replacement mode preferences (in order of priority)
+    prefer_line_range_replacement: bool = True
+    enable_keyword_replacement: bool = True
+    allow_full_file_replacement: bool = True
+    
+    # Keyword-based replacement settings
+    keyword_block_size: int = 3  # Lines around target to mark with keywords
+    keyword_prefix: str = "COVERITY_PATCH"
+    keyword_format: str = "// {prefix}_{type}_{defect_id}"
+    
+    # Line range replacement settings
+    validate_line_ranges: bool = True
+    allow_overlapping_ranges: bool = False
+    merge_adjacent_ranges: bool = True
+    range_expansion_buffer: int = 0  # Extra lines to include in range
+    
+    # Fallback behavior
+    fallback_on_invalid_ranges: bool = True
+    fallback_on_keyword_failure: bool = True
+    log_replacement_mode: bool = True
+    
+    # Performance settings
+    max_ranges_per_file: int = 10
+    max_block_size_for_keywords: int = 100
+
+
+@dataclass
 class PatchApplierConfig:
     """Main configuration class for the Patch Applier."""
     
@@ -82,6 +112,7 @@ class PatchApplierConfig:
     backup: BackupConfig = field(default_factory=BackupConfig)
     validation: ValidationConfig = field(default_factory=ValidationConfig)
     safety: SafetyConfig = field(default_factory=SafetyConfig)
+    patch_application: PatchApplicationConfig = field(default_factory=PatchApplicationConfig)
     
     working_directory: str = "."
     temp_directory: str = ".patch_temp"

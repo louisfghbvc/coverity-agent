@@ -7,9 +7,10 @@ patch validation, backup, application, and Perforce integration.
 
 import logging
 import uuid
+import re
 from datetime import datetime
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Tuple
 import difflib
 
 from .config import PatchApplierConfig
@@ -201,7 +202,7 @@ class PatchApplier:
         for file_path in recommended_fix.affected_files:
             try:
                 modification = self._apply_fix_to_file(
-                    file_path, recommended_fix.fix_code, working_directory
+                    file_path, recommended_fix, working_directory, analysis_result
                 )
                 applied_change.add_modification(modification)
                 
@@ -213,28 +214,52 @@ class PatchApplier:
         
         return applied_change
     
-    def _apply_fix_to_file(self, file_path: str, fix_code: str, 
-                          working_directory: str) -> FileModification:
-        """Apply fix to a single file."""
+    def _apply_fix_to_file(self, file_path: str, fix_candidate, 
+                          working_directory: str, analysis_result=None) -> FileModification:
+        """
+        Apply fix to a single file using enhanced line-based replacement.
+        
+        This method supports three modes:
+        1. Line range replacement (recommended): Use line_ranges from FixCandidate
+        2. Keyword-based replacement: Add keywords and replace marked blocks
+        3. Full file replacement (fallback): Replace entire file content
+        """
         full_path = Path(working_directory) / file_path
         
         # Read original content
         with open(full_path, 'r', encoding='utf-8') as f:
             original_content = f.read()
         
-        # For simplicity, we'll replace the entire file content with the fix
-        # In a more sophisticated implementation, this would apply line-specific changes
-        modified_content = fix_code
+        original_lines = original_content.splitlines()
+        
+        # Determine replacement mode based on available data
+        if hasattr(fix_candidate, 'line_ranges') and fix_candidate.line_ranges:
+            # Mode 1: Line range replacement (preferred)
+            modified_lines = self._apply_line_range_replacement(
+                original_lines, fix_candidate.fix_code, fix_candidate.line_ranges
+            )
+            self.logger.info(f"Applied line range replacement to {file_path}")
+            
+        elif self.config.patch_application.enable_keyword_replacement:
+            # Mode 2: Keyword-based replacement
+            modified_lines = self._apply_keyword_replacement(
+                original_lines, fix_candidate.fix_code, analysis_result
+            )
+            self.logger.info(f"Applied keyword-based replacement to {file_path}")
+            
+        else:
+            # Mode 3: Full file replacement (fallback)
+            self.logger.warning(f"No line ranges found, falling back to full file replacement for {file_path}")
+            modified_lines = fix_candidate.fix_code.splitlines()
+        
+        # Prepare modified content
+        modified_content = '\n'.join(modified_lines)
         
         # Write modified content
         with open(full_path, 'w', encoding='utf-8') as f:
             f.write(modified_content)
         
         # Calculate line changes
-        original_lines = original_content.splitlines()
-        modified_lines = modified_content.splitlines()
-        
-        # Simple diff analysis
         differ = difflib.unified_diff(original_lines, modified_lines, lineterm='')
         diff_lines = list(differ)
         
@@ -250,6 +275,220 @@ class PatchApplier:
             lines_removed=lines_removed - lines_changed,
             lines_changed=lines_changed
         )
+    
+    def _apply_line_range_replacement(self, original_lines: List[str], 
+                                    fix_code: str, line_ranges: List[Dict[str, int]]) -> List[str]:
+        """
+        Apply fix using line ranges for precise replacement.
+        
+        Args:
+            original_lines: Original file lines
+            fix_code: New code to insert
+            line_ranges: List of {"start": n, "end": m} ranges (1-indexed)
+            
+        Returns:
+            Modified lines
+        """
+        modified_lines = original_lines.copy()
+        fix_lines = fix_code.splitlines()
+        
+        # Sort ranges by start line in reverse order to avoid index shifting
+        sorted_ranges = sorted(line_ranges, key=lambda r: r['start'], reverse=True)
+        
+        if len(sorted_ranges) == 1:
+            # Single range: replace with entire fix code
+            line_range = sorted_ranges[0]
+            start_line = line_range['start'] - 1  # Convert to 0-indexed
+            end_line = line_range['end'] - 1      # Convert to 0-indexed
+            
+            # Validate range
+            if start_line < 0 or end_line >= len(original_lines) or start_line > end_line:
+                self.logger.warning(f"Invalid line range: {line_range}, skipping")
+                return modified_lines
+            
+            # Replace the specified range with fix code
+            modified_lines[start_line:end_line + 1] = fix_lines
+            
+            self.logger.debug(f"Replaced lines {start_line + 1}-{end_line + 1} "
+                            f"with {len(fix_lines)} new lines")
+            
+        else:
+            # Multiple ranges: smart distribution of fix lines
+            self.logger.debug(f"Processing {len(sorted_ranges)} line ranges")
+            
+            # Strategy 1: If we have exactly the same number of fix lines as ranges,
+            # assign one fix line per range
+            if len(fix_lines) == len(sorted_ranges):
+                for i, line_range in enumerate(sorted_ranges):
+                    start_line = line_range['start'] - 1
+                    end_line = line_range['end'] - 1
+                    
+                    # Validate range
+                    if start_line < 0 or end_line >= len(original_lines) or start_line > end_line:
+                        self.logger.warning(f"Invalid line range: {line_range}, skipping")
+                        continue
+                    
+                    # Use the corresponding fix line (reversed order due to sorting)
+                    fix_line_index = len(sorted_ranges) - 1 - i
+                    if fix_line_index < len(fix_lines):
+                        modified_lines[start_line:end_line + 1] = [fix_lines[fix_line_index]]
+                        self.logger.debug(f"Replaced line {start_line + 1} with fix line {fix_line_index}")
+            
+            # Strategy 2: If we have fewer fix lines than ranges, 
+            # distribute them proportionally
+            elif len(fix_lines) < len(sorted_ranges):
+                lines_per_range = max(1, len(fix_lines) // len(sorted_ranges))
+                remaining_lines = fix_lines.copy()
+                
+                for i, line_range in enumerate(sorted_ranges):
+                    start_line = line_range['start'] - 1
+                    end_line = line_range['end'] - 1
+                    
+                    if start_line < 0 or end_line >= len(original_lines) or start_line > end_line:
+                        continue
+                    
+                    # Take appropriate number of lines for this range
+                    if remaining_lines:
+                        lines_for_this_range = remaining_lines[:lines_per_range] or [remaining_lines[0]]
+                        remaining_lines = remaining_lines[len(lines_for_this_range):]
+                        modified_lines[start_line:end_line + 1] = lines_for_this_range
+                        self.logger.debug(f"Replaced lines {start_line + 1}-{end_line + 1} "
+                                        f"with {len(lines_for_this_range)} lines")
+            
+            # Strategy 3: If we have more fix lines than ranges,
+            # distribute all fix lines across ranges
+            else:
+                lines_per_range = len(fix_lines) // len(sorted_ranges)
+                extra_lines = len(fix_lines) % len(sorted_ranges)
+                current_fix_index = 0
+                
+                for i, line_range in enumerate(sorted_ranges):
+                    start_line = line_range['start'] - 1
+                    end_line = line_range['end'] - 1
+                    
+                    if start_line < 0 or end_line >= len(original_lines) or start_line > end_line:
+                        continue
+                    
+                    # Calculate how many lines to assign to this range
+                    lines_for_this_range = lines_per_range
+                    if i < extra_lines:
+                        lines_for_this_range += 1
+                    
+                    # Get the appropriate fix lines for this range
+                    range_fix_lines = fix_lines[current_fix_index:current_fix_index + lines_for_this_range]
+                    current_fix_index += lines_for_this_range
+                    
+                    modified_lines[start_line:end_line + 1] = range_fix_lines
+                    self.logger.debug(f"Replaced lines {start_line + 1}-{end_line + 1} "
+                                    f"with {len(range_fix_lines)} fix lines")
+        
+        return modified_lines
+    
+    def _apply_keyword_replacement(self, original_lines: List[str], 
+                                 fix_code: str, analysis_result) -> List[str]:
+        """
+        Apply fix using keyword-based block replacement.
+        
+        This method adds keywords around the defect area and then replaces
+        the entire marked block with the fix code.
+        
+        Args:
+            original_lines: Original file lines
+            fix_code: New code to insert
+            analysis_result: Analysis result with line number info
+            
+        Returns:
+            Modified lines with keyword-marked replacement
+        """
+        if not analysis_result or not hasattr(analysis_result, 'line_number'):
+            # Fallback to line 1 if no line info available
+            target_line = 0
+        else:
+            target_line = max(0, analysis_result.line_number - 1)  # Convert to 0-indexed
+        
+        # Generate unique keywords for this defect
+        defect_id = getattr(analysis_result, 'defect_id', 'unknown')
+        start_keyword = f"// COVERITY_PATCH_START_{defect_id}"
+        end_keyword = f"// COVERITY_PATCH_END_{defect_id}"
+        
+        # Create marked version first
+        marked_lines = self._add_patch_keywords(
+            original_lines, target_line, start_keyword, end_keyword
+        )
+        
+        # Then replace the marked block
+        return self._replace_keyword_block(
+            marked_lines, fix_code, start_keyword, end_keyword
+        )
+    
+    def _add_patch_keywords(self, lines: List[str], target_line: int, 
+                          start_keyword: str, end_keyword: str) -> List[str]:
+        """
+        Add patch keywords around the target line area.
+        
+        Args:
+            lines: Original lines
+            target_line: Target line index (0-indexed)
+            start_keyword: Start marker keyword
+            end_keyword: End marker keyword
+            
+        Returns:
+            Lines with keywords added
+        """
+        modified_lines = lines.copy()
+        
+        # Determine the block size to mark (configurable)
+        block_size = getattr(self.config.patch_application, 'keyword_block_size', 3)
+        
+        # Calculate start and end positions
+        start_pos = max(0, target_line - block_size // 2)
+        end_pos = min(len(lines) - 1, target_line + block_size // 2)
+        
+        # Insert keywords
+        modified_lines.insert(start_pos, start_keyword)
+        modified_lines.insert(end_pos + 2, end_keyword)  # +2 because we inserted one line
+        
+        self.logger.debug(f"Added keywords around lines {start_pos + 1}-{end_pos + 1}")
+        
+        return modified_lines
+    
+    def _replace_keyword_block(self, lines: List[str], fix_code: str,
+                             start_keyword: str, end_keyword: str) -> List[str]:
+        """
+        Replace the block between start and end keywords with fix code.
+        
+        Args:
+            lines: Lines with keywords
+            fix_code: New code to insert
+            start_keyword: Start marker keyword
+            end_keyword: End marker keyword
+            
+        Returns:
+            Lines with keyword block replaced
+        """
+        # Find keyword positions
+        start_idx = None
+        end_idx = None
+        
+        for i, line in enumerate(lines):
+            if start_keyword in line:
+                start_idx = i
+            elif end_keyword in line:
+                end_idx = i
+                break
+        
+        if start_idx is None or end_idx is None:
+            self.logger.warning("Patch keywords not found, using fallback replacement")
+            return fix_code.splitlines()
+        
+        # Replace the block (including keywords) with fix code
+        fix_lines = fix_code.splitlines()
+        result_lines = lines[:start_idx] + fix_lines + lines[end_idx + 1:]
+        
+        self.logger.debug(f"Replaced keyword block (lines {start_idx + 1}-{end_idx + 1}) "
+                        f"with {len(fix_lines)} fix lines")
+        
+        return result_lines
     
     def _simulate_patch_application(self, analysis_result, working_directory: str,
                                    backup_manifest) -> AppliedChange:
@@ -268,15 +507,32 @@ class PatchApplier:
         
         # Simulate modifications
         for file_path in recommended_fix.affected_files:
+            # Determine simulation mode based on available data
+            if hasattr(recommended_fix, 'line_ranges') and recommended_fix.line_ranges:
+                # Simulate line range replacement
+                total_ranges = len(recommended_fix.line_ranges)
+                simulated_lines_changed = min(total_ranges * 5, 20)  # Estimate
+                replacement_mode = "line_range"
+            elif self.config.patch_application.enable_keyword_replacement:
+                # Simulate keyword replacement
+                simulated_lines_changed = self.config.patch_application.keyword_block_size + 2
+                replacement_mode = "keyword_based"
+            else:
+                # Simulate full file replacement
+                simulated_lines_changed = 50  # Estimate for full file
+                replacement_mode = "full_file"
+            
             modification = FileModification(
                 file_path=file_path,
-                original_content="[Original content - dry run]",
-                modified_content=recommended_fix.fix_code,
-                lines_added=10,  # Simulated values
-                lines_removed=5,
-                lines_changed=3
+                original_content=f"[Original content - dry run - {replacement_mode}]",
+                modified_content=f"[Modified with fix - {replacement_mode}]\n{recommended_fix.fix_code}",
+                lines_added=simulated_lines_changed // 2,
+                lines_removed=simulated_lines_changed // 3,
+                lines_changed=simulated_lines_changed // 4
             )
             applied_change.add_modification(modification)
+            
+            self.logger.info(f"Simulated {replacement_mode} replacement for {file_path}")
         
         return applied_change
     

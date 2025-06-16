@@ -60,6 +60,18 @@ class TestPatchApplier:
         return PatchApplier(config)
     
     @pytest.fixture
+    def real_patch_applier(self):
+        """Create PatchApplier instance for real patch application (non-dry-run)."""
+        config = PatchApplierConfig.create_default()
+        # Disable Perforce for testing
+        config.perforce.enabled = False
+        # Disable dry run mode for actual patch testing
+        config.safety.dry_run_mode = False
+        # Enable our new patch application features
+        config.patch_application.enable_keyword_replacement = True
+        return PatchApplier(config)
+    
+    @pytest.fixture
     def mock_analysis_result(self):
         """Create mock DefectAnalysisResult."""
         fix_candidate = FixCandidate(
@@ -174,6 +186,172 @@ class TestPatchApplier:
             assert result.overall_status == ApplicationStatus.FAILED
             assert result.validation_result.has_warnings
             assert not result.validation_result.is_valid
+    
+    def test_line_range_replacement(self, real_patch_applier):
+        """Test line range based patch replacement."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Create test file with multiple lines
+            test_file = Path(temp_dir) / "test_file.c"
+            original_content = """int main() {
+    int x;  // Line 2 - Uninitialized variable
+    int y = 5;
+    printf("Value: %d\\n", x);  // Line 4 - Using uninitialized x
+    return 0;
+}"""
+            test_file.write_text(original_content)
+            
+            # Create analysis result with line ranges
+            fix_candidate = FixCandidate(
+                fix_code="""    int x = 0;  // Initialized variable
+    int y = 5;""",
+                explanation="Initialize variable to prevent null pointer",
+                confidence_score=0.9,
+                complexity=FixComplexity.SIMPLE,
+                risk_assessment="Low risk",
+                affected_files=["test_file.c"],
+                line_ranges=[{"start": 2, "end": 3}]  # Replace lines 2-3
+            )
+            
+            analysis_result = DefectAnalysisResult(
+                defect_id="test_line_range_001",
+                defect_type="UNINITIALIZED_VARIABLE",
+                file_path="test_file.c",
+                line_number=2,
+                defect_category="variable_issues",
+                severity_assessment=DefectSeverity.HIGH,
+                fix_complexity=FixComplexity.SIMPLE,
+                confidence_score=0.9,
+                fix_candidates=[fix_candidate],
+                recommended_fix_index=0,
+                safety_checks_passed=True,
+                style_consistency_score=0.9
+            )
+            
+            # Apply patch with line range replacement
+            result = real_patch_applier.apply_patch(analysis_result, temp_dir)
+            
+            assert result.overall_status == ApplicationStatus.SUCCESS
+            assert len(result.applied_changes) == 1
+            
+            # Verify the file was modified correctly
+            modified_content = test_file.read_text()
+            lines = modified_content.splitlines()
+            
+            # Check that lines 2-3 were replaced correctly
+            assert "int x = 0;" in lines[1]  # Line 2 (0-indexed as 1)
+            assert "int y = 5;" in lines[2]  # Line 3 (0-indexed as 2)
+            assert "printf" in lines[3]      # Line 4 should remain unchanged
+    
+    def test_keyword_replacement(self, real_patch_applier):
+        """Test keyword-based patch replacement."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Keyword replacement is already enabled in real_patch_applier config
+            
+            # Create test file
+            test_file = Path(temp_dir) / "test_file.c"
+            original_content = """int main() {
+    char *ptr = NULL;
+    printf("Value: %s\\n", ptr);  // Line 3 - Null pointer usage
+    return 0;
+}"""
+            test_file.write_text(original_content)
+            
+            # Create analysis result without line ranges (to trigger keyword mode)
+            fix_candidate = FixCandidate(
+                fix_code="""    char *ptr = "Hello World";
+    if (ptr != NULL) {
+        printf("Value: %s\\n", ptr);
+    }""",
+                explanation="Add null check before usage",
+                confidence_score=0.85,
+                complexity=FixComplexity.SIMPLE,
+                risk_assessment="Low risk",
+                affected_files=["test_file.c"],
+                line_ranges=[]  # No line ranges - will use keyword replacement
+            )
+            
+            analysis_result = DefectAnalysisResult(
+                defect_id="test_keyword_001",
+                defect_type="NULL_POINTER",
+                file_path="test_file.c",
+                line_number=3,
+                defect_category="pointer_issues",
+                severity_assessment=DefectSeverity.HIGH,
+                fix_complexity=FixComplexity.SIMPLE,
+                confidence_score=0.85,
+                fix_candidates=[fix_candidate],
+                recommended_fix_index=0,
+                safety_checks_passed=True,
+                style_consistency_score=0.8
+            )
+            
+            # Apply patch
+            result = real_patch_applier.apply_patch(analysis_result, temp_dir)
+            
+            assert result.overall_status == ApplicationStatus.SUCCESS
+            
+            # Verify the fix was applied
+            modified_content = test_file.read_text()
+            assert "Hello World" in modified_content
+            assert "if (ptr != NULL)" in modified_content
+    
+    def test_multiple_line_ranges(self, real_patch_applier):
+        """Test handling multiple line ranges in a single patch."""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            # Create test file
+            test_file = Path(temp_dir) / "test_file.c"
+            original_content = """int main() {
+    int x;      // Line 2 - Issue 1
+    int y;      // Line 3 - Issue 2  
+    int z = 5;  // Line 4 - OK
+    printf("%d %d %d\\n", x, y, z);  // Line 5 - Usage
+    return 0;
+}"""
+            test_file.write_text(original_content)
+            
+            # Create analysis result with multiple line ranges
+            fix_candidate = FixCandidate(
+                fix_code="""    int x = 0;  // Fixed
+    int y = 1;  // Fixed""",
+                explanation="Initialize both variables",
+                confidence_score=0.95,
+                complexity=FixComplexity.SIMPLE,
+                risk_assessment="Very low risk",
+                affected_files=["test_file.c"],
+                line_ranges=[
+                    {"start": 2, "end": 2},  # Fix line 2
+                    {"start": 3, "end": 3}   # Fix line 3
+                ]
+            )
+            
+            analysis_result = DefectAnalysisResult(
+                defect_id="test_multi_range_001",
+                defect_type="MULTIPLE_UNINITIALIZED",
+                file_path="test_file.c",
+                line_number=2,
+                defect_category="variable_issues",
+                severity_assessment=DefectSeverity.MEDIUM,
+                fix_complexity=FixComplexity.SIMPLE,
+                confidence_score=0.95,
+                fix_candidates=[fix_candidate],
+                recommended_fix_index=0,
+                safety_checks_passed=True,
+                style_consistency_score=0.95
+            )
+            
+            # Apply patch
+            result = real_patch_applier.apply_patch(analysis_result, temp_dir)
+            
+            assert result.overall_status == ApplicationStatus.SUCCESS
+            
+            # Verify both fixes were applied
+            modified_content = test_file.read_text()
+            lines = modified_content.splitlines()
+            
+            # The line ranges are processed in reverse order, so the fix code replaces both ranges
+            assert "int x = 0;" in modified_content
+            assert "int y = 1;" in modified_content
+            assert "int z = 5;" in lines[3]  # Line 4 should remain unchanged
 
 
 class TestPatchValidator:
