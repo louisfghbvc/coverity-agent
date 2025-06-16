@@ -71,6 +71,51 @@ CRITICAL FORMATTING RULES:
 - Use line_ranges to specify exactly which lines to replace"""
 
 
+def generate_unified_user_prompt(template_name: str, defect: ParsedDefect, code_context: CodeContext, 
+                                config: AnalysisConfig) -> str:
+    """Generate unified user prompt for all defect types."""
+    # Determine the appropriate line range for replacement
+    if code_context.function_context and code_context.function_context.is_complete:
+        # Use the complete function range for replacement
+        start_line = code_context.function_context.start_line
+        end_line = code_context.function_context.end_line
+        replacement_scope = f"COMPLETE FUNCTION (lines {start_line}-{end_line})"
+        line_range_instruction = f"Use line_ranges: [{{'start': {start_line}, 'end': {end_line}}}] to replace the ENTIRE function."
+    else:
+        # Fallback to single line replacement
+        start_line = defect.line_number
+        end_line = defect.line_number
+        replacement_scope = f"SINGLE LINE ({start_line})"
+        line_range_instruction = f"Use line_ranges: [{{'start': {start_line}, 'end': {end_line}}}] to replace the problematic line."
+    
+    return f"""ANALYZE AND FIX {template_name.upper()}:
+
+DEFECT INFORMATION:
+- Type: {defect.defect_type}
+- Location: {defect.file_path}:{defect.line_number}
+- Function: {defect.function_name}
+- Description: {defect.subcategory}
+
+DEFECT TRACE:
+{chr(10).join(f"  {i+1}. {event}" for i, event in enumerate(defect.events))}
+
+CODE CONTEXT:
+```c
+{get_code_text(code_context)}
+```
+
+FUNCTION SIGNATURE:
+{get_function_signature(code_context)}
+
+REPLACEMENT SCOPE: {replacement_scope}
+{line_range_instruction}
+
+CRITICAL: Generate the COMPLETE function body that includes ALL necessary branches and logic.
+Do NOT generate partial replacements that would leave orphaned code.
+
+Generate {config.num_candidates} targeted fix candidates."""
+
+
 @dataclass
 class PromptComponents:
     """Components of a generated prompt."""
@@ -109,26 +154,9 @@ class PromptTemplate(ABC):
     def generate_user_prompt(self, defect: ParsedDefect, code_context: CodeContext, 
                            config: AnalysisConfig) -> str:
         """Generate the user prompt with defect and context information."""
-        return f"""ANALYZE AND FIX {self.get_defect_type_name().upper()}:
-
-DEFECT INFORMATION:
-- Type: {defect.defect_type}
-- Location: {defect.file_path}:{defect.line_number}
-- Function: {defect.function_name}
-- Description: {defect.subcategory}
-
-DEFECT TRACE:
-{chr(10).join(f"  {i+1}. {event}" for i, event in enumerate(defect.events))}
-
-CODE CONTEXT:
-```c
-{get_code_text(code_context)}
-```
-
-FUNCTION SIGNATURE:
-{get_function_signature(code_context)}
-
-Generate {config.num_candidates} targeted fix candidates."""
+        return generate_unified_user_prompt(
+            self.get_defect_type_name(), defect, code_context, config
+        )
     
     def matches_defect(self, defect_type: str) -> bool:
         """Check if this template matches the given defect type."""
@@ -156,14 +184,22 @@ class NullPointerTemplate(PromptTemplate):
 - Add null checks before pointer usage
 - Use appropriate return values or error handling
 - Consider the function's return type and context
+- IMPORTANT: Generate COMPLETE code blocks that include ALL branches (if/else)
 
 EXAMPLE FIX PATTERN:
-If fixing `ptr->method()` at line 42, replace with:
+If fixing `ptr->method()` at line 42, replace with COMPLETE block:
 "fix_code": [
-  "if (ptr == nullptr) { return false; }",
-  "ptr->method();"
+  "auto chip = dynamic_cast<VerilogMPChip*>(getChip());",
+  "if (chip && chip->isMultiSocket()) {",
+  "    chip->setSocketInfoPLIEnd(getFd());",
+  "}",
+  "else {",
+  "    _isPLIEnd = true;",
+  "}"
 ],
-"line_ranges": [{"start": 42, "end": 42}]"""
+"line_ranges": [{"start": 42, "end": 46}]
+
+CRITICAL: Always include the complete if/else structure to avoid partial replacements."""
 
 
 class MemoryLeakTemplate(PromptTemplate):
