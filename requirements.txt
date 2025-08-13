@@ -1,19 +1,4 @@
-# Coverity Agent Dependencies
-
-# Core dependencies
-pyyaml>=5.4.0
-chardet>=5.0.0  # For file encoding detection in Code Retriever  
-requests>=2.28.0  # For NVIDIA NIM API integration
-python-dotenv>=1.0.0  # For environment variable management
-openai>=1.0.0  # For NIM compatibility
-pydantic>=2.0.0  # For data validation
-
-# LangChain for structured parsing
-langchain>=0.1.0
-langchain-core>=0.1.0
-langchain-openai>=0.1.0
-
-# Development and testing dependencies
-pytest>=7.0.0
-pytest-cov>=4.0.0
-pytest-mock>=3.10.0  # For mocking NIM API calls 
+deepagents
+langchain
+langchain_core
+langchain-nvidia-ai-endpoints 

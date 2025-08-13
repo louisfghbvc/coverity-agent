@@ -1,163 +1,89 @@
-# Coverity Agent - Automated Code Defect Resolution System
+# Coverity Auto-Fix Agent: Project Plan
 
-## Project Overview
+## 1. Project Vision
 
-The Coverity Agent is an intelligent automated system designed to analyze Coverity static analysis output, identify code defects, and automatically generate and verify fixes. This system creates a complete pipeline from defect detection to verified code patches.
+To develop an autonomous AI agent, powered by `deepagents` and NVIDIA NIM models, capable of automatically detecting, analyzing, and fixing security vulnerabilities reported by the Coverity static analysis tool. The agent will operate in a continuous loop of analysis, repair, and verification, significantly accelerating the remediation of security debt.
 
-## System Architecture (MVP Version)
+## 2. Core Features (MVP)
 
-This is a streamlined system focusing on core functionality with direct LLM integration:
+The initial version of the agent will focus on a core, end-to-end workflow.
+
+-   **F1: Coverity Integration**: The agent can execute Coverity scans and parse the resulting error reports.
+-   **F2: Code Interaction**: The agent can read and write files from the local filesystem to analyze and patch code.
+-   **F3: LLM-Powered Repair**: The agent leverages a large language model (NIM `gpt-oss-20b`) to generate code fixes based on Coverity reports.
+-   **F4: Automated Workflow**: The agent autonomously orchestrates the scan -> analyze -> fix -> verify loop.
+-   **F5: Model Swapping**: The architecture supports easily changing the underlying language model.
+
+## 3. Agent Architecture
+
+The system will be built around the `deepagents` framework, which provides planning, sub-agents, and a file system interface.
+
+```mermaid
+graph TD
+    subgraph Agent Core
+        A[Main Agent]
+        T[Tools]
+        M[Model: NIM gpt-oss-20b]
+        P[Prompt/Instructions]
+    end
+
+    subgraph Custom Tools
+        T1[run_coverity_scan()]
+        T2[read_actual_file()]
+        T3[write_actual_file()]
+    end
+
+    A -- uses --> T
+    A -- powered by --> M
+    A -- guided by --> P
+    T -- contains --> T1
+    T -- contains --> T2
+    T -- contains --> T3
+
+    subgraph Workflow Loop
+        direction LR
+        S1[1. Run Scan] --> S2[2. Get Errors]
+        S2 --> S3[3. Pick First Error]
+        S3 --> S4[4. Read File]
+        S4 --> S5[5. Generate Fix]
+        S5 --> S6[6. Write File]
+        S6 --> S1
+    end
+
+    A -- executes --> S1
 
 ```
-Coverity Output → Issue Parser → Code Retriever → LLM Fix Generator → Patch Applier → Verification
-```
 
-## Core Components
+## 4. Technical Stack
 
-### 1. Issue Parser
-**Purpose**: Parse and extract structured information from Coverity defect reports
-**Input**: Coverity JSON/XML output files
-**Output**: Structured defect data objects with basic classification hints
-**Key Features**:
-- Support multiple Coverity output formats
-- Extract defect location, type, severity, and context
-- Handle batch processing of multiple reports
-- Include lightweight defect type tagging for LLM context
+-   **Core Framework**: `deepagents`
+-   **Language Model**: NVIDIA NIM (`gpt-oss-20b` or similar, e.g., `ai-mistral-large`) via `langchain-nvidia-ai-endpoints`
+-   **Static Analysis**: Coverity
+-   **Language**: Python 3.x
+-   **Dependencies**: `langchain`, `langchain_core`
 
-### 2. Code Retriever
-**Purpose**: Locate and extract relevant source code context for each defect
-**Input**: Defect location information
-**Output**: Source code snippets with context
-**Key Features**:
-- Extract function-level context around defects
-- Include related dependencies and declarations  
-- Handle multiple file scenarios
-- Provide syntax-highlighted code context
+## 5. High-Level Task Breakdown
 
-### 3. LLM Fix Generator
-**Purpose**: Analyze defects and generate code patches using Large Language Models
-**Input**: Defect data with code context
-**Output**: Concrete code patches with explanations
-**Key Features**:
-- GPT/Claude integration for intelligent code generation
-- Context-aware patch generation with defect type understanding
-- Multiple fix candidate generation
-- Code style consistency maintenance
-- Built-in defect classification and fix strategy selection
+1.  **Setup & Configuration (`task1_setup_environment.md`)**:
+    -   Install all Python dependencies.
+    -   Set up environment variables for NVIDIA NIM (`NVIDIA_API_KEY`, `NIM_ENDPOINT_URL`).
 
-### 4. Patch Applier + Git Integration
-**Purpose**: Apply generated patches and create version control integration
-**Input**: Generated patches and target repository
-**Output**: Applied changes with Git integration
-**Key Features**:
-- Safe patch application with rollback capability
-- Git commit creation with descriptive messages
-- Diff generation and review preparation
-- Conflict detection and resolution
+2.  **Tool Development (`task2_implement_tools.md`)**:
+    -   Implement `run_coverity_scan` tool, including a parser for Coverity's output.
+    -   Implement `read_actual_file` and `write_actual_file` tools for real filesystem interaction.
 
-### 5. Verification System
-**Purpose**: Validate that applied fixes actually resolve the original issues
-**Input**: Modified code and original defect information
-**Output**: Verification results and success metrics
-**Key Features**:
-- Re-run Coverity analysis on modified code
-- Compare before/after defect reports
-- Generate fix success metrics
-- Identify any new issues introduced
+3.  **Model Integration (`task3_configure_nim_model.md`)**:
+    -   Write the code to initialize the `NVIDIA_NIM` LangChain object.
+    -   Ensure it can be correctly passed to the `create_deep_agent` function.
 
-## Technical Integration Requirements
+4.  **Agent Prompting (`task4_develop_agent_instructions.md`)**:
+    -   Craft the detailed system prompt (`instructions`) that defines the agent's workflow, personality, and goals.
 
-### Data Flow Architecture
-- Standardized data structures across all components
-- Event-driven processing pipeline
-- Error handling and rollback mechanisms
-- Logging and audit trail throughout pipeline
+5.  **Main Agent Assembly (`task5_assemble_agent.md`)**:
+    -   Write the main script that imports all components (tools, model, instructions) and calls `create_deep_agent`.
+    -   Add the invocation logic to start the agent's loop.
 
-### LLM Integration
-- Secure API integration with GPT/Claude services
-- Advanced prompt engineering for defect classification and fix generation
-- Cost optimization and rate limiting
-- Fallback strategies for LLM failures
-- Context-rich prompts including defect type hints
-
-### Git Integration
-- Repository analysis and branch management
-- Commit message standardization
-- Pull request automation (optional)
-- Integration with CI/CD pipelines
-
-### Configuration Management
-- Per-project customization capabilities
-- LLM prompt template configuration
-- Output format customization
-- Integration with existing development workflows
-
-## Development Phases
-
-### Phase 1: Core Pipeline (Weeks 1-3)
-- Issue Parser implementation with basic classification
-- Code Retriever foundation
-- Data flow architecture establishment
-- Basic LLM integration
-
-### Phase 2: Intelligence Layer (Weeks 4-6)  
-- Advanced LLM Fix Generator with sophisticated prompting
-- Enhanced Code Retriever with better context extraction
-- Prompt engineering optimization
-- Multiple LLM provider support
-
-### Phase 3: Integration & Verification (Weeks 7-9)
-- Patch Applier with Git integration
-- Comprehensive Verification system
-- End-to-end pipeline testing
-- Performance optimization
-
-### Phase 4: Production Readiness (Weeks 10-12)
-- Error handling and edge cases
-- Documentation and user guides
-- Configuration management
-- Deployment automation
-
-## Success Metrics
-
-- **Accuracy**: >85% successful defect resolution rate
-- **Safety**: <5% introduction of new defects
-- **Coverage**: Support for top 20 Coverity defect types
-- **Performance**: Process 100+ defects per hour
-- **Integration**: Seamless Git workflow integration
-
-## Technology Stack
-
-- **Language**: Python (primary), with Node.js for specific integrations
-- **LLM APIs**: OpenAI GPT-4, Anthropic Claude
-- **Version Control**: Git integration via GitPython
-- **Static Analysis**: Coverity Connect API integration
-- **Configuration**: YAML-based configuration management
-- **Testing**: pytest, integration test suite
-- **Documentation**: Markdown with automated generation
-
-## Risk Management
-
-### Technical Risks
-- LLM API reliability and cost management
-- Complex code context understanding without pre-classification
-- Git merge conflicts and repository corruption
-- False positive fix generation
-
-### Mitigation Strategies
-- Multiple LLM provider support
-- Comprehensive testing and rollback mechanisms
-- Rich context provision to LLM for better understanding
-- Staged deployment with manual review options
-- Extensive logging and audit capabilities
-
-## MVP Benefits
-
-**Simplified Architecture**: Fewer components mean faster development and easier maintenance
-**LLM-Centric**: Leverages modern LLM capabilities for intelligent defect analysis
-**Flexible**: Can handle edge cases and complex scenarios without rigid classification rules
-**Cost-Effective**: Optimized prompting reduces unnecessary API calls
-
----
-
-This streamlined approach focuses on core functionality while maintaining the ability to expand with additional components (like Issue Classifier) if needed based on real-world usage patterns and performance requirements.
+6.  **Testing & Evaluation (`task6_test_and_evaluate.md`)**:
+    -   Prepare a sample codebase with known Coverity errors.
+    -   Run the agent and evaluate its ability to fix the errors.
+    -   Iterate on prompts and tools based on performance.
