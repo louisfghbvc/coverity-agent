@@ -1,0 +1,132 @@
+---
+description: Should be applied whenever: (1) A user requests to add implementation details to a task .md file using commands like "update task <id> md", (2) An agent encounters a task .md file containing "### Implementation Details" section with actual code, (3) A user requests to modify task files to include real implementation code rather than just descriptions.
+globs: task*.md
+alwaysApply: false
+---
+# Task Implementation Details Rule
+
+Extends the Task Magic system so that tasks include actual, copy‑paste‑ready implementation code/commands directly inside the task `.md` files.
+
+## Purpose
+Transform text-only tasks into detailed, executable implementation guides with real code that can be reviewed and then applied to the codebase in a subsequent, explicitly approved step.
+
+## When to Apply
+- The user runs `update task <id> md`
+- A task file contains or requests a `### Implementation Details` section
+- The user asks to add real code/commands to a task `.md` file (not the source tree)
+
+## Implementation Status (YAML Frontmatter)
+Task files MUST include:
+
+```yaml
+---
+id: 42
+title: 'Example Task Title'
+status: pending
+implementation_status: not_implemented   # one of: not_implemented | detailed | code_ready | partially_implemented | fully_implemented
+priority: medium
+feature: Example Feature
+dependencies: [3]
+assigned_agent: null
+created_at: "YYYY-MM-DDTHH:MM:SSZ"
+started_at: null
+completed_at: null
+implementation_detailed_at: null         # set when adding detailed implementation
+error_log: null
+---
+```
+
+Status meanings:
+- not_implemented: No implementation details yet
+- detailed: Has detailed implementation in `### Implementation Details`
+- code_ready: Implementation code finalized and ready to execute/apply
+- partially_implemented: Some parts implemented in source tree
+- fully_implemented: All source changes implemented and validated
+
+## Default Implement Flow (Code-First in Task .md)
+When `update task <id> md` is executed, the agent MUST:
+
+1) Read the target task file
+- Open `.ai/tasks/task{id}_*.md`
+- Parse YAML frontmatter and the body sections
+
+2) Update frontmatter fields
+- Set `implementation_status: detailed`
+- Set `implementation_detailed_at` using a real UTC timestamp (see timestamp command below)
+
+3) Write the Implementation Details section (code-first)
+- Insert or REPLACE a `### Implementation Details` section
+- Provide copy‑paste‑ready, compilable code blocks with language tags (cpp/python/bash)
+- Include any required includes, forward declarations, and function signatures
+- Keep snippets minimal but complete
+
+4) Show integration points
+- Append a `### Files to Modify` section
+- List exact files and minimal edits (declarations, implementations, call‑site changes)
+
+5) Update tasks overview
+- Update `.ai/TASKS.md` entry with an implementation status icon:
+  - detailed → [📝]
+  - code_ready → [⚡]
+  - partially_implemented → [🔧]
+  - fully_implemented → [✅]
+
+### Idempotency and Placement
+- If `### Implementation Details` already exists, REPLACE its content entirely
+- Preserve other sections (Description/Details/Test Strategy)
+- Ensure snippets compile when transferred to the listed files
+- Do not introduce unrelated edits to the task file
+
+### Non-interactive Requirements
+- Always run shell with tcsh and source environment:
+  - timestamp: `tcsh -c 'source ~/.cshrc; date -u +"%Y-%m-%dT%H:%M:%SZ"'`
+- Avoid interactive prompts; prefer non-interactive flags
+
+### Safety
+- During `update task <id> md`, DO NOT modify source files
+- Any source change must follow the Code Change Confirmation Protocol
+
+## Implementation Details Template
+
+### Implementation Details
+```cpp
+// Header additions (exact signatures)
+<copy-paste-ready code>
+```
+
+```cpp
+// Source additions (full implementations)
+<copy-paste-ready code>
+```
+
+```bash
+# Build/verify commands (optional)
+<commands>
+```
+
+### Files to Modify
+1. `path/to/file.h` — add declarations: A(), B()
+2. `path/to/file.cc` — add implementations: A(), B()
+3. (optional) `other/file.cc` — replace call X with Y
+
+## TASKS.md Integration
+Format:
+```
+- [ICON] **ID {id}: {Title}** (Priority: {priority}) [IMPL_STATUS]
+> Dependencies: {dep1}, {dep2} (omit if none)
+> {Description}
+```
+Icons:
+- [📝] detailed
+- [⚡] code_ready
+- [🔧] partially_implemented
+- [✅] fully_implemented
+
+## Status Transitions
+- After writing detailed code in task doc:
+  - `implementation_status: detailed` → [📝]
+- After finalizing executable code in the task doc:
+  - `implementation_status: code_ready` → [⚡]
+- After source edits applied and build/tests pass:
+  - `implementation_status: fully_implemented` → [✅]
+  - Update `status`, `completed_at` as appropriate
