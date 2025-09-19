@@ -1,4 +1,0 @@
-deepagents
-langchain
-langchain_core
-langchain-nvidia-ai-endpoints 
